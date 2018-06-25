@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.ricardopazdemiquel.moviles.EsperandoConductor;
@@ -12,6 +13,9 @@ import com.example.ricardopazdemiquel.moviles.MainActivityConductor;
 import com.example.ricardopazdemiquel.moviles.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Hashtable;
 
@@ -85,10 +89,28 @@ public class FirebaseMessagin extends FirebaseMessagingService
 
     private void confirmar_carrera(RemoteMessage remoteMessage) {
         Intent intent = new Intent();
-        intent.putExtra("confirmar_carrera",remoteMessage.getData().get("id"));
-        intent.setAction("confirmar_carrera");
-        sendBroadcast(intent);
+        JSONObject json = null;
+        try {
+            json = new JSONObject(remoteMessage.getData().get("json"));
+            intent.putExtra("id", (Bundle) json.get("id"));
+            intent.putExtra("latinicial", (Bundle) json.get("latinicial"));
+            intent.putExtra("lnginicial", (Bundle) json.get("lnginicial"));
+            intent.putExtra("latfinal", (Bundle) json.get("latfinal"));
+
+            JSONObject jsonUsuario = new JSONObject(remoteMessage.getData().get("jsonUsuario"));
+            intent.putExtra("nombre", (Bundle) jsonUsuario.get("nombre"));
+            intent.putExtra("apellido_pa", (Bundle) jsonUsuario.get("apellido_pa"));
+            intent.putExtra("apellido_ma", (Bundle) jsonUsuario.get("apellido_ma"));
+            intent.putExtra("sexo", (Bundle) jsonUsuario.get("sexo"));
+            intent.setAction("confirmar_carrera");
+            sendBroadcast(intent);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
+
 
     private void mensaje(RemoteMessage remoteMessage){
         Intent intent = new Intent();
