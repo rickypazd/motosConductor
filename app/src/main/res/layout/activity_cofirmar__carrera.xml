@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo_confirmar_carrera"
+    android:background="@drawable/fondoconfirmar"
     tools:context=".Cofirmar_Carrera">
 
     <Button
@@ -28,7 +28,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="456dp"
-        android:background="@drawable/round_foreground_rechazar"
+        android:background="@drawable/ic_btn_rechazar"
         android:text="Rechazar carrera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.819"
