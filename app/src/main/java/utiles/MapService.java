@@ -84,7 +84,7 @@ public class MapService extends Service {
                     if (carrera.length()>0) {
                         try {
                             JSONObject obj = new JSONObject(carrera);
-                            if(obj.getInt("estado")==3){
+                            if(obj.getInt("estado")==2){
                                 double latini=obj.getDouble("latinicial");
                                 double lgnini=obj.getDouble("lnginicial");
                                 double latfin=location.getLatitude();
@@ -107,12 +107,11 @@ public class MapService extends Service {
                                     }
                                 }
                             }
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
+
                 }
             }
 

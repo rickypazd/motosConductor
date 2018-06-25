@@ -51,6 +51,21 @@ public class FirebaseMessagin extends FirebaseMessagingService
     }
 
     private void Inicio_Carrera(RemoteMessage remoteMessage) {
+        Intent notificationIntent = new Intent(this, EsperandoConductor.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
+        Notification notification= new NotificationCompat.Builder(this, Contexto.CHANNEL_ID)
+                .setContentTitle("Siete")
+                .setContentText("Su Carrera esta en curso." +
+                        "Que tenga un buen viaje.")
+                .setSmallIcon(R.drawable.ic_logosiete_background)
+                .setContentIntent(pendingIntent)
+                .build();
+        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(2,notification);
+        Intent intent = new Intent();
+        intent.putExtra("message",remoteMessage.getData().get("mensaje"));
+        intent.setAction("Inicio_Carrera");
+        sendBroadcast(intent);
     }
 
     private void conductor_llego(RemoteMessage remoteMessage) {

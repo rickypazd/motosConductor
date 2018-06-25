@@ -1,10 +1,12 @@
 package com.example.ricardopazdemiquel.moviles;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -59,6 +61,7 @@ public class EsperandoConductor extends AppCompatActivity {
     private LinearLayout ll_conductor_llego;
     private BroadcastReceiver broadcastReceiverMessage;
     private BroadcastReceiver broadcastReceiverMessageconductor;
+    private BroadcastReceiver broadcastReceiverInicioCarrera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +128,16 @@ public class EsperandoConductor extends AppCompatActivity {
                 }
             };
         }
-        registerReceiver(broadcastReceiverMessageconductor,new IntentFilter("conductor_llego"));
+        registerReceiver(broadcastReceiverInicioCarrera,new IntentFilter("conductor_llego"));
+        if(broadcastReceiverInicioCarrera == null){
+            broadcastReceiverInicioCarrera = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    Incio_Carrera(intent);
+                }
+            };
+        }
+        registerReceiver(broadcastReceiverInicioCarrera,new IntentFilter("Inicio_Carrera"));
     }
     private boolean hilo;
     private void hilo(){
@@ -149,11 +161,18 @@ public class EsperandoConductor extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
     private void condcutor_llego(Intent intent){
-        Toast.makeText(EsperandoConductor.this,"El conductor esta serca",
+        Toast.makeText(EsperandoConductor.this,"El conductor Llego",
                 Toast.LENGTH_SHORT).show();
         ll_conductor_llego.setVisibility(View.VISIBLE);
     }
+    private void Incio_Carrera(Intent intent){
+        Toast.makeText(EsperandoConductor.this,"Su carrera ah comenzado, Que tenga buen viaje.",
+                Toast.LENGTH_SHORT).show();
+        ll_conductor_llego.setVisibility(View.INVISIBLE);
 
+        new buscar_carrera().execute();
+
+    }
     private String obtenerDireccionesURL(LatLng origin, LatLng dest){
 
         String str_origin = "origin="+origin.latitude+","+origin.longitude;
@@ -257,11 +276,6 @@ public class EsperandoConductor extends AppCompatActivity {
                             results);
                     sum += results[0];
                 }
-
-
-
-
-
                 //sum = metros
             }
 
@@ -342,7 +356,13 @@ public class EsperandoConductor extends AppCompatActivity {
                 try {
                     JSONObject obj=new JSONObject(resp);
                     LatLng ll1 = new LatLng(obj.getDouble("lat"),obj.getDouble("lng"));
-                    LatLng ll2 = new LatLng(json_carrera.getDouble("latinicial"),json_carrera.getDouble("lnginicial"));
+                    LatLng ll2;
+                    if(json_carrera.getInt("estado")==4){
+                        ll2= new LatLng(json_carrera.getDouble("latfinal"),json_carrera.getDouble("lngfinal"));
+                    }else{
+                          ll2=new LatLng(json_carrera.getDouble("latinicial"),json_carrera.getDouble("lnginicial"));
+                    }
+
                     String url = obtenerDireccionesURL(ll1,ll2);
                     DownloadTask downloadTask= new DownloadTask();
                     downloadTask.execute(url);
@@ -367,6 +387,59 @@ public class EsperandoConductor extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
+        }
+
+    }
+    private class buscar_carrera extends AsyncTask<Void, String, String> {
+        private ProgressDialog progreso;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progreso = new ProgressDialog(EsperandoConductor.this);
+            progreso.setIndeterminate(true);
+            progreso.setTitle("obteniendo datos");
+            progreso.setCancelable(false);
+            progreso.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            publishProgress("por favor espere...");
+            Hashtable<String,String> param = new Hashtable<>();
+            param.put("evento","get_carrera_id");
+            try {
+                param.put("id",json_carrera.getInt("id")+"");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, param));
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+
+            progreso.dismiss();
+
+            if (resp == null) {
+                Toast.makeText(EsperandoConductor.this,"Eroor al optener Datos",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }else{
+                try {
+                    JSONObject obj = new JSONObject(resp);
+                    json_carrera=obj;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            progreso.setMessage(values[0]);
         }
 
     }

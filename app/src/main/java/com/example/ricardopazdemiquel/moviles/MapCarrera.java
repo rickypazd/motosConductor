@@ -75,6 +75,7 @@ public class MapCarrera extends AppCompatActivity {
     private Button iniciar_Carrera;
     private double latwazefinal;
     private double lngwazefinal;
+    private Button btn_terminar_carrera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,8 @@ public class MapCarrera extends AppCompatActivity {
                     return false;
                 }
             });
+        btn_terminar_carrera=findViewById(R.id.btn_terminar_carrera);
+
         btn_marcar_llegada=findViewById(R.id.btn_marcar_llegada);
         iniciar_Carrera=findViewById(R.id.btn_iniciar_carrera);
         linear_Iniciar_Carrera=findViewById(R.id.linear_Iniciar_Carrera);
@@ -336,7 +339,6 @@ public class MapCarrera extends AppCompatActivity {
                         try {
                             latwazefinal=carrera.getDouble("latfinal");
                             lngwazefinal=carrera.getDouble("lngfinal");
-
                             new iniciar_carrera().execute();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -393,6 +395,14 @@ public class MapCarrera extends AppCompatActivity {
 
                 btn_waze.setVisibility(View.VISIBLE);
                 linear_Iniciar_Carrera.setVisibility(View.GONE);
+                btn_terminar_carrera.setVisibility(View.VISIBLE);
+                btn_terminar_carrera.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MapCarrera.this,"Terminar Carrera",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
                 new buscar_carrera().execute();
             }
         }
