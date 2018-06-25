@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "120819857986",
+    "firebase_url": "https://siete-202300.firebaseio.com",
+    "project_id": "siete-202300",
+    "storage_bucket": "siete-202300.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120819857986:android:79a5416aca19e933",
+        "android_client_info": {
+          "package_name": "com.example.ricardopazdemiquel.moviles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120819857986-hdf0vglrh63k41c5vpkklh05pk7jfibj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6tfGQ-HajXcnF31Fauj7fP2994wyC81Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
