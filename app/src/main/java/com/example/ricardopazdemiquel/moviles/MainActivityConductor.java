@@ -105,9 +105,11 @@ public class MainActivityConductor extends AppCompatActivity
     private void notificacionReciber(Intent intent){
         if(inte==null){
             inte = new Intent(MainActivityConductor.this,Cofirmar_Carrera.class);
-            String id=intent.getStringExtra("confirmar_carrera");
-            if(id.length()>0){
-                inte.putExtra("id_carrera",id);
+            String json  = intent.getStringExtra("json");
+            String jsonUsuario  = intent.getStringExtra("jsonUsuario");
+            if(json.length()>0){
+                inte.putExtra("json",json);
+                inte.putExtra("jsonUsuario",jsonUsuario);
                 startActivityForResult(inte, 1);
 
             }

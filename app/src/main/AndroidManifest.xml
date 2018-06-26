@@ -94,7 +94,8 @@
         <activity
             android:name=".MapCarrera"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".EsperandoConductor"></activity>
+        <activity android:name=".EsperandoConductor" />
+        <activity android:name=".finalizar_viaje"></activity>
     </application>
 
 </manifest>

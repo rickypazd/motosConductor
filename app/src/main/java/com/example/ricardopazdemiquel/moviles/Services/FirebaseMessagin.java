@@ -107,16 +107,12 @@ public class FirebaseMessagin extends FirebaseMessagingService
         JSONObject json = null;
         try {
             json = new JSONObject(remoteMessage.getData().get("json"));
-            intent.putExtra("id", (Bundle) json.get("id"));
-            intent.putExtra("latinicial", (Bundle) json.get("latinicial"));
-            intent.putExtra("lnginicial", (Bundle) json.get("lnginicial"));
-            intent.putExtra("latfinal", (Bundle) json.get("latfinal"));
+            intent.putExtra("json" , json.toString());
+
 
             JSONObject jsonUsuario = new JSONObject(remoteMessage.getData().get("jsonUsuario"));
-            intent.putExtra("nombre", (Bundle) jsonUsuario.get("nombre"));
-            intent.putExtra("apellido_pa", (Bundle) jsonUsuario.get("apellido_pa"));
-            intent.putExtra("apellido_ma", (Bundle) jsonUsuario.get("apellido_ma"));
-            intent.putExtra("sexo", (Bundle) jsonUsuario.get("sexo"));
+
+            intent.putExtra("jsonUsuario" , jsonUsuario.toString());
             intent.setAction("confirmar_carrera");
             sendBroadcast(intent);
 
