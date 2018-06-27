@@ -34,20 +34,10 @@ public class Cofirmar_Carrera extends AppCompatActivity {
         setContentView(R.layout.activity_cofirmar__carrera);
         btn_aceptar=findViewById(R.id.btn_aceptar_Carrera);
         acepto=false;
-
-
-        JSONObject jsonUsuario;
-        JSONObject json;
-        try {
-            jsonUsuario = new JSONObject(getIntent().getStringExtra("jsonUsuario"));
-            json = new JSONObject(getIntent().getStringExtra("json"));
-            id_carrera = json.getInt("id");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+        id_carrera = Integer.parseInt(getIntent().getStringExtra("id_carrera"));
+        if(id_carrera<=0){
             finish();
         }
-
         final JSONObject usr_log = getUsr_log();
         if (usr_log == null) {
             Intent intent = new Intent(Cofirmar_Carrera.this, Login.class);
