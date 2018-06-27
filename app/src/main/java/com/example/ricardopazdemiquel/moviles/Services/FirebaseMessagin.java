@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import com.example.ricardopazdemiquel.moviles.EsperandoConductor;
 import com.example.ricardopazdemiquel.moviles.MainActivityConductor;
 import com.example.ricardopazdemiquel.moviles.R;
+import com.example.ricardopazdemiquel.moviles.finalizar_viajeCliente;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -45,9 +46,30 @@ public class FirebaseMessagin extends FirebaseMessagingService
             case "Inicio_Carrera":
                 Inicio_Carrera(remoteMessage);
                 break;
+            case "Finalizo_Carrera":
+                Finalizo_Carrera(remoteMessage);
+                break;
         }
         return;
 
+    }
+
+    private void Finalizo_Carrera(RemoteMessage remoteMessage) {
+        Intent notificationIntent = new Intent(this, finalizar_viajeCliente.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
+        Notification notification= new NotificationCompat.Builder(this, Contexto.CHANNEL_ID)
+                .setContentTitle("Siete")
+                .setContentText("Su Carrera esta en curso." +
+                        "Que tenga un buen viaje.")
+                .setSmallIcon(R.drawable.ic_logosiete_background)
+                .setContentIntent(pendingIntent)
+                .build();
+        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(2,notification);
+        Intent intent = new Intent();
+        intent.putExtra("message",remoteMessage.getData().get("mensaje"));
+        intent.setAction("Finalizo_Carrera");
+        sendBroadcast(intent);
     }
 
     private void Inicio_Carrera(RemoteMessage remoteMessage) {
@@ -109,7 +131,6 @@ public class FirebaseMessagin extends FirebaseMessagingService
             json = new JSONObject(remoteMessage.getData().get("json"));
             intent.putExtra("json" , json.toString());
 
-
             JSONObject jsonUsuario = new JSONObject(remoteMessage.getData().get("jsonUsuario"));
 
             intent.putExtra("jsonUsuario" , jsonUsuario.toString());
@@ -119,7 +140,6 @@ public class FirebaseMessagin extends FirebaseMessagingService
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -129,4 +149,29 @@ public class FirebaseMessagin extends FirebaseMessagingService
         intent.setAction("Message");
         sendBroadcast(intent);
     }
+
+
+
+    private void Carrera_terminada(RemoteMessage remoteMessage) {
+        Intent intent = new Intent();
+        JSONObject json = null;
+        try {
+            json = new JSONObject(remoteMessage.getData().get("json"));
+            intent.putExtra("json" , json.toString());
+            intent.setAction("confirmar_carrera");
+            sendBroadcast(intent);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void mensajeCT(RemoteMessage remoteMessage){
+        Intent intent = new Intent();
+        intent.putExtra("message",remoteMessage.getData().get("mensaje"));
+        intent.setAction("Message");
+        sendBroadcast(intent);
+    }
+
 }

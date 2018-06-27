@@ -1,6 +1,7 @@
 package com.example.ricardopazdemiquel.moviles;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -59,9 +60,13 @@ public class EsperandoConductor extends AppCompatActivity {
     private GoogleMap googleMap;
     JSONObject json_carrera;
     private LinearLayout ll_conductor_llego;
+
+    //añadiendo los broadcaast
     private BroadcastReceiver broadcastReceiverMessage;
     private BroadcastReceiver broadcastReceiverMessageconductor;
     private BroadcastReceiver broadcastReceiverInicioCarrera;
+    private BroadcastReceiver broadcastReceiverFinalizoCarrera;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,10 +112,13 @@ public class EsperandoConductor extends AppCompatActivity {
         }
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
 
+        //broadcast  conductor cerca
         if(broadcastReceiverMessage == null){
             broadcastReceiverMessage = new BroadcastReceiver() {
                 @Override
@@ -120,6 +128,8 @@ public class EsperandoConductor extends AppCompatActivity {
             };
         }
         registerReceiver(broadcastReceiverMessage,new IntentFilter("conductor_cerca"));
+
+        //broadcast  conductor llego
         if(broadcastReceiverMessageconductor == null){
             broadcastReceiverMessageconductor = new BroadcastReceiver() {
                 @Override
@@ -129,6 +139,8 @@ public class EsperandoConductor extends AppCompatActivity {
             };
         }
         registerReceiver(broadcastReceiverInicioCarrera,new IntentFilter("conductor_llego"));
+
+        //broadcast  inicio de carrera
         if(broadcastReceiverInicioCarrera == null){
             broadcastReceiverInicioCarrera = new BroadcastReceiver() {
                 @Override
@@ -138,7 +150,20 @@ public class EsperandoConductor extends AppCompatActivity {
             };
         }
         registerReceiver(broadcastReceiverInicioCarrera,new IntentFilter("Inicio_Carrera"));
+
+        //Broadcast finalizo carrera
+        if(broadcastReceiverFinalizoCarrera == null){
+            broadcastReceiverFinalizoCarrera = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    finalizocarrera(intent);
+                }
+            };
+        }
+        registerReceiver(broadcastReceiverFinalizoCarrera,new IntentFilter("FinalizoCarrera"));
     }
+
+
     private boolean hilo;
     private void hilo(){
         hilo=true;
@@ -156,23 +181,36 @@ public class EsperandoConductor extends AppCompatActivity {
             }
         }).start();
     }
+
+
     private void notificacionReciber(Intent intent){
         Toast.makeText(EsperandoConductor.this,"El conductor esta serca",
                 Toast.LENGTH_SHORT).show();
     }
+
     private void condcutor_llego(Intent intent){
         Toast.makeText(EsperandoConductor.this,"El conductor Llego",
                 Toast.LENGTH_SHORT).show();
         ll_conductor_llego.setVisibility(View.VISIBLE);
     }
+
     private void Incio_Carrera(Intent intent){
-        Toast.makeText(EsperandoConductor.this,"Su carrera ah comenzado, Que tenga buen viaje.",
+        Toast.makeText(EsperandoConductor.this,"Su carrera ha comenzado, Que tenga buen viaje.",
                 Toast.LENGTH_SHORT).show();
         ll_conductor_llego.setVisibility(View.INVISIBLE);
-
         new buscar_carrera().execute();
-
     }
+
+    private void finalizocarrera(Intent intent){
+        intent = new Intent( EsperandoConductor.this, finalizar_viajeCliente.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+
+
+
     private String obtenerDireccionesURL(LatLng origin, LatLng dest){
 
         String str_origin = "origin="+origin.latitude+","+origin.longitude;
@@ -262,7 +300,6 @@ public class EsperandoConductor extends AppCompatActivity {
 
                 googleMap.addPolyline(lineOptions);
 
-
                 int size = points.size() - 1;
                 float[] results = new float[1];
                 float sum = 0;
@@ -278,7 +315,6 @@ public class EsperandoConductor extends AppCompatActivity {
                 }
                 //sum = metros
             }
-
         }
     }
     private String downloadUrl(String strUrl) throws IOException {

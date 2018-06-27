@@ -84,7 +84,6 @@ public class MainActivityConductor extends AppCompatActivity
             }
 
         }
-
     }
 
     @Override
@@ -101,6 +100,8 @@ public class MainActivityConductor extends AppCompatActivity
         }
         registerReceiver(broadcastReceiverMessage,new IntentFilter("confirmar_carrera"));
     }
+
+
     Intent inte;
     private void notificacionReciber(Intent intent){
         if(inte==null){
@@ -115,6 +116,8 @@ public class MainActivityConductor extends AppCompatActivity
             }
         }
     }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -131,6 +134,9 @@ public class MainActivityConductor extends AppCompatActivity
             }
         }
     }//onActivityResult
+
+
+
     public JSONObject getUsr_log() {
         SharedPreferences preferencias = getSharedPreferences("myPref", MODE_PRIVATE);
         String usr = preferencias.getString("usr_log", "");
