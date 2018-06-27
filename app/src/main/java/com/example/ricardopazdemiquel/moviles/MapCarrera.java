@@ -425,7 +425,8 @@ public class MapCarrera extends AppCompatActivity {
                 .setPositiveButton("Si", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id) {
                         // CONFIRM
-
+                        Intent intent = new Intent(MapCarrera.this, cobranza.class);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
