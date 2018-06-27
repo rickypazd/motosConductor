@@ -1,10 +1,13 @@
 package com.example.ricardopazdemiquel.moviles;
 
 import android.Manifest;
+
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -167,6 +170,7 @@ public class MapCarrera extends AppCompatActivity {
                             LatLngBounds bounds=builder.build();
                             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
                             googleMap.moveCamera(cu);
+                            btn_terminar_carrera.setVisibility(View.VISIBLE);
                         }
 
                     } catch (JSONException e) {
@@ -399,7 +403,7 @@ public class MapCarrera extends AppCompatActivity {
                 btn_terminar_carrera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(MapCarrera.this,"Terminar Carrera",Toast.LENGTH_SHORT).show();
+                        alert();
 
                     }
                 });
@@ -412,6 +416,26 @@ public class MapCarrera extends AppCompatActivity {
             super.onProgressUpdate(values);
             progreso.setMessage(values[0]);
         }
+
+    }
+    private void alert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapCarrera.this);
+        builder.setMessage("Esta seguro que quiere terminar la carrera?")
+                .setTitle("Terminar Carrera")
+                .setPositiveButton("Si", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id) {
+                        // CONFIRM
+
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // CANCEL
+                    }
+                });
+        // Create the AlertDialog object and return it
+        AlertDialog dialog=builder.create();
+        dialog.show();
 
     }
     private String obtenerDireccionesURL(LatLng origin,LatLng dest){
