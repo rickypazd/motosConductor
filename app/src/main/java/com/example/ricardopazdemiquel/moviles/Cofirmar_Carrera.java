@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -11,12 +13,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Locale;
 
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
@@ -24,7 +29,13 @@ import clienteHTTP.StandarRequestConfiguration;
 import utiles.Contexto;
 
 public class Cofirmar_Carrera extends AppCompatActivity {
+
     private Button btn_aceptar;
+    private Button btn_rechazar;
+    private EditText nombre;
+    private EditText inicio;
+    private EditText llegada;
+    private EditText puntuacion;
     private boolean acepto;
     private int id_carrera;
 
@@ -32,12 +43,42 @@ public class Cofirmar_Carrera extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cofirmar__carrera);
+
         btn_aceptar=findViewById(R.id.btn_aceptar_Carrera);
+
+        nombre =findViewById(R.id.editName);
+        inicio =findViewById(R.id.editInicio);
+        llegada =findViewById(R.id.editLlegada);
+        puntuacion =findViewById(R.id.editaPuntacion);
+
         acepto=false;
-        id_carrera = Integer.parseInt(getIntent().getStringExtra("id_carrera"));
-        if(id_carrera<=0){
+
+        JSONObject jsonUsuario;
+        JSONObject json;
+        try {
+            jsonUsuario = new JSONObject(getIntent().getStringExtra("jsonUsuario"));
+            json = new JSONObject(getIntent().getStringExtra("json"));
+
+            String auxNombre = jsonUsuario.getString("nombre");
+            String auxapellidopa = jsonUsuario.getString("apellido_pa");
+            String auxapellidoma = jsonUsuario.getString("apellido_ma");
+            double latinicio = json.getDouble("latinicial");
+            double lnginicio = json.getDouble("lnginicial");
+            double latfinal = json.getDouble("latfinal");
+            double lngfinal = json.getDouble("lngfinal");
+
+            nombre.setText(auxNombre +" "+ auxapellidopa +" "+ auxapellidoma);
+            puntuacion.setText("6.9");
+            inicio.setText(getCompleteAddressString(latinicio,lnginicio));
+            llegada.setText(getCompleteAddressString(latfinal,lngfinal));
+
+            id_carrera = json.getInt("id");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
             finish();
         }
+
         final JSONObject usr_log = getUsr_log();
         if (usr_log == null) {
             Intent intent = new Intent(Cofirmar_Carrera.this, Login.class);
@@ -138,6 +179,30 @@ public class Cofirmar_Carrera extends AppCompatActivity {
             super.onProgressUpdate(values);
 
         }
-
     }
+
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+                strAdd = strReturnedAddress.toString();
+                Log.w("My Current loction addr", strReturnedAddress.toString());
+            } else {
+                Log.w("My Current loction addr", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("My Current loction addr", "Canont get Address!");
+        }
+        return strAdd;
+    }
+
 }
