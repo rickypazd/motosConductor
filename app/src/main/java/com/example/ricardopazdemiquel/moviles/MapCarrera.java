@@ -644,8 +644,7 @@ public class MapCarrera extends AppCompatActivity {
             if(resp.equals("falso")){
                 Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                 return;
-            }
-            if(resp.equals("exito")){
+            }else if(resp.equals("exito")){
                 new buscar_carrera().execute();
                 Intent intent = new Intent(MapCarrera.this, cobranza.class);
                 startActivity(intent);
