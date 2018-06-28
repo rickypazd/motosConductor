@@ -12,7 +12,7 @@
     <EditText
         android:id="@+id/editText3"
         android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="100dp"
@@ -27,41 +27,41 @@
     <EditText
         android:id="@+id/editText7"
         android:layout_width="134dp"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="288dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/ic_redondo1_finalizar"
         android:ems="10"
         android:inputType="textPersonName"
         android:paddingLeft="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/editText4"
         android:layout_width="107dp"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/botonred"
         android:ems="10"
         android:inputType="textPersonName"
         android:paddingLeft="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintHorizontal_bias="0.869"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <EditText
         android:id="@+id/editText6"
         android:layout_width="136dp"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/botonred"
         android:ems="10"
         android:inputType="textPersonName"
@@ -69,22 +69,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.146"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="300dp"
-        android:layout_height="33dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="236dp"
+        android:layout_marginTop="96dp"
         android:text="Ha completado 256 viajes"
         android:textAlignment="center"
         android:textColor="#fff"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <Button
         android:id="@+id/button"
@@ -122,11 +122,11 @@
         android:layout_height="70dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="344dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/round_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
     <Button
         android:id="@+id/button7"
@@ -134,12 +134,12 @@
         android:layout_height="70dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="344dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/round_foreground"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.848"
+        app:layout_constraintHorizontal_bias="0.842"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
     <Button
         android:id="@+id/button6"
@@ -147,12 +147,12 @@
         android:layout_height="70dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="344dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/round_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.157"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
     <TextView
         android:id="@+id/textView11"
@@ -160,13 +160,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="424dp"
+        android:layout_marginTop="12dp"
         android:text="Buena Ruta"
         android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
 
     <TextView
         android:id="@+id/textView13"
@@ -174,13 +174,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="424dp"
+        android:layout_marginTop="12dp"
         android:text="Auto limpio"
         android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.851"
+        app:layout_constraintHorizontal_bias="0.845"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button7" />
 
     <TextView
         android:id="@+id/textView12"
@@ -188,26 +188,26 @@
         android:layout_height="17dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="424dp"
+        android:layout_marginTop="12dp"
         android:text="Amable"
         android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.157"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button6" />
 
     <TextView
         android:id="@+id/textView14"
-        android:layout_width="279dp"
+        android:layout_width="300dp"
         android:layout_height="62dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:alpha="0.5"
+        android:background="@drawable/rounded_corner"
+        android:padding="10dp"
         android:text="nombre"
         android:textColor="#fff"
-        android:padding="10dp"
-        android:background="@drawable/rounded_corner"
-        android:alpha="0.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"

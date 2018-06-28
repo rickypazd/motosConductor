@@ -156,7 +156,7 @@ public class EsperandoConductor extends AppCompatActivity {
             broadcastReceiverFinalizoCarrera = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    finalizocarrera(intent);
+                    finalizo_carrera(intent);
                 }
             };
         }
@@ -201,7 +201,7 @@ public class EsperandoConductor extends AppCompatActivity {
         new buscar_carrera().execute();
     }
 
-    private void finalizocarrera(Intent intent){
+    private void finalizo_carrera(Intent intent){
         intent = new Intent( EsperandoConductor.this, finalizar_viajeCliente.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

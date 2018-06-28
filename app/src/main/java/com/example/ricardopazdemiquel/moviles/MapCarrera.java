@@ -192,8 +192,6 @@ public class MapCarrera extends AppCompatActivity {
         };
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 1000, 5, locationListener);
-
-
     }
 
     @Override
@@ -474,6 +472,7 @@ public class MapCarrera extends AppCompatActivity {
         }
     }
 
+    // es con postgrebar
     private class DownloadTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -498,6 +497,8 @@ public class MapCarrera extends AppCompatActivity {
             parserTask.execute(result);
         }
     }
+
+
     private boolean first=false;
     private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> >{
 
@@ -517,6 +518,9 @@ public class MapCarrera extends AppCompatActivity {
             }
             return routes;
         }
+
+
+
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
             ArrayList<LatLng> points = null;
@@ -569,6 +573,8 @@ public class MapCarrera extends AppCompatActivity {
             }
         }
     }
+
+
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
@@ -606,6 +612,9 @@ public class MapCarrera extends AppCompatActivity {
         }
         return data;
     }
+
+
+
     private class terminar_Carrera extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;
