@@ -2,6 +2,7 @@ package com.example.ricardopazdemiquel.moviles;
 
 import android.Manifest;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -60,6 +61,7 @@ import java.util.List;
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
+import utiles.Contexto;
 import utiles.DirectionsJSONParser;
 import utiles.Token;
 
@@ -425,8 +427,8 @@ public class MapCarrera extends AppCompatActivity {
                 .setPositiveButton("Si", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id) {
                         // CONFIRM
-                        Intent intent = new Intent(MapCarrera.this, cobranza.class);
-                        startActivity(intent);
+                        new terminar_Carrera(id_carrera).execute();
+
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -603,5 +605,56 @@ public class MapCarrera extends AppCompatActivity {
             urlConnection.disconnect();
         }
         return data;
+    }
+    private class terminar_Carrera extends AsyncTask<Void, String, String> {
+
+        private ProgressDialog progreso;
+        private int id_carrera;
+
+
+        public terminar_Carrera(int id_carrera) {
+            this.id_carrera = id_carrera;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progreso = new ProgressDialog(MapCarrera.this);
+            progreso.setIndeterminate(true);
+            progreso.setTitle("Esperando Respuesta");
+            progreso.setCancelable(false);
+            progreso.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            publishProgress("por favor espere...");
+            Hashtable<String, String> parametros = new Hashtable<>();
+            parametros.put("evento", "terminar_carrera");
+            parametros.put("id_carrera",id_carrera+"");
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+            progreso.dismiss();
+
+            if(resp.equals("falso")){
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+                return;
+            }
+            if(resp.equals("exito")){
+                new buscar_carrera().execute();
+                Intent intent = new Intent(MapCarrera.this, cobranza.class);
+                startActivity(intent);
+            }
+        }
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
     }
 }
