@@ -110,6 +110,9 @@ public class MapService extends Service {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else{
+                        notifico=false;
+                        llego=false;
                     }
 
                 }

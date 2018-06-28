@@ -59,8 +59,7 @@ public class FirebaseMessagin extends FirebaseMessagingService
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
         Notification notification= new NotificationCompat.Builder(this, Contexto.CHANNEL_ID)
                 .setContentTitle("Siete")
-                .setContentText("Su Carrera esta en curso." +
-                        "Que tenga un buen viaje.")
+                .setContentText("Su Carrera finalizo.")
                 .setSmallIcon(R.drawable.ic_logosiete_background)
                 .setContentIntent(pendingIntent)
                 .build();

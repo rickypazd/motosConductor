@@ -160,7 +160,7 @@ public class EsperandoConductor extends AppCompatActivity {
                 }
             };
         }
-        registerReceiver(broadcastReceiverFinalizoCarrera,new IntentFilter("FinalizoCarrera"));
+        registerReceiver(broadcastReceiverFinalizoCarrera,new IntentFilter("Finalizo_Carrera"));
     }
 
 
