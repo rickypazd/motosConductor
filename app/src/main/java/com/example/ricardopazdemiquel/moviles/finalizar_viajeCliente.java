@@ -42,21 +42,23 @@ public class finalizar_viajeCliente extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 calificacion = ratingBar.getRating();
-            Toast.makeText (view.getContext(), "Calificación:" + calificacion , Toast .LENGTH_LONG) .show ();
-
+                Toast.makeText (view.getContext(), "Calificación:" + calificacion , Toast .LENGTH_LONG) .show ();
+                new finalizar_viajeCliente.Finalizo(id_carrera , calificacion).execute();
             }
         });
     }
-    
+
 
     //asyncTask Finalizo carrera
     private class Finalizo extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;
         private int id_carrera;
+        private float calificacion;
 
-        public Finalizo(int id_carrera) {
+        public Finalizo(int id_carrera , float finalizo) {
             this.id_carrera = id_carrera;
+            this.calificacion = finalizo;
         }
 
         @Override
