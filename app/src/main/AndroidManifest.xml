@@ -54,9 +54,6 @@
         </service>
 
         <activity
-            android:name=".activity_pedirSiete"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
             android:name=".PedirSieteMap"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
