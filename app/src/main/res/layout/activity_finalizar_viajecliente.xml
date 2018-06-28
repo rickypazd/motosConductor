@@ -55,18 +55,19 @@
 
     <RatingBar
         android:id="@+id/ratingBar"
-        android:layout_width="270dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:numStars="5"
-        android:rating="3.5"
-        android:stepSize="0.5"
-        android:progressTint="#fff"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:backgroundTint="#fff"
+        android:numStars="5"
+        android:progressTint="#fff"
+        android:rating="0"
+        android:stepSize="1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_nombre" />
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

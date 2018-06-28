@@ -5,10 +5,6 @@ import android.os.Bundle;
 
 public class finalizar_viaje extends AppCompatActivity {
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

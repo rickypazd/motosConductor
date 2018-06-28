@@ -201,14 +201,13 @@ public class EsperandoConductor extends AppCompatActivity {
         new buscar_carrera().execute();
     }
 
-    private void finalizo_carrera(Intent intent){
-        intent = new Intent( EsperandoConductor.this, finalizar_viajeCliente.class);
+    private void finalizo_carrera(Intent intenta){
+        Intent intent = new Intent( EsperandoConductor.this, finalizar_viajeCliente.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("id_carrera",intenta.getStringExtra("id_carrera"));
         startActivity(intent);
         finish();
     }
-
-
 
 
     private String obtenerDireccionesURL(LatLng origin, LatLng dest){
