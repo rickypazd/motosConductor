@@ -57,6 +57,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
@@ -654,9 +655,16 @@ public class MapCarrera extends AppCompatActivity {
                 Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                 return;
             }else if(resp.equals("exito")){
-                new buscar_carrera().execute();
-                Intent intent = new Intent(MapCarrera.this, cobranza.class);
-                startActivity(intent);
+                try {
+                    String a=new buscar_carrera().execute().get();
+                    Intent intent = new Intent(MapCarrera.this, cobranza.class);
+                    startActivity(intent);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
         @Override

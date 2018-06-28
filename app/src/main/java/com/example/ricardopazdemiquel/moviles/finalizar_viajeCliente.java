@@ -93,8 +93,10 @@ public class finalizar_viajeCliente extends AppCompatActivity{
                 Intent intent = new Intent(finalizar_viajeCliente.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+
                 finish();
             }
+
         }
         @Override
         protected void onProgressUpdate(String... values) {
