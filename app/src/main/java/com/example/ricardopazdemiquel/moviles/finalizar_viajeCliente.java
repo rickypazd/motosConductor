@@ -27,7 +27,6 @@ public class finalizar_viajeCliente extends AppCompatActivity{
     private Button nombre;
     private RatingBar ratingBar;
     private int id_carrera;
-    float calificacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

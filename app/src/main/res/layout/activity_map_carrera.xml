@@ -44,76 +44,62 @@ android:layout_height="match_parent">
             android:id="@+id/linear_Iniciar_Carrera"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/backgroundcolor"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:padding="10dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="INICIAR CARRERA"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Inicie la carrera cuando el cliente este dentro del vehiculo"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-
             <Button
                 android:id="@+id/btn_iniciar_carrera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Iniciar Carrera" />
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/phonebackground"
+                android:text="Iniciar Carrera"
+                android:textAppearance="@android:style/TextAppearance.Material.Title"
+                android:textColor="#fff"
+                android:textSize="23dp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="280dp"
+                android:layout_height="match_parent"
+                android:text="Inicie la carrera cuando el cliente este dentro del vehiculo"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linear_marcar_llegada"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="32dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/backgroundcolor"
             android:gravity="center_horizontal"
             android:orientation="vertical"
+            android:padding="10dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="LLEGO AL DESTINO"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="MARCAR LLEGADA:"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
+            <!-- android:background="@drawable/backgroundcolor  -->
 
             <Button
                 android:id="@+id/btn_marcar_llegada"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="LLEGADA" />
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/phonebackground"
+                android:text="Finalizar carrera"
+                android:textColor="#fff"
+                android:textSize="16dp" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>
