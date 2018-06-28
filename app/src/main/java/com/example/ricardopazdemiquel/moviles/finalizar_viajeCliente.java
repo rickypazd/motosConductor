@@ -37,15 +37,13 @@ public class finalizar_viajeCliente extends AppCompatActivity{
         id_carrera = Integer.parseInt(getIntent().getStringExtra("id_carrera"));
         nombre = findViewById(R.id.btn_nombre);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-
-        ratingBar.setOnClickListener(new View.OnClickListener() {
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onClick(View view) {
-                calificacion = ratingBar.getRating();
-                Toast.makeText (view.getContext(), "Calificación:" + calificacion , Toast .LENGTH_LONG) .show ();
-                new finalizar_viajeCliente.Finalizo(id_carrera , calificacion).execute();
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                new finalizar_viajeCliente.Finalizo(id_carrera , rating).execute();
             }
         });
+
     }
 
 
@@ -75,7 +73,7 @@ public class finalizar_viajeCliente extends AppCompatActivity{
         protected String doInBackground(Void... params) {
             publishProgress("por favor espere...");
             Hashtable<String, String> parametros = new Hashtable<>();
-            parametros.put("evento", "");
+            parametros.put("evento", "finalizo_carrera_cliente");
             parametros.put("id_carrera",id_carrera+"");
             parametros.put("calificacion",calificacion+"");
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, parametros));
