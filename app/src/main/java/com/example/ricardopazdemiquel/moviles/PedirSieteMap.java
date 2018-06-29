@@ -134,6 +134,8 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
         mAutocompleteTextView2.setOnItemClickListener(mAutocompleteClickListener);
         mAutocompleteTextView2.setAdapter(mPlaceArrayAdapter);
         usr_log = getUsr_log();
+
+
         if (usr_log == null) {
             Intent intent = new Intent(PedirSieteMap.this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

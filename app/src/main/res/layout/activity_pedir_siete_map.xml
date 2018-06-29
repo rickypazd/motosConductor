@@ -37,12 +37,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <TextView
+                android:id="@+id/text_atras"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ic_flecha_hacia_atras"
+                />
+
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextView"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:background="@drawable/botonwhite"
@@ -67,12 +76,15 @@
 
         <Button
             android:id="@+id/btn_listo"
-            android:layout_width="wrap_content"
-            android:layout_height="90dp"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="24dp"
-            android:background="@mipmap/ic_p_siete_round"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="70dp"
+            android:background="@drawable/ic_redondo1_finalizar"
+            android:text="Super siete"
+            android:textColor="#fff"
+            android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
