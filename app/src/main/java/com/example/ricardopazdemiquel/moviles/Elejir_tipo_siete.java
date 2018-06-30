@@ -36,7 +36,7 @@ public class Elejir_tipo_siete extends AppCompatActivity implements View.OnClick
         siete = findViewById(R.id.btn_siete);
         siete_maravilla = findViewById(R.id.btn_sieteMaravilla);
         siete_super = findViewById(R.id.btn_superSiete);
-        siete_togo = findViewById(R.id.btn_sietetogo);
+        siete_togo = findViewById(R.id.btn_togo);
 
         siete.setOnClickListener(this);
         siete_maravilla.setOnClickListener(this);
@@ -55,8 +55,6 @@ public class Elejir_tipo_siete extends AppCompatActivity implements View.OnClick
                     intent.putExtra("lat", latitudeGPS);
                     intent.putExtra("tipo", 1);
                 }
-                startActivity(intent);
-                Elejir_tipo_siete.this.overridePendingTransition(R.anim.zoom_back_in, R.anim.fade_out);
                 break;
             case R.id.btn_superSiete:
                 if (longitudeGPS != 0) {
@@ -64,8 +62,6 @@ public class Elejir_tipo_siete extends AppCompatActivity implements View.OnClick
                     intent.putExtra("lat", latitudeGPS);
                     intent.putExtra("tipo", 2);
                 }
-                startActivity(intent);
-                Elejir_tipo_siete.this.overridePendingTransition(R.anim.zoom_back_in, R.anim.fade_out);
                 break;
             case R.id.btn_sieteMaravilla:
                 if (longitudeGPS != 0) {
@@ -73,19 +69,16 @@ public class Elejir_tipo_siete extends AppCompatActivity implements View.OnClick
                     intent.putExtra("lat", latitudeGPS);
                     intent.putExtra("tipo", 3);
                 }
-                startActivity(intent);
-                Elejir_tipo_siete.this.overridePendingTransition(R.anim.zoom_back_in, R.anim.fade_out);
                 break;
-            case R.id.btn_sietetogo:
+            case R.id.btn_togo:
                 if (longitudeGPS != 0) {
                     intent.putExtra("lng", longitudeGPS);
                     intent.putExtra("lat", latitudeGPS);
                     intent.putExtra("tipo", 4);
                 }
-                startActivity(intent);
-                Elejir_tipo_siete.this.overridePendingTransition(R.anim.zoom_back_in, R.anim.fade_out);
                 break;
         }
+        startActivity(intent);
     }
 
 
