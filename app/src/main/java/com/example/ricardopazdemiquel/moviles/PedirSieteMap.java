@@ -77,7 +77,7 @@ import utiles.Contexto;
 import utiles.DirectionsJSONParser;
 import utiles.Token;
 
-public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChangeListener, GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks{
+public class PedirSieteMap extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener, GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks {
     MapView mMapView;
     private GoogleMap googleMap;
     private boolean entroLocation=false;
@@ -102,6 +102,12 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.9720));
 
     JSONObject usr_log;
+    private Button btn_pedir_super , btn_pedir_maravilla ,btn_pedir_togo  , btn_pedir_estandar;
+    private int tipo_carrera;
+
+    public PedirSieteMap() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,16 +116,31 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
         ll_boton=findViewById(R.id.ll_boton);
         iv_marker=findViewById(R.id.ivmarker);
         monto=findViewById(R.id.tv_monto);
-        btn_listo=findViewById(R.id.btn_listo);
+
         final double longitudeGPS=getIntent().getDoubleExtra("lng",0);
         final double latitudeGPS=getIntent().getDoubleExtra("lat",0);
+        tipo_carrera = getIntent().getIntExtra("tipo",0);
+        mostar_button(tipo_carrera);
+
         mGoogleApiClient = new GoogleApiClient.Builder(PedirSieteMap.this)
                 .addApi(Places.GEO_DATA_API)
                 .enableAutoManage(this, GOOGLE_API_CLIENT_ID, this)
                 .addConnectionCallbacks(this)
                 .build();
-        mAutocompleteTextView = (AutoCompleteTextView) findViewById(R.id
-                .autoCompleteTextView);
+
+        btn_pedir_super = findViewById(R.id.btn_pedir_super);
+        btn_pedir_maravilla = findViewById(R.id.btn_pedir_maravilla);
+        btn_pedir_togo = findViewById(R.id.btn_pedir_togo);
+        btn_pedir_estandar = findViewById(R.id.btn_pedir_estandar);
+
+
+        btn_pedir_estandar.setOnClickListener(this);
+        btn_pedir_super.setOnClickListener(this);
+        btn_pedir_maravilla.setOnClickListener(this);
+        btn_pedir_togo.setOnClickListener(this);
+
+
+        mAutocompleteTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         mAutocompleteTextView.setOnFocusChangeListener(this);
         mAutocompleteTextView.setThreshold(3);
         mAutocompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
@@ -135,7 +156,6 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
         mAutocompleteTextView2.setAdapter(mPlaceArrayAdapter);
         usr_log = getUsr_log();
 
-
         if (usr_log == null) {
             Intent intent = new Intent(PedirSieteMap.this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -143,41 +163,10 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
             finish();
         }
 
-
-        btn_listo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selected=null;
-                if(mAutocompleteTextView.getTag()!= null && mAutocompleteTextView2.getTag()!=null){
-                    LatLng latlng1=(LatLng) mAutocompleteTextView.getTag();
-                    LatLng latlng2=(LatLng) mAutocompleteTextView2.getTag();
-                    inicio=latlng1;
-                    fin=latlng2;
-                    String url = obtenerDireccionesURL(latlng1,latlng2);
-                    DownloadTask downloadTask= new DownloadTask();
-                    downloadTask.execute(url);
-                    ll_ubic.setVisibility(View.INVISIBLE);
-                    iv_marker.setVisibility(View.INVISIBLE);
-                    btn_listo.setVisibility(View.INVISIBLE);
-                    ll_boton.setVisibility(View.VISIBLE);
-                    googleMap.addMarker(new MarkerOptions().position(latlng1).title("INICIO").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
-                    googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
-                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                    builder.include(latlng1);
-                    builder.include(latlng2);
-                    LatLngBounds bounds=builder.build();
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
-                    googleMap.moveCamera(cu);
-                }
-
-
-            }
-        });
         btn_confirmar= findViewById(R.id.btn_confirmar);
         btn_confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 try {
                     Intent inte = new Intent(PedirSieteMap.this,PidiendoSiete.class);
                     inte.putExtra("latInicio",inicio.latitude+"");
@@ -186,13 +175,14 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
                     inte.putExtra("lngFin",fin.longitude+"");
                     inte.putExtra("token", Token.currentToken);
                     inte.putExtra("id_usr", usr_log.getInt("id")+"");
+                    inte.putExtra("tipo", tipo_carrera +"");
                     startActivity(inte);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         });
+
 
         mMapView = findViewById(R.id.mapviewPedirSiete);
         mMapView.onCreate(savedInstanceState);
@@ -249,6 +239,25 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
 
         }
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_pedir_estandar:
+                calculando_ruta(view);
+                break;
+            case R.id.btn_pedir_super:
+                calculando_ruta(view);
+                break;
+            case R.id.btn_pedir_maravilla:
+                calculando_ruta(view);
+                break;
+            case R.id.btn_pedir_togo:
+                calculando_ruta(view);
+                break;
+        }
+    }
+
     private AdapterView.OnItemClickListener mAutocompleteClickListener
             = new AdapterView.OnItemClickListener() {
         @Override
@@ -367,6 +376,7 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
                 Toast.LENGTH_LONG).show();
     }
 
+
     private class DownloadTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -391,6 +401,7 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
             parserTask.execute(result);
         }
     }
+
     private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> >{
 
         @Override
@@ -454,8 +465,6 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
                             results);
                     sum += results[0];
                 }
-
-
                 double mont = sum*0.008;
                 monto.setText("Monto aproximado: "+String.format("%.0f", mont)+" - "+String.format("%.0f", (mont+2)));
                 //sum = metros
@@ -500,5 +509,50 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnFocusChan
         return data;
     }
 
+    private void mostar_button(int tipo) {
+        switch (tipo) {
+            case 1:
+                btn_pedir_estandar.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                btn_pedir_super.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                btn_pedir_maravilla.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                btn_pedir_togo.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+
+    public void calculando_ruta(View view){
+        selected=null;
+        if(mAutocompleteTextView.getTag()!= null && mAutocompleteTextView2.getTag()!=null){
+            LatLng latlng1=(LatLng) mAutocompleteTextView.getTag();
+            LatLng latlng2=(LatLng) mAutocompleteTextView2.getTag();
+            inicio=latlng1;
+            fin=latlng2;
+            String url = obtenerDireccionesURL(latlng1,latlng2);
+            DownloadTask downloadTask= new DownloadTask();
+            downloadTask.execute(url);
+
+            //ocultado
+            ll_ubic.setVisibility(View.INVISIBLE);
+            iv_marker.setVisibility(View.INVISIBLE);
+
+            view.setVisibility(View.GONE);
+
+            googleMap.addMarker(new MarkerOptions().position(latlng1).title("INICIO").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
+            googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(latlng1);
+            builder.include(latlng2);
+            LatLngBounds bounds=builder.build();
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
+            googleMap.moveCamera(cu);
+        }
+    }
 
 }

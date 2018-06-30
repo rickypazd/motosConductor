@@ -75,19 +75,70 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_listo"
+            android:id="@+id/btn_pedir_estandar"
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="70dp"
             android:layout_marginStart="70dp"
             android:background="@drawable/ic_redondo1_finalizar"
-            android:text="Super siete"
+            android:text="Pedir super siete"
             android:textColor="#fff"
             android:textSize="20dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_pedir_super"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="70dp"
+            android:background="@drawable/ic_redondo1_finalizar"
+            android:text="Pedir super siete"
+            android:textColor="#fff"
+            android:textSize="20dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_pedir_maravilla"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="70dp"
+            android:background="@drawable/ic_redondo1_finalizar"
+            android:text="Pedir siete maravilla"
+            android:textColor="#fff"
+            android:textSize="20dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_pedir_togo"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="70dp"
+            android:background="@drawable/ic_redondo1_finalizar"
+            android:text="Pedir siete To go"
+            android:textColor="#fff"
+            android:textSize="20dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
 
     </android.support.constraint.ConstraintLayout>
 
@@ -96,7 +147,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,6 +155,7 @@
             android:background="@drawable/backgroundcolor"
             android:gravity="center_horizontal"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

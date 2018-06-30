@@ -1,22 +1,37 @@
 package com.example.ricardopazdemiquel.moviles;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Elejir_tipo_siete extends AppCompatActivity implements View.OnClickListener{
-
+public class Elejir_tipo_siete extends AppCompatActivity implements View.OnClickListener {
 
     private Button siete;
     private Button siete_maravilla;
     private Button siete_super;
     private Button siete_togo;
 
+    double longitudeGPS, latitudeGPS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_elejir_tipo_siete);
+
+        longitudeGPS = getIntent().getDoubleExtra("lng",0);
+        latitudeGPS = getIntent().getDoubleExtra("lat",0);
 
         siete = findViewById(R.id.btn_siete);
         siete_maravilla = findViewById(R.id.btn_sieteMaravilla);
@@ -32,15 +47,46 @@ public class Elejir_tipo_siete extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        Intent intent = new Intent(Elejir_tipo_siete.this, PedirSieteMap.class);
+        switch (view.getId()) {
             case R.id.btn_siete:
-                break;
-            case R.id.btn_sieteMaravilla:
+                if (longitudeGPS != 0) {
+                    intent.putExtra("lng", longitudeGPS);
+                    intent.putExtra("lat", latitudeGPS);
+                    intent.putExtra("tipo", 1);
+                }
+                startActivity(intent);
+                Elejir_tipo_siete.this.overridePendingTransition(R.anim.zoom_back_in, R.anim.fade_out);
                 break;
             case R.id.btn_superSiete:
+                if (longitudeGPS != 0) {
+                    intent.putExtra("lng", longitudeGPS);
+                    intent.putExtra("lat", latitudeGPS);
+                    intent.putExtra("tipo", 2);
+                }
+                startActivity(intent);
+                Elejir_tipo_siete.this.overridePendingTransition(R.anim.zoom_back_in, R.anim.fade_out);
+                break;
+            case R.id.btn_sieteMaravilla:
+                if (longitudeGPS != 0) {
+                    intent.putExtra("lng", longitudeGPS);
+                    intent.putExtra("lat", latitudeGPS);
+                    intent.putExtra("tipo", 3);
+                }
+                startActivity(intent);
+                Elejir_tipo_siete.this.overridePendingTransition(R.anim.zoom_back_in, R.anim.fade_out);
                 break;
             case R.id.btn_sietetogo:
+                if (longitudeGPS != 0) {
+                    intent.putExtra("lng", longitudeGPS);
+                    intent.putExtra("lat", latitudeGPS);
+                    intent.putExtra("tipo", 4);
+                }
+                startActivity(intent);
+                Elejir_tipo_siete.this.overridePendingTransition(R.anim.zoom_back_in, R.anim.fade_out);
                 break;
         }
     }
+
+
 }

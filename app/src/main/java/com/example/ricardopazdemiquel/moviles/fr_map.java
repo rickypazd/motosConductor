@@ -51,10 +51,8 @@ public class fr_map extends Fragment implements View.OnClickListener{
     private GoogleMap googleMap;
     double longitudeGPS, latitudeGPS;
     private boolean entroLocation=false;
-    private Button btn_siete;
-    private Button btn_supersiete;
-    private Button btn_sietemaravilla;
-    private Button btn_sietetogo;
+
+    private Button Pide_tu_siete;
 
     public fr_map() {
         // Required empty public constructor
@@ -111,14 +109,10 @@ public class fr_map extends Fragment implements View.OnClickListener{
        locationManager=(LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         toggleGPSUpdates();
 
-        btn_siete=view.findViewById(R.id.btn_siete);
-        btn_siete.setOnClickListener(this);
-        btn_supersiete=view.findViewById(R.id.btn_supersiete);
-        btn_supersiete.setOnClickListener(this);
-        btn_sietemaravilla=view.findViewById(R.id.btn_sietemaravilla);
-        btn_sietemaravilla.setOnClickListener(this);
-        btn_sietetogo=view.findViewById(R.id.btn_sietetogo);
-        btn_sietetogo.setOnClickListener(this);
+
+        Pide_tu_siete = view.findViewById(R.id.Pide_tu_siete);
+        Pide_tu_siete.setOnClickListener(this);
+
         if (mMapView != null &&
                 mMapView.findViewById(Integer.parseInt("1")) != null) {
             ImageView locationButton = (ImageView) ((View) mMapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
@@ -144,6 +138,7 @@ public class fr_map extends Fragment implements View.OnClickListener{
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
+
     private void showAlert() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle("Enable Location")
@@ -183,12 +178,11 @@ public class fr_map extends Fragment implements View.OnClickListener{
         }
     }
 
+
     private final LocationListener locationListenerGPS = new LocationListener() {
         public void onLocationChanged(Location location) {
             longitudeGPS = location.getLongitude();
             latitudeGPS = location.getLatitude();
-
-
         }
         @Override
         public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -202,6 +196,7 @@ public class fr_map extends Fragment implements View.OnClickListener{
         }
     };
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -213,29 +208,16 @@ public class fr_map extends Fragment implements View.OnClickListener{
 
 
     @Override
-    public void onClick(View v) {
-        int id= v.getId();
-        switch (id){
-            case R.id.btn_siete:
-
-                break;
-            case R.id.btn_supersiete:
-
-                break;
-            case R.id.btn_sietemaravilla:
-
-                break;
-            case R.id.btn_sietetogo:
-
-                break;
+    public void onClick(View view) {
+        if(view == Pide_tu_siete){
+            Intent intent = new Intent(getActivity(),Elejir_tipo_siete.class);
+            if(longitudeGPS!=0){
+                intent.putExtra("lng",longitudeGPS);
+                intent.putExtra("lat",latitudeGPS);
+            }
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.zoom_back_in,R.anim.fade_out);
         }
-        Intent intent = new Intent(getActivity(),PedirSieteMap.class);
 
-        if(longitudeGPS!=0){
-                        intent.putExtra("lng",longitudeGPS);
-                        intent.putExtra("lat",latitudeGPS);
-        }
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.zoom_back_in,R.anim.fade_out);
     }
 }
