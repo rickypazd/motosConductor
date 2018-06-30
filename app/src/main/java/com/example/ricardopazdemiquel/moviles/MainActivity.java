@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      {
     private BroadcastReceiver broadcastReceiver;
     private  BroadcastReceiver broadcastReceiverMessage;
-    private Button btn_nav_pidesiete;
+        private Button btn_nav_pidesiete;
          private Button btn_nav_formaspago;
          private Button btn_nav_miperfil;
          private Button btn_nav_misviajes;
