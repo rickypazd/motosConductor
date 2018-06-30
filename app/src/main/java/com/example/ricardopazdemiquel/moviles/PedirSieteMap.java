@@ -141,7 +141,7 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnClickList
         btn_pedir_togo.setOnClickListener(this);
 
         linear_confirm=findViewById(R.id.linear_confirm);
-
+        mostar_button(tipo_carrera);
         mAutocompleteTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         mAutocompleteTextView.setOnFocusChangeListener(this);
         mAutocompleteTextView.setThreshold(3);
@@ -156,6 +156,7 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnClickList
         mAutocompleteTextView2.setThreshold(3);
         mAutocompleteTextView2.setOnItemClickListener(mAutocompleteClickListener);
         mAutocompleteTextView2.setAdapter(mPlaceArrayAdapter);
+
         usr_log = getUsr_log();
 
         if (usr_log == null) {
@@ -164,7 +165,7 @@ public class PedirSieteMap extends AppCompatActivity implements View.OnClickList
             startActivity(intent);
             finish();
         }
-        mostar_button(tipo_carrera);
+
         btn_confirmar= findViewById(R.id.btn_confirmar);
         btn_confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
