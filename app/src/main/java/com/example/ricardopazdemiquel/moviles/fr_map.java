@@ -50,12 +50,13 @@ public class fr_map extends Fragment implements View.OnClickListener{
     MapView mMapView;
     private GoogleMap googleMap;
     double longitudeGPS, latitudeGPS;
-    private boolean entroLocation=false;
+    private boolean entroLocation = false;
 
     private Button Pide_tu_siete;
 
     public fr_map() {
         // Required empty public constructor
+
     }
 
     @Override
@@ -125,7 +126,6 @@ public class fr_map extends Fragment implements View.OnClickListener{
 
         }
         return view;
-
     }
 
     private boolean checkLocation() {

@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -101,6 +103,20 @@ public class MainActivityConductor extends AppCompatActivity
         registerReceiver(broadcastReceiverMessage,new IntentFilter("confirmar_carrera"));
     }
 
+    private void seleccionarFragmento(String fragmento) {
+
+        Fragment fragmentoGenerico = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Object obj = -1;
+        switch (fragmento) {
+            case "Mapa":
+                fragmentoGenerico= new fragment_carrera_activa();
+                break;
+        }
+        fragmentManager.beginTransaction().replace(R.id.content_conductor, fragmentoGenerico).commit();
+        if (fragmentoGenerico != null) {
+        }
+    }
 
     Intent inte;
     private void notificacionReciber(Intent intent){

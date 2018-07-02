@@ -27,6 +27,7 @@ public class PidiendoSiete extends AppCompatActivity {
     private String lngFin;
     private String token;
     private String id_usr;
+    private String tipoCarrera;
     private BroadcastReceiver broadcastReceiverConfirmoCarrera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class PidiendoSiete extends AppCompatActivity {
         lngFin=intent.getStringExtra("lngFin");
         token=intent.getStringExtra("token");
         id_usr=intent.getStringExtra("id_usr");
+        tipoCarrera = intent.getStringExtra("tipo");
         new buscar_carrera().execute();
 
     }
@@ -69,6 +71,7 @@ public class PidiendoSiete extends AppCompatActivity {
             param.put("lngFin",lngFin);
             param.put("token", token);
             param.put("id",id_usr);
+            param.put("tipoCarrera",tipoCarrera);
 
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, param));
             return respuesta;
@@ -83,7 +86,7 @@ public class PidiendoSiete extends AppCompatActivity {
                 return;
             }else{
                 try {
-                    JSONObject obj=new JSONObject(pacientes);
+                    JSONObject obj = new JSONObject(pacientes);
                     Intent inte = new Intent(PidiendoSiete.this,EsperandoConductor.class);
                     inte.putExtra("obj_carrera",obj.toString());
                     startActivity(inte);
