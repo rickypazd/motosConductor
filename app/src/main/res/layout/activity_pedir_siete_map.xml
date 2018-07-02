@@ -157,9 +157,9 @@
             android:background="@color/colorWhite"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="visible"
             android:paddingBottom="20dp"
             android:paddingTop="20dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -234,19 +234,18 @@
                 android:id="@+id/icono7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Siete TOGO"
                 android:layout_marginBottom="20dp"
+                android:text="Siete TOGO"
                 android:textColor="@color/colorBlack"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <view
                 android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:layout_height="1dp"
-                android:backgroundTint="#626262">
-            </view>
+                android:backgroundTint="#626262"></view>
 
             <TextView
                 android:id="@+id/textView5"
@@ -263,29 +262,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Monto Aproximado:  0-0 Bs."
-                android:textSize="15dp"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textSize="15dp" />
 
             <view
                 android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="#626262">
-            </view>
+                android:backgroundTint="#626262"></view>
 
             <Button
                 android:id="@+id/btn_confirmar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="60dp"
                 android:layout_marginRight="70dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/backgroundcolor2"
-                android:textColor="#fff"
+                android:elevation="0dp"
                 android:text="Confirmar"
-                android:elevation="0dp" />
+                android:textColor="#fff" />
 
         </LinearLayout>
 
