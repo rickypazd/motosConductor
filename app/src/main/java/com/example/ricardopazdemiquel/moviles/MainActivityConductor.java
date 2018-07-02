@@ -83,6 +83,7 @@ public class MainActivityConductor extends AppCompatActivity
             try {
                 String  as = new get_Turno(usr_log.getInt("id")).execute().get();
                 seleccionarFragmento("carrerasactivas");
+                new get_validar_carrera(usr_log.getInt("id")).execute();
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -292,6 +293,7 @@ public class MainActivityConductor extends AppCompatActivity
                         Intent i =new Intent(MainActivityConductor.this, MapService.class);
                         i.putExtra("id_vehiculo",obj_turno.getInt("id_vehiculo"));
                         startService(i);
+
                     }
                 }else{
                     Log.e(Contexto.APP_TAG, "No tiene turno iniciado.");
@@ -369,7 +371,7 @@ public class MainActivityConductor extends AppCompatActivity
 
             Hashtable<String, String> parametros = new Hashtable<>();
             parametros.put("evento", "get_carrera_conductor");
-            parametros.put("id",id+"");
+            parametros.put("id_usr",id+"");
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
             return respuesta;
         }
@@ -383,7 +385,7 @@ public class MainActivityConductor extends AppCompatActivity
                 } else {
                     try {
                         JSONObject obj = new JSONObject(resp);
-                        Boolean bo = obj.getBoolean(obj.getString("exito"));
+                        Boolean bo = obj.getBoolean("exito");
                         if(bo){
                            Intent intent = new Intent(MainActivityConductor.this , MapCarrera.class);
                            intent.putExtra("id_carrera",obj.getInt("id"));

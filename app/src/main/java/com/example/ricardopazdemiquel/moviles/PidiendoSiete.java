@@ -71,7 +71,7 @@ public class PidiendoSiete extends AppCompatActivity {
             param.put("lngFin",lngFin);
             param.put("token", token);
             param.put("id",id_usr);
-            param.put("tipoCarrera",tipoCarrera);
+            param.put("tipo",tipoCarrera);
 
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, param));
             return respuesta;

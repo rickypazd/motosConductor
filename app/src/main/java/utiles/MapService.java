@@ -149,7 +149,7 @@ public class MapService extends Service {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 5, listener);
 
     }
     private class pushPosition extends AsyncTask<Void, String, String> {
