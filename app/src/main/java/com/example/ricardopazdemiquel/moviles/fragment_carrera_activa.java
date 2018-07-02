@@ -40,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Hashtable;
+import java.util.concurrent.ExecutionException;
 
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
@@ -47,7 +48,7 @@ import clienteHTTP.StandarRequestConfiguration;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class fragment_carrera_activa extends Fragment implements CompoundButton.OnCheckedChangeListener {
+public class fragment_carrera_activa extends Fragment implements View.OnClickListener {
 
     private Switch sw_estandar;
     private Switch sw_togo;
@@ -65,26 +66,36 @@ public class fragment_carrera_activa extends Fragment implements CompoundButton.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_fr_map, container, false);
-        MapsInitializer.initialize(getActivity().getApplicationContext());
+        final View view = inflater.inflate(R.layout.fragment_carrera_activa, container, false);
 
         sw_estandar = view.findViewById(R.id.sw_estandar);
         sw_togo = view.findViewById(R.id.sw_togo);
         sw_maravilla = view.findViewById(R.id.sw_maravilla);
         sw_super = view.findViewById(R.id.sw_super_siete);
-
-
+        sw_maravilla.setVisibility(View.GONE);
         if(getUsr_log()!=null){
-            getActivity().finish();
+
+            sw_estandar.setOnClickListener(this);
+            sw_togo.setOnClickListener(this);
+            sw_maravilla.setOnClickListener(this);
+            sw_super.setOnClickListener(this);
+
+            sw_estandar.setChecked(false);
+            sw_togo.setChecked(false);
+            sw_maravilla.setChecked(false);
+            sw_super.setChecked(false);
+            try {
+                if(usr_log.getString("sexo").equals("MUJER")){
+                    sw_maravilla.setVisibility(View.VISIBLE);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+                new obtener_activos().execute();
+
         }
-
-        sw_estandar.setChecked(false);
-        sw_togo.setChecked(false);
-        sw_maravilla.setChecked(false);
-        sw_super.setChecked(false);
-
         return view;
-
     }
 
     public JSONObject getUsr_log() {
@@ -109,13 +120,17 @@ public class fragment_carrera_activa extends Fragment implements CompoundButton.
 
 
     @Override
-    public void onCheckedChanged(CompoundButton view, boolean b) {
-        if(b){
-            boolean b_estandar = sw_estandar.isChecked();
-            boolean b_maravilla = sw_maravilla.isChecked();
-            boolean b_super = sw_super.isChecked();
-            boolean b_togo = sw_togo.isChecked();
-            new buscar_carrera(b_estandar ,b_maravilla,b_super,b_togo).execute();
+    public void onClick(View view) {
+        boolean b_estandar = sw_estandar.isChecked();
+        boolean b_maravilla = sw_maravilla.isChecked();
+        boolean b_super = sw_super.isChecked();
+        boolean b_togo = sw_togo.isChecked();
+        try {
+            String resp=new buscar_carrera(b_estandar ,b_togo,b_maravilla,b_super).execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
     }
 
@@ -155,7 +170,7 @@ public class fragment_carrera_activa extends Fragment implements CompoundButton.
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, param));
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, param));
             return respuesta;
         }
 
@@ -163,26 +178,7 @@ public class fragment_carrera_activa extends Fragment implements CompoundButton.
         protected void onPostExecute(String pacientes) {
             super.onPostExecute(pacientes);
             if (pacientes.equals("falso")) {
-                return;
-            }else{
-                try {
-                    JSONObject obj=new JSONObject(pacientes);
-
-                    boolean estandar = obj.getBoolean("estandar");
-                    sw_estandar.setChecked(estandar);
-
-                    boolean togo = obj.getBoolean("togo");
-                    sw_estandar.setChecked(togo);
-
-                    boolean maravilla = obj.getBoolean("maravilla");
-                    sw_estandar.setChecked(maravilla);
-
-                    boolean superr = obj.getBoolean("super");
-                    sw_estandar.setChecked(superr);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                return ;
             }
         }
 
@@ -191,9 +187,80 @@ public class fragment_carrera_activa extends Fragment implements CompoundButton.
             super.onProgressUpdate(values);
 
         }
-
     }
 
+    private class obtener_activos extends AsyncTask<Void, String, String> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            Hashtable<String,String> param = new Hashtable<>();
+            try {
+                param.put("evento","get_tc_activo");
+                param.put("id_usr",usr_log.getString("id"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, param));
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String pacientes) {
+            super.onPostExecute(pacientes);
+            try {
+                JSONObject obj2 = new JSONObject(pacientes);
+                boolean exito = obj2.getBoolean("exito");
+                if (!exito) {
+                    sw_estandar.setChecked(false);
+                    sw_togo.setChecked(false);
+                    sw_maravilla.setChecked(false);
+                    sw_super.setChecked(false);
+
+            }else{
+
+                    JSONObject obj=new JSONObject(pacientes);
+
+                    boolean estandar = obj.getBoolean("estandar");
+                    if(sw_estandar.isChecked()!=estandar){
+                        sw_estandar.setChecked(estandar);
+                    }
+
+
+                    boolean togo = obj.getBoolean("togo");
+
+                    if(sw_togo.isChecked()!=togo){
+                        sw_togo.setChecked(togo);
+                    }
+
+                    boolean maravilla = obj.getBoolean("maravilla");
+
+                    if(sw_maravilla.isChecked()!=maravilla && usr_log.getString("sexo").equals("MUJER")){
+                        sw_maravilla.setChecked(maravilla);
+                    }
+
+                    boolean superr = obj.getBoolean("super");
+
+                    if(sw_super.isChecked()!=superr){
+                        sw_super.setChecked(superr);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
+    }
 
 }

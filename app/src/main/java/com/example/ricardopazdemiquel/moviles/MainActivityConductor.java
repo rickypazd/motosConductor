@@ -34,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Hashtable;
+import java.util.concurrent.ExecutionException;
 
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
@@ -80,8 +81,13 @@ public class MainActivityConductor extends AppCompatActivity
             finish();
         }else{
             try {
-                new get_Turno(usr_log.getInt("id")).execute();
+                String  as = new get_Turno(usr_log.getInt("id")).execute().get();
+                seleccionarFragmento("carrerasactivas");
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
                 e.printStackTrace();
             }
 
@@ -109,7 +115,7 @@ public class MainActivityConductor extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         Object obj = -1;
         switch (fragmento) {
-            case "Mapa":
+            case "carrerasactivas":
                 fragmentoGenerico= new fragment_carrera_activa();
                 break;
         }
@@ -251,11 +257,8 @@ public class MainActivityConductor extends AppCompatActivity
 
     private class get_Turno extends AsyncTask<Void, String, String> {
 
-        private ProgressDialog progreso;
         private int id;
-
         public get_Turno( int id){
-
             this.id=id;
         }
 
@@ -266,7 +269,7 @@ public class MainActivityConductor extends AppCompatActivity
 
         @Override
         protected String doInBackground(Void... params) {
-            publishProgress("por favor espere...");
+
             Hashtable<String, String> parametros = new Hashtable<>();
             parametros.put("evento", "get_turno_conductor");
             parametros.put("id",id+"");
@@ -306,8 +309,9 @@ public class MainActivityConductor extends AppCompatActivity
             super.onProgressUpdate(values);
 
         }
-
     }
+
+
     private class pushPosition extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;
@@ -348,6 +352,56 @@ public class MainActivityConductor extends AppCompatActivity
             super.onProgressUpdate(values);
 
         }
+    }
 
+
+    private class get_validar_carrera extends AsyncTask<Void, String, String> {
+        private int id;
+        public get_validar_carrera( int id){
+            this.id=id;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(Void... params) {
+
+            Hashtable<String, String> parametros = new Hashtable<>();
+            parametros.put("evento", "get_carrera_conductor");
+            parametros.put("id",id+"");
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
+            return respuesta;
+        }
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+
+                if (resp.equals("falso")) {
+                    Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+                    return;
+                } else {
+                    try {
+                        JSONObject obj = new JSONObject(resp);
+                        Boolean bo = obj.getBoolean(obj.getString("exito"));
+                        if(bo){
+                           Intent intent = new Intent(MainActivityConductor.this , MapCarrera.class);
+                           intent.putExtra("id_carrera",obj.getInt("id"));
+                           startActivity(intent);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+            }
+
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
     }
 }
