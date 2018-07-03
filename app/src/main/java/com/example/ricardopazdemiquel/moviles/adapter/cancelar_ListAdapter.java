@@ -131,7 +131,7 @@ public class cancelar_ListAdapter extends BaseAdapter {
         private int id_carrera;
         private int tipo;
 
-        public cancelar_carrera( int usuario , int id_carrera, int tipo, ){
+        public cancelar_carrera( int usuario , int id_carrera, int tipo ){
             this.usuario = usuario;
             this.id_carrera = id_carrera;
             this.tipo = tipo;
