@@ -81,9 +81,21 @@ public class MainActivityConductor extends AppCompatActivity
             finish();
         }else{
             try {
-                String  as = new get_Turno(usr_log.getInt("id")).execute().get();
-                seleccionarFragmento("carrerasactivas");
-                new get_validar_carrera(usr_log.getInt("id")).execute();
+                String carrera= new get_validar_carrera(usr_log.getInt("id")).execute().get();
+                if(carrera.length()>0){
+                    if(!runtime_permissions()){
+                        Intent i =new Intent(MainActivityConductor.this, MapService.class);
+                        JSONObject turno = new JSONObject(carrera).getJSONObject("turno");
+                        i.putExtra("id_vehiculo",turno.getInt("id_vehiculo"));
+                        startService(i);
+
+                    }
+                } else{
+                    String  as = new get_Turno(usr_log.getInt("id")).execute().get();
+                    seleccionarFragmento("carrerasactivas");
+                }
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -388,6 +400,7 @@ public class MainActivityConductor extends AppCompatActivity
                         Boolean bo = obj.getBoolean("exito");
                         if(bo){
                            Intent intent = new Intent(MainActivityConductor.this , MapCarrera.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                            intent.putExtra("id_carrera",obj.getInt("id"));
                            startActivity(intent);
                         }

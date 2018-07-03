@@ -13,8 +13,8 @@ android:layout_height="match_parent">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_ver_en_waze"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="141dp"
+        android:layout_height="122dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="14dp"
@@ -28,6 +28,21 @@ android:layout_height="match_parent">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_cancelar_carrera"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/phonebackground"
+            android:text="Cancelar Carrera"
+            android:textAppearance="@android:style/TextAppearance.Material.Title"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btn_terminar_carrera"

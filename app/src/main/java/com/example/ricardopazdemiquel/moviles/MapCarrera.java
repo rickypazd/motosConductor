@@ -82,6 +82,8 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
     private double latwazefinal;
     private double lngwazefinal;
     private Button btn_terminar_carrera;
+    private Button btn_cancelar_carrera;
+    private Location location;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                 }
             });
         btn_terminar_carrera=findViewById(R.id.btn_terminar_carrera);
+        btn_cancelar_carrera=findViewById(R.id.btn_cancelar_carrera);
 
         btn_marcar_llegada=findViewById(R.id.btn_marcar_llegada);
         iniciar_Carrera=findViewById(R.id.btn_iniciar_carrera);
@@ -104,6 +107,12 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         linear_marcar_llegada= findViewById(R.id.linear_marcar_llegada);
         try {
             String resp =new buscar_carrera().execute().get();
+            btn_cancelar_carrera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -117,10 +126,8 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
-
                 //mMap.setMapStyle(new MapStyleOptions(getResources().getString(R.string.style_map)));
                 if (ActivityCompat.checkSelfPermission(MapCarrera.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapCarrera.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
                     return;
                 }
                 mMap.setMyLocationEnabled(true);
@@ -141,13 +148,13 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         }
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000, 5, this);
+                0, 2, this);
+        hilo();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         if(broadcastReceiverMessage == null){
             broadcastReceiverMessage = new BroadcastReceiver() {
                 @Override
@@ -192,51 +199,74 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
 
     @Override
     public void onLocationChanged(Location location) {
-        if (carrera!=null){
-            LatLng latlng2= null;
-            LatLng latlng1= null;
-            try {
-                if(carrera.getInt("estado")==2){
-                    latlng2 = new LatLng(carrera.getDouble("latinicial"),carrera.getDouble("lnginicial"));
-                    latlng1 = new LatLng(location.getLatitude(),location.getLongitude());
-                    latwazefinal=latlng2.latitude;
-                    lngwazefinal=latlng2.longitude;
-                    String url = obtenerDireccionesURL(latlng1,latlng2);
-                    DownloadTask downloadTask= new DownloadTask();
-                    downloadTask.execute(url);
-                    googleMap.clear();
-                    googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
-                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                    builder.include(latlng1);
-                    builder.include(latlng2);
-                    LatLngBounds bounds=builder.build();
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
-                    googleMap.moveCamera(cu);
-                }else if(carrera.getInt("estado")==4){
-                    latlng2 = new LatLng(carrera.getDouble("latfinal"),carrera.getDouble("lngfinal"));
-                    latlng1 = new LatLng(location.getLatitude(),location.getLongitude());
-                    latwazefinal=latlng2.latitude;
-                    lngwazefinal=latlng2.longitude;
-                    String url = obtenerDireccionesURL(latlng1,latlng2);
-                    DownloadTask downloadTask= new DownloadTask();
-                    downloadTask.execute(url);
-                    googleMap.clear();
-                    googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
-                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                    builder.include(latlng1);
-                    builder.include(latlng2);
-                    LatLngBounds bounds=builder.build();
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
-                    googleMap.moveCamera(cu);
-                    btn_terminar_carrera.setVisibility(View.VISIBLE);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+           this.location=location;
     }
+    private boolean hilo;
+    private void hilo(){
+        hilo=true;
 
+        new Thread() {
+            public void run() {
+                while (hilo) {
+                    try {
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                if (carrera!=null && location!=null && googleMap!=null){
+                                    LatLng latlng2= null;
+                                    LatLng latlng1= null;
+                                    try {
+                                        if(carrera.getInt("estado")==2){
+                                            latlng2 = new LatLng(carrera.getDouble("latinicial"),carrera.getDouble("lnginicial"));
+                                            latlng1 = new LatLng(location.getLatitude(),location.getLongitude());
+                                            latwazefinal=latlng2.latitude;
+                                            lngwazefinal=latlng2.longitude;
+                                            googleMap.clear();
+                                            googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
+                                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                            builder.include(latlng1);
+                                            builder.include(latlng2);
+                                            LatLngBounds bounds=builder.build();
+                                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
+                                            googleMap.moveCamera(cu);
+                                            String url = obtenerDireccionesURL(latlng1,latlng2);
+                                            DownloadTask downloadTask= new DownloadTask();
+                                            downloadTask.execute(url);
+                                        }else if(carrera.getInt("estado")==4){
+                                            btn_cancelar_carrera.setVisibility(View.INVISIBLE);
+                                            latlng2 = new LatLng(carrera.getDouble("latfinal"),carrera.getDouble("lngfinal"));
+                                            latlng1 = new LatLng(location.getLatitude(),location.getLongitude());
+                                            latwazefinal=latlng2.latitude;
+                                            lngwazefinal=latlng2.longitude;
+                                            googleMap.clear();
+                                            googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
+                                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                            builder.include(latlng1);
+                                            builder.include(latlng2);
+                                            LatLngBounds bounds=builder.build();
+                                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
+                                            googleMap.moveCamera(cu);
+                                            String url = obtenerDireccionesURL(latlng1,latlng2);
+                                            DownloadTask downloadTask= new DownloadTask();
+                                            downloadTask.execute(url);
+                                            btn_terminar_carrera.setVisibility(View.VISIBLE);
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+    }
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
@@ -573,12 +603,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                             results);
                     sum += results[0];
                 }
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                builder.include(points.get(0));
-                builder.include(points.get(points.size()-1));
-                LatLngBounds bounds=builder.build();
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
-                googleMap.moveCamera(cu);
+
 
                 //sum = metros
             }
