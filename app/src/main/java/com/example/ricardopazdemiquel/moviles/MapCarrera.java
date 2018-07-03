@@ -29,9 +29,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.ricardopazdemiquel.moviles.adapter.cancelar_ListAdapter;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,6 +46,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -397,7 +400,6 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 });
                 new buscar_carrera().execute();
@@ -717,4 +719,9 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
 
         }
     }
+
+
+
+
+
 }

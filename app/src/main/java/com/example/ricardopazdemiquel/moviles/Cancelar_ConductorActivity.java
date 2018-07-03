@@ -1,6 +1,7 @@
 package com.example.ricardopazdemiquel.moviles;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
@@ -33,12 +34,16 @@ import utiles.Contexto;
 public class Cancelar_ConductorActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ListView listView;
+    private int id_carrera;
 
     protected void onCreate(Bundle onSaveInstanceState){
         super.onCreate(onSaveInstanceState);
         setContentView(R.layout.activity_marca);
 
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        id_carrera = Integer.parseInt(getIntent().getStringExtra("id_carrera"));
+
         listView = (ListView) findViewById(R.id.list_vista_marca);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
@@ -50,7 +55,6 @@ public class Cancelar_ConductorActivity extends AppCompatActivity implements Vie
         //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //ObtenerMarcas();
     }
 
     // Opcion para ir atras sin reiniciar el la actividad anterior de nuevo
@@ -80,13 +84,9 @@ public class Cancelar_ConductorActivity extends AppCompatActivity implements Vie
         }
     }
 
-
-
     private class get_obtener_cancelaciones extends AsyncTask<Void, String, String> {
-        private int id;
-        public get_obtener_cancelaciones( int id){
-            this.id = id;
-        }
+
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -102,12 +102,12 @@ public class Cancelar_ConductorActivity extends AppCompatActivity implements Vie
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             if (resp.equals("falso")) {
-                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+                Log.e(Contexto.APP_TAG, "Hubo un error al obtener la lista de servidor.");
                 return;
             } else {
                 try {
                     JSONArray arr = new JSONArray(resp);
-                    ListAdapter adaptador = new cancelar_ListAdapter(Cancelar_ConductorActivity.this, arr);
+                    ListAdapter adaptador = new cancelar_ListAdapter(Cancelar_ConductorActivity.this, arr , id_carrera);
                     listView.setAdapter(adaptador);
 
                 } catch (JSONException e) {
@@ -115,7 +115,6 @@ public class Cancelar_ConductorActivity extends AppCompatActivity implements Vie
                 }
             }
         }
-
 
         @Override
         protected void onProgressUpdate(String... values) {
