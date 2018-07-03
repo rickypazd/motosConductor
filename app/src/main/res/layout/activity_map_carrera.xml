@@ -33,16 +33,19 @@ android:layout_height="match_parent">
             android:id="@+id/btn_cancelar_carrera"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginBottom="28dp"
+            android:layout_marginEnd="152dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/phonebackground"
             android:text="Cancelar Carrera"
             android:textAppearance="@android:style/TextAppearance.Material.Title"
             android:textColor="#fff"
             android:textSize="12sp"
             android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btn_terminar_carrera"
