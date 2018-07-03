@@ -19,6 +19,7 @@ import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
 import utiles.Contexto;
+import utiles.Token;
 
 public class InicieTurno extends AppCompatActivity {
 
@@ -82,6 +83,7 @@ public class InicieTurno extends AppCompatActivity {
             Hashtable<String, String> parametros = new Hashtable<>();
             parametros.put("evento", "get_vehiculo_disponible_con");
             parametros.put("id",id+"");
+
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
             return respuesta;
         }

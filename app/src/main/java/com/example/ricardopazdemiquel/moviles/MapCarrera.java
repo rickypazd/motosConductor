@@ -110,7 +110,8 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
             btn_cancelar_carrera.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent inte = new Intent(MapCarrera.this, Cancelar_ConductorActivity.class);
+                    startActivity(inte);
                 }
             });
         } catch (InterruptedException e) {

@@ -29,6 +29,7 @@ import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
 import utiles.Contexto;
+import utiles.Token;
 
 public class AdaptadorVehiculo extends BaseAdapter {
 
@@ -139,6 +140,7 @@ public class AdaptadorVehiculo extends BaseAdapter {
             parametros.put("evento", "iniciar_turno");
             parametros.put("id",id+"");
             parametros.put("id_cond",id_conductor+"");
+            parametros.put("token", Token.currentToken);
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(contexto.getString(R.string.url_servlet_admin), MethodType.POST, parametros));
             return respuesta;
         }

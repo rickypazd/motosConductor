@@ -83,16 +83,22 @@ public class MainActivityConductor extends AppCompatActivity
             try {
                 String carrera= new get_validar_carrera(usr_log.getInt("id")).execute().get();
                 if(carrera.length()>0){
-                    if(!runtime_permissions()){
-                        Intent i =new Intent(MainActivityConductor.this, MapService.class);
-                        JSONObject turno = new JSONObject(carrera).getJSONObject("turno");
-                        i.putExtra("id_vehiculo",turno.getInt("id_vehiculo"));
-                        startService(i);
+                    JSONObject objcar = new JSONObject(carrera);
+                    if(objcar.getBoolean("exito")){
+                        if(!runtime_permissions()){
+                            Intent i =new Intent(MainActivityConductor.this, MapService.class);
+                            JSONObject turno = new JSONObject(carrera).getJSONObject("turno");
+                            i.putExtra("id_vehiculo",turno.getInt("id_vehiculo"));
+                            startService(i);
+                        }
 
+                    }else{
+                        SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferencias.edit();
+                        editor.remove("carrera");
+                        String  as = new get_Turno(usr_log.getInt("id")).execute().get();
+                        seleccionarFragmento("carrerasactivas");
                     }
-                } else{
-                    String  as = new get_Turno(usr_log.getInt("id")).execute().get();
-                    seleccionarFragmento("carrerasactivas");
                 }
 
 
