@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ricardopazdemiquel.moviles.Cancelar_ConductorActivity;
+import com.example.ricardopazdemiquel.moviles.ConfirmarCancelacion;
 import com.example.ricardopazdemiquel.moviles.MainActivity;
 import com.example.ricardopazdemiquel.moviles.MainActivityConductor;
 import com.example.ricardopazdemiquel.moviles.MapCarrera;
@@ -93,7 +94,7 @@ public class cancelar_ListAdapter extends BaseAdapter {
                 public void onClick(View view) {
                     final JSONObject usr_log = getUsr_log();
                     try {
-                        new cancelar_carrera(usr_log.getInt("id"),cancha.getInt("id"),id_carrera).execute();
+                        new cancelar_carrera(usr_log.getInt("id"),id_carrera,cancha.getInt("id")).execute();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -143,7 +144,7 @@ public class cancelar_ListAdapter extends BaseAdapter {
         @Override
         protected String doInBackground(Void... params) {
             Hashtable<String, String> parametros = new Hashtable<>();
-            parametros.put("evento", "cancalar_carrera");
+            parametros.put("evento", "cancelar_carrera");
             parametros.put("id_usr",usuario+"");
             parametros.put("id_carrera",id_carrera+"");
             parametros.put("id_tipo",tipo+"");
@@ -159,9 +160,16 @@ public class cancelar_ListAdapter extends BaseAdapter {
                 Log.e(Contexto.APP_TAG, "Hubo un error al obtener la lista de servidor.");
                 return;
             } else {
-                Intent inte = new Intent(contexto,MainActivityConductor.class);
-                //inte.putExtra("obj_carrera",obj.toString());
-                contexto.startActivity(inte);
+                try {
+                    JSONObject obj = new JSONObject(resp);
+                    Intent inte = new Intent(contexto,ConfirmarCancelacion.class);
+                    inte.putExtra("obj_cancelacion",obj.toString());
+                    //inte.putExtra("obj_carrera",obj.toString());
+                    contexto.startActivity(inte);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
         @Override

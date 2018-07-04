@@ -236,19 +236,19 @@ public class EsperandoConductor extends AppCompatActivity {
     }
 
 
-    private String obtenerDireccionesURL(LatLng origin, LatLng dest){
+    private String obtenerDireccionesURL(LatLng origin,LatLng dest){
 
         String str_origin = "origin="+origin.latitude+","+origin.longitude;
 
         String str_dest = "destination="+dest.latitude+","+dest.longitude;
 
-        String sensor = "sensor=false";
+        String key = "key="+getString(R.string.apikey);
 
-        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+        String parameters = str_origin+"&"+str_dest;
 
         String output = "json";
 
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters+"&"+key;
 
         return url;
     }
