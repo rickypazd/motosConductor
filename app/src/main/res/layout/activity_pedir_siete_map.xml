@@ -148,64 +148,145 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/linear_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/backgroundcolor"
+            android:background="@color/colorWhite"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/icono1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="TIPO DE CARRERA"
-                android:textColor="@android:color/background_light"
+                android:layout_marginBottom="20dp"
+                android:text="Siete estandar"
+                android:textColor="@color/colorBlack"
                 android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icono2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Siete 3 filas"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icono3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Siete 4x4"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icono4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Siete camioneta"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icono5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="super siete"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icono6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="siete maravilla"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icono7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Siete TOGO"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                android:visibility="gone"
                 android:textStyle="bold" />
+
+            <view
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:backgroundTint="#626262"></view>
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:text="Siete estandar rapido y economico"
-                android:textColor="@android:color/background_light"
-                android:textSize="12sp"
-                android:textStyle="normal" />
+                android:textColor="#000000"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/tv_monto"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:text="Monto Aproximado:  0-0 Bs."
-                android:textColor="@android:color/background_light" />
+                android:textColor="#000000"
+                android:textSize="15dp" />
+
+            <view
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#626262"></view>
 
             <Button
                 android:id="@+id/btn_confirmar"
-                android:layout_width="wrap_content"
-                android:layout_height="98dp"
-                android:background="@drawable/ic_p_siete_foreground"
-                android:elevation="0dp" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/backgroundcolor2"
+                android:elevation="0dp"
                 android:text="Confirmar"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp" />
+                android:textColor="#fff" />
+
         </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

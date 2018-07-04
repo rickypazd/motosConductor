@@ -97,7 +97,6 @@ public class cancelar_ListAdapter extends BaseAdapter {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
             });
 
