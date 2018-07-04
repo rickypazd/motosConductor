@@ -76,7 +76,8 @@ public class MapService extends Service {
 
         listener = new LocationListener() {
             @Override
-            public void onLocationChanged(Location location) { Intent i = new Intent("location_update");
+            public void onLocationChanged(Location location) {
+
                 if(id_vehiculo>0){
                     new pushPosition(location.getLatitude(),location.getLongitude(),id_vehiculo).execute();
                     SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
@@ -149,7 +150,8 @@ public class MapService extends Service {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 5, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 3, listener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 3, listener);
 
     }
     private class pushPosition extends AsyncTask<Void, String, String> {

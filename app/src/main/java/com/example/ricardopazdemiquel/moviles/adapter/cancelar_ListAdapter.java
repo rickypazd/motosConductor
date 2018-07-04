@@ -93,7 +93,7 @@ public class cancelar_ListAdapter extends BaseAdapter {
                 public void onClick(View view) {
                     final JSONObject usr_log = getUsr_log();
                     try {
-                        new cancelar_carrera(usr_log.getInt("id"),cancha.getInt("id_cancelacion"),id_carrera).execute();
+                        new cancelar_carrera(usr_log.getInt("id"),cancha.getInt("id"),id_carrera).execute();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

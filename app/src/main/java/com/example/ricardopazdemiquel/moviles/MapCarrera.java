@@ -41,6 +41,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -114,13 +115,15 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                 @Override
                 public void onClick(View v) {
                     if(carrera!=null){
-                        Intent inte = new Intent(MapCarrera.this, Cancelar_ConductorActivity.class);
+
                         try {
-                            inte.putExtra("id_carrera",carrera.getInt("id"));
+                            Intent inte = new Intent(MapCarrera.this,CancelarConductor.class);
+                            inte.putExtra("id_carrera",carrera.getString("id"));
+                            startActivity(inte);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        startActivity(inte);
+
                     }
 
                 }
@@ -138,6 +141,12 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(-17.78629, -63.18117))      // Sets the center of the map to Mountain View
+                        .zoom(17)                   // Sets the zoom
+
+                        .build();                   // Creates a CameraPosition from the builder
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 //mMap.setMapStyle(new MapStyleOptions(getResources().getString(R.string.style_map)));
                 if (ActivityCompat.checkSelfPermission(MapCarrera.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapCarrera.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
@@ -158,9 +167,13 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
             layoutParams.setMargins(0, 0, 30, 600);
             locationButton.setImageResource(R.drawable.ic_mapposition_foreground);
         }
+        if (ActivityCompat.checkSelfPermission(MapCarrera.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapCarrera.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 2, this);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                0, 2, this);
+                1000, 2, this);
         hilo();
     }
 

@@ -7,15 +7,7 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_marca">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:minHeight="?attr/actionBarSize"
-        android:background="#fff"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp">
-    </android.support.v7.widget.Toolbar>
+
 
     <LinearLayout
         android:layout_width="match_parent"

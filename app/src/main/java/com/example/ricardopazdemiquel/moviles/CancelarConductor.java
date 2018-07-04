@@ -1,50 +1,39 @@
 package com.example.ricardopazdemiquel.moviles;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.example.ricardopazdemiquel.moviles.Model.Cancelar;
 import com.example.ricardopazdemiquel.moviles.adapter.cancelar_ListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
 
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
 import utiles.Contexto;
 
-
-public class Cancelar_ConductorActivity extends AppCompatActivity{
+public class CancelarConductor extends AppCompatActivity {
 
     private ListView listView;
     private int id_carrera;
 
     protected void onCreate(Bundle onSaveInstanceState){
         super.onCreate(onSaveInstanceState);
-        setContentView(R.layout.activity_marca);
+        setContentView(R.layout.activity_cancelar_conductor);
 
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         id_carrera = Integer.parseInt(getIntent().getStringExtra("id_carrera"));
 
-        listView = (ListView) findViewById(R.id.list_vista_marca);
+        listView = (android.widget.ListView) findViewById(R.id.list_vista_marca);
 
         new get_obtener_cancelaciones().execute();
     }
@@ -90,7 +79,7 @@ public class Cancelar_ConductorActivity extends AppCompatActivity{
             } else {
                 try {
                     JSONArray arr = new JSONArray(resp);
-                    ListAdapter adaptador = new cancelar_ListAdapter(Cancelar_ConductorActivity.this, arr , id_carrera);
+                    ListAdapter adaptador = new cancelar_ListAdapter(CancelarConductor.this, arr , id_carrera);
                     listView.setAdapter(adaptador);
 
                 } catch (JSONException e) {
@@ -106,10 +95,4 @@ public class Cancelar_ConductorActivity extends AppCompatActivity{
         }
     }
 
-
-
-
-    //ListAdapter adaptador  = new Marca_ListAdapter(MarcaActivity.this, lista);
-    //listView.setAdapter(adaptador);
 }
-
