@@ -241,12 +241,7 @@
                 android:visibility="gone"
                 android:textStyle="bold" />
 
-            <view
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:backgroundTint="#626262"></view>
+
 
             <TextView
                 android:id="@+id/textView5"
@@ -266,13 +261,6 @@
                 android:textColor="#000000"
                 android:textSize="15dp" />
 
-            <view
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="#626262"></view>
 
             <Button
                 android:id="@+id/btn_confirmar"
