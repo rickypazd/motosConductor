@@ -61,12 +61,14 @@ public class EsperandoConductor extends AppCompatActivity {
     private GoogleMap googleMap;
     JSONObject json_carrera;
     private LinearLayout ll_conductor_llego;
+    private LinearLayout perfil_condutor;
 
     //añadiendo los broadcaast
     private BroadcastReceiver broadcastReceiverMessage;
     private BroadcastReceiver broadcastReceiverMessageconductor;
     private BroadcastReceiver broadcastReceiverInicioCarrera;
     private BroadcastReceiver broadcastReceiverFinalizoCarrera;
+    private BroadcastReceiver broadcastReceiverCanceloCarrera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class EsperandoConductor extends AppCompatActivity {
             e.printStackTrace();
         }
         ll_conductor_llego=findViewById(R.id.ll_condctor);
+        perfil_condutor=findViewById(R.id.perfil_conductor);
 
         mMapView=findViewById(R.id.mapView2);
         mMapView.onCreate(savedInstanceState);
@@ -135,11 +138,11 @@ public class EsperandoConductor extends AppCompatActivity {
             broadcastReceiverMessageconductor = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    condcutor_llego(intent);
+                    conducutor_llego(intent);
                 }
             };
         }
-        registerReceiver(broadcastReceiverInicioCarrera,new IntentFilter("conductor_llego"));
+        registerReceiver(broadcastReceiverMessageconductor,new IntentFilter("conductor_llego"));
 
         //broadcast  inicio de carrera
         if(broadcastReceiverInicioCarrera == null){
@@ -162,6 +165,18 @@ public class EsperandoConductor extends AppCompatActivity {
             };
         }
         registerReceiver(broadcastReceiverFinalizoCarrera,new IntentFilter("Finalizo_Carrera"));
+
+        // Broadcast Cancelo el viaje el conductor
+        if(broadcastReceiverCanceloCarrera == null){
+            broadcastReceiverCanceloCarrera = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    Cancelo_carrera(intent);
+                }
+            };
+        }
+        registerReceiver(broadcastReceiverCanceloCarrera,new IntentFilter("cancelo_carrera"));
+
     }
 
 
@@ -189,21 +204,31 @@ public class EsperandoConductor extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    private void condcutor_llego(Intent intent){
+    private void conducutor_llego(Intent intent){
         Toast.makeText(EsperandoConductor.this,"El conductor Llego",
                 Toast.LENGTH_SHORT).show();
         ll_conductor_llego.setVisibility(View.VISIBLE);
+        //perfil_condutor.setVisibility(View.VISIBLE);
     }
 
     private void Incio_Carrera(Intent intent){
         Toast.makeText(EsperandoConductor.this,"Su carrera ha comenzado, Que tenga buen viaje.",
                 Toast.LENGTH_SHORT).show();
-        ll_conductor_llego.setVisibility(View.INVISIBLE);
+        ll_conductor_llego.setVisibility(View.GONE);
         new buscar_carrera().execute();
+        //perfil_condutor.setVisibility(View.VISIBLE);
     }
 
     private void finalizo_carrera(Intent intenta){
         Intent intent = new Intent( EsperandoConductor.this, finalizar_viajeCliente.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("id_carrera",intenta.getStringExtra("id_carrera"));
+        startActivity(intent);
+        finish();
+    }
+
+    private void Cancelo_carrera(Intent intenta){
+        Intent intent = new Intent( EsperandoConductor.this, CanceloViaje_Cliente.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("id_carrera",intenta.getStringExtra("id_carrera"));
         startActivity(intent);

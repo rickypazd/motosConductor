@@ -49,6 +49,9 @@ public class FirebaseMessagin extends FirebaseMessagingService
             case "Finalizo_Carrera":
                 Finalizo_Carrera(remoteMessage);
                 break;
+            case "Cancelo_tu_viaje":
+                Cancelo_carrera(remoteMessage);
+                break;
         }
         return;
 
@@ -142,6 +145,24 @@ public class FirebaseMessagin extends FirebaseMessagingService
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void Cancelo_carrera(RemoteMessage remoteMessage) {
+        Intent notificationIntent = new Intent(this, EsperandoConductor.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
+        Notification notification= new NotificationCompat.Builder(this, Contexto.CHANNEL_ID)
+                .setContentTitle("Siete")
+                .setContentText("El conductor canceló el viaje. disculpe las molestias")
+                .setSmallIcon(R.drawable.ic_logosiete_background)
+                .setContentIntent(pendingIntent)
+                .build();
+        NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(2,notification);
+        Intent intent = new Intent();
+        intent.putExtra("message",remoteMessage.getData().get("mensaje"));
+        intent.setAction("cancelo_carrera");
+        sendBroadcast(intent);
     }
 
 

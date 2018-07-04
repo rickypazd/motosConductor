@@ -275,6 +275,6 @@
                 android:textColor="#fff" />
 
         </LinearLayout>
-
     </android.support.constraint.ConstraintLayout>
+
 </FrameLayout>

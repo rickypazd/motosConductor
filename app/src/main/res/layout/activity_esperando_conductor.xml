@@ -11,19 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/ll_condctor"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:background="@drawable/backgroundcolor"
             android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,12 +35,52 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Su vehiculo llego" />
+                android:text="Su vehiculo llego"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="El conductor esta esperando" />
+                android:text="El conductor esta esperando"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="16dp" />
+
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/perfil_conductor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.sothree.slidinguppanel.SlidingUpPanelLayout
+                xmlns:sothree="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/sliding_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                sothree:umanoPanelHeight="68dp"
+                sothree:umanoShadowHeight="4dp">
+
+                <include
+                    layout="@layout/prueba_perfilcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+            </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+        </LinearLayout>
+
+
+
+
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
