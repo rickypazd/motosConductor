@@ -193,6 +193,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
     Intent inte;
     private void notificacionReciber(Intent intent){
         linear_marcar_llegada.setVisibility(View.VISIBLE);
+        btn_cancelar_carrera.setVisibility(View.GONE);
         btn_marcar_llegada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
