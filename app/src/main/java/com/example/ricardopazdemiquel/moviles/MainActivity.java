@@ -48,6 +48,7 @@ import java.util.List;
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
+import utiles.Contexto;
 import utiles.GPS_service;
 import utiles.MapService;
 import utiles.Token;
@@ -105,13 +106,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(!runtime_permissions()){
                 seleccionarFragmento("Mapa");
             }
-
         }
-
-
-
-      //  showDirections(-17.89,-63.1408,-17.6,-63.1408);
-
+        try {
+            new Get_validarCarrera(usr_log.getInt("id")).execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //  showDirections(-17.89,-63.1408,-17.6,-63.1408);
     }
 
     @Override
@@ -129,11 +130,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         registerReceiver(broadcastReceiverMessage,new IntentFilter("Message"));
     }
+
+
+    //notificacacaiones
     private void notificacionReciber(Intent intent){
             Toast.makeText(this,"sdfsdf",   Toast.LENGTH_LONG).show();
             Intent inte = new Intent(MainActivity.this,Cofirmar_Carrera.class);
             startActivity(inte);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -164,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -172,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
              String usr = preferencias.getString("usr_log", "");
              if (usr.length()<=0) {
-
                  Intent intent = new Intent(MainActivity.this,Login.class);
                  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                  startActivity(intent);
@@ -318,5 +321,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    public class Get_validarCarrera extends AsyncTask<Void, String, String>{
+
+        private int id;
+
+         public Get_validarCarrera(int id){
+             this.id=id;
+         }
+
+         @Override
+         protected void onPreExecute()
+         {
+             super.onPreExecute();
+         }
+         @Override
+         protected String doInBackground(Void... params) {
+             Hashtable<String, String> parametros = new Hashtable<>();
+             parametros.put("evento", "get_carrera_cliente");
+             parametros.put("id_usr",id+"");
+             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
+             return respuesta;
+         }
+         @Override
+         protected void onPostExecute(String resp) {
+             super.onPostExecute(resp);
+             if (resp.toString().contains("falso")) {
+                 Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+                 return;
+             } else {
+                 try {
+                     JSONObject obj = new JSONObject(resp);
+                     if(obj.getBoolean("exito")) {
+                         Intent intent = new Intent(MainActivity.this, EsperandoConductor.class);
+                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                         intent.putExtra("obj_carrera", obj.toString());
+                         startActivity(intent);
+                     }
+                 } catch (JSONException e) {
+                     e.printStackTrace();
+                 }
+             }
+         }
+         @Override
+         protected void onProgressUpdate(String... values) {
+             super.onProgressUpdate(values);
+
+         }
+    }
 
 }
