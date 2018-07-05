@@ -49,7 +49,7 @@ public class FirebaseMessagin extends FirebaseMessagingService
             case "Finalizo_Carrera":
                 Finalizo_Carrera(remoteMessage);
                 break;
-            case "Cancelo_tu_viaje":
+            case "Carrera_Cancelada":
                 Cancelo_carrera(remoteMessage);
                 break;
         }

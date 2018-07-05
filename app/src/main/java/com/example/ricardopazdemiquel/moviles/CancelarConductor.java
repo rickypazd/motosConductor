@@ -55,9 +55,7 @@ public class CancelarConductor extends AppCompatActivity {
         finish();
     }
 
-
     private class get_obtener_cancelaciones extends AsyncTask<Void, String, String> {
-
 
         @Override
         protected void onPreExecute() {
