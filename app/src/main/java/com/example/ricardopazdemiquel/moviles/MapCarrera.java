@@ -171,6 +171,13 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 2, this);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 1000, 2, this);
+        btn_terminar_carrera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert();
+
+            }
+        });
         hilo();
     }
 
@@ -236,50 +243,88 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
 
                             @Override
                             public void run() {
+
                                 if (carrera!=null && location!=null && googleMap!=null){
+                                    float acuracy =location.getAccuracy();
                                     LatLng latlng2= null;
                                     LatLng latlng1= null;
                                     try {
-                                        if(carrera.getInt("estado")==2){
-                                            latlng2 = new LatLng(carrera.getDouble("latinicial"),carrera.getDouble("lnginicial"));
-                                            latlng1 = new LatLng(location.getLatitude(),location.getLongitude());
-                                            latwazefinal=latlng2.latitude;
-                                            lngwazefinal=latlng2.longitude;
-                                            googleMap.clear();
-                                            googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
-                                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                                            builder.include(latlng1);
-                                            builder.include(latlng2);
-                                            LatLngBounds bounds=builder.build();
-                                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
-                                            googleMap.moveCamera(cu);
-                                            String url = obtenerDireccionesURL(latlng1,latlng2);
-                                            DownloadTask downloadTask= new DownloadTask();
-                                            downloadTask.execute(url);
-                                        }else if(carrera.getInt("estado")==4){
-                                            btn_cancelar_carrera.setVisibility(View.INVISIBLE);
-                                            latlng2 = new LatLng(carrera.getDouble("latfinal"),carrera.getDouble("lngfinal"));
-                                            latlng1 = new LatLng(location.getLatitude(),location.getLongitude());
-                                            latwazefinal=latlng2.latitude;
-                                            lngwazefinal=latlng2.longitude;
-                                            googleMap.clear();
-                                            googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
-                                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                                            builder.include(latlng1);
-                                            builder.include(latlng2);
-                                            LatLngBounds bounds=builder.build();
-                                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
-                                            googleMap.moveCamera(cu);
-                                            String url = obtenerDireccionesURL(latlng1,latlng2);
-                                            DownloadTask downloadTask= new DownloadTask();
-                                            downloadTask.execute(url);
-                                            btn_terminar_carrera.setVisibility(View.VISIBLE);
-                                        }
+                                        if (acuracy<30){
+                                            if (carrera.getInt("estado") == 2) {
+                                                latlng2 = new LatLng(carrera.getDouble("latinicial"), carrera.getDouble("lnginicial"));
+                                                latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
+                                                latwazefinal = latlng2.latitude;
+                                                lngwazefinal = latlng2.longitude;
+                                                googleMap.clear();
+                                                googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
+                                                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                                builder.include(latlng1);
+                                                builder.include(latlng2);
+                                                LatLngBounds bounds = builder.build();
+                                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
+                                                googleMap.moveCamera(cu);
+                                                String url = obtenerDireccionesURL(latlng1, latlng2);
+                                                DownloadTask downloadTask = new DownloadTask();
+                                                downloadTask.execute(url);
+                                            } else if (carrera.getInt("estado") == 4) {
+                                                btn_cancelar_carrera.setVisibility(View.INVISIBLE);
+                                                latlng2 = new LatLng(carrera.getDouble("latfinal"), carrera.getDouble("lngfinal"));
+                                                latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
+                                                latwazefinal = latlng2.latitude;
+                                                lngwazefinal = latlng2.longitude;
+                                                googleMap.clear();
+                                                googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
+                                                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                                builder.include(latlng1);
+                                                builder.include(latlng2);
+                                                LatLngBounds bounds = builder.build();
+                                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
+                                                googleMap.moveCamera(cu);
+                                                String url = obtenerDireccionesURL(latlng1, latlng2);
+                                                DownloadTask downloadTask = new DownloadTask();
+                                                downloadTask.execute(url);
+                                                btn_terminar_carrera.setVisibility(View.VISIBLE);
+                                            }else if (carrera.getInt("estado") == 3) {
+                                                btn_cancelar_carrera.setVisibility(View.INVISIBLE);
+                                                latlng2 = new LatLng(carrera.getDouble("latfinal"), carrera.getDouble("lngfinal"));
+                                                latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
+                                                latwazefinal = latlng2.latitude;
+                                                lngwazefinal = latlng2.longitude;
+                                                googleMap.clear();
+                                                googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
+                                                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                                builder.include(latlng1);
+                                                builder.include(latlng2);
+                                                LatLngBounds bounds = builder.build();
+                                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
+                                                googleMap.moveCamera(cu);
+                                                String url = obtenerDireccionesURL(latlng1, latlng2);
+                                                DownloadTask downloadTask = new DownloadTask();
+                                                downloadTask.execute(url);
+                                                linear_marcar_llegada.setVisibility(View.GONE);
+                                                btn_waze.setVisibility(View.INVISIBLE);
+                                                linear_Iniciar_Carrera.setVisibility(View.VISIBLE);
+                                                iniciar_Carrera.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        if(carrera!=null)
+                                                            try {
+                                                                latwazefinal=carrera.getDouble("latfinal");
+                                                                lngwazefinal=carrera.getDouble("lngfinal");
+                                                                new iniciar_carrera().execute();
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                    }
+                                                });
 
+                                            }
+                                        }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                 }
+
                             }
                         });
                         Thread.sleep(2000);
@@ -463,13 +508,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                 btn_waze.setVisibility(View.VISIBLE);
                 linear_Iniciar_Carrera.setVisibility(View.GONE);
                 btn_terminar_carrera.setVisibility(View.VISIBLE);
-                btn_terminar_carrera.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alert();
 
-                    }
-                });
                 new buscar_carrera().execute();
             }
         }

@@ -78,44 +78,48 @@ public class MapService extends Service {
             @Override
             public void onLocationChanged(Location location) {
 
-                if(id_vehiculo>0){
-                    new pushPosition(location.getLatitude(),location.getLongitude(),id_vehiculo).execute();
-                    SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
-                    String carrera = preferencias.getString("carrera", "");
-                    if (carrera.length()>0) {
-                        try {
-                            JSONObject obj = new JSONObject(carrera);
-                            if(obj.getInt("estado")==2){
-                                double latini=obj.getDouble("latinicial");
-                                double lgnini=obj.getDouble("lnginicial");
-                                double latfin=location.getLatitude();
-                                double lngfin=location.getLongitude();
-                                float result[] = new float[1];
-                                Location.distanceBetween(latfin,lgnini,latfin,lngfin,result);
-                                if(!notifico){
-                                    if(result[0]<=300){
-                                        new conductor_cerca(obj.getInt("id"),result[0]).execute();
-                                        notifico=true;
-                                    }
-                                }
-                                if(!llego){
-                                    if(result[0]<=50){
-                                        Intent intent = new Intent();
-                                        intent.putExtra("message","");
-                                        intent.setAction("llego_conductor");
-                                        sendBroadcast(intent);
-                                        llego=true;
-                                    }
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }else{
-                        notifico=false;
-                        llego=false;
-                    }
+                if(id_vehiculo>0) {
+                    float acuracy =location.getAccuracy();
+                    if(acuracy<30){
+                        new pushPosition(location.getLatitude(), location.getLongitude(), id_vehiculo).execute();
+                        SharedPreferences preferencias = getSharedPreferences("myPref", MODE_PRIVATE);
+                        String carrera = preferencias.getString("carrera", "");
+                        if (carrera.length() > 0) {
+                            try {
 
+                                JSONObject obj = new JSONObject(carrera);
+                                if (obj.getInt("estado") == 2) {
+                                    double latini = obj.getDouble("latinicial");
+                                    double lgnini = obj.getDouble("lnginicial");
+                                    double latfin = location.getLatitude();
+                                    double lngfin = location.getLongitude();
+                                    float result[] = new float[1];
+                                    Location.distanceBetween(latfin, lgnini, latfin, lngfin, result);
+                                    if (!notifico) {
+                                        if (result[0] <= 300) {
+                                            new conductor_cerca(obj.getInt("id"), result[0]).execute();
+                                            notifico = true;
+                                        }
+                                    }
+                                    if (!llego) {
+                                        if (result[0] <= 50) {
+                                            Intent intent = new Intent();
+                                            intent.putExtra("message", "");
+                                            intent.setAction("llego_conductor");
+                                            sendBroadcast(intent);
+                                            llego = true;
+                                        }
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            notifico = false;
+                            llego = false;
+                        }
+
+                    }
                 }
             }
 
