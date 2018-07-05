@@ -91,8 +91,6 @@ public class AdaptadorVehiculo extends BaseAdapter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
         return view;
     }
     public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {

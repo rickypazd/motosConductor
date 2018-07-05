@@ -117,7 +117,6 @@ public class EsperandoConductor extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -138,7 +137,7 @@ public class EsperandoConductor extends AppCompatActivity {
             broadcastReceiverMessageconductor = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    conducutor_llego(intent);
+                    conductor_llego(intent);
                 }
             };
         }
@@ -149,7 +148,7 @@ public class EsperandoConductor extends AppCompatActivity {
             broadcastReceiverInicioCarrera = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    Incio_Carrera(intent);
+                    Inicio_Carrera(intent);
                 }
             };
         }
@@ -204,14 +203,14 @@ public class EsperandoConductor extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    private void conducutor_llego(Intent intent){
-        Toast.makeText(EsperandoConductor.this,"El conductor Llego",
-                Toast.LENGTH_SHORT).show();
+    private void conductor_llego(Intent intent){
+        Toast.makeText(EsperandoConductor.this,"El conductor Llego",Toast.LENGTH_SHORT).show();
+
         ll_conductor_llego.setVisibility(View.VISIBLE);
         //perfil_condutor.setVisibility(View.VISIBLE);
     }
 
-    private void Incio_Carrera(Intent intent){
+    private void Inicio_Carrera(Intent intent){
         Toast.makeText(EsperandoConductor.this,"Su carrera ha comenzado, Que tenga buen viaje.",
                 Toast.LENGTH_SHORT).show();
         ll_conductor_llego.setVisibility(View.GONE);

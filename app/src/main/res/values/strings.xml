@@ -242,4 +242,5 @@
         completions."
     </string>
     <string name="title_activity_main_conductor">MainActivityConductor</string>
+    <string name="title_activity_favoritos__cliente">Favoritos_Cliente</string>
 </resources>

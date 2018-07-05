@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.ricardopazdemiquel.moviles.CanceloViaje_Cliente;
 import com.example.ricardopazdemiquel.moviles.EsperandoConductor;
 import com.example.ricardopazdemiquel.moviles.MainActivityConductor;
 import com.example.ricardopazdemiquel.moviles.R;
@@ -54,7 +55,6 @@ public class FirebaseMessagin extends FirebaseMessagingService
                 break;
         }
         return;
-
     }
 
     private void Finalizo_Carrera(RemoteMessage remoteMessage) {
@@ -107,7 +107,7 @@ public class FirebaseMessagin extends FirebaseMessagingService
         NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(2,notification);
         Intent intent = new Intent();
-        intent.putExtra("obj_carrera",remoteMessage.getData().get("jso"));
+        intent.putExtra("obj_carrera",remoteMessage.getData().get("json"));
         intent.setAction("conductor_llego");
         sendBroadcast(intent);
     }
@@ -149,7 +149,7 @@ public class FirebaseMessagin extends FirebaseMessagingService
 
 
     private void Cancelo_carrera(RemoteMessage remoteMessage) {
-        Intent notificationIntent = new Intent(this, EsperandoConductor.class);
+        Intent notificationIntent = new Intent(this, CanceloViaje_Cliente.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
         Notification notification= new NotificationCompat.Builder(this, Contexto.CHANNEL_ID)
                 .setContentTitle("Siete")

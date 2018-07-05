@@ -318,7 +318,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onProgressUpdate(values);
 
         }
-
     }
 
     public class Get_validarCarrera extends AsyncTask<Void, String, String>{
