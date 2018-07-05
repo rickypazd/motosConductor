@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              Hashtable<String, String> parametros = new Hashtable<>();
              parametros.put("evento", "get_carrera_cliente");
              parametros.put("id_usr",id+"");
-             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
+             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, parametros));
              return respuesta;
          }
          @Override

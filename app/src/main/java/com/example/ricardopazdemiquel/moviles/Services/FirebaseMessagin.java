@@ -90,7 +90,7 @@ public class FirebaseMessagin extends FirebaseMessagingService
         NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(2,notification);
         Intent intent = new Intent();
-        intent.putExtra("message",remoteMessage.getData().get("mensaje"));
+        intent.putExtra("obj_carrera",remoteMessage.getData().get("json"));
         intent.setAction("Inicio_Carrera");
         sendBroadcast(intent);
     }
@@ -107,7 +107,7 @@ public class FirebaseMessagin extends FirebaseMessagingService
         NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(2,notification);
         Intent intent = new Intent();
-        intent.putExtra("message",remoteMessage.getData().get("mensaje"));
+        intent.putExtra("obj_carrera",remoteMessage.getData().get("jso"));
         intent.setAction("conductor_llego");
         sendBroadcast(intent);
     }
@@ -124,7 +124,7 @@ public class FirebaseMessagin extends FirebaseMessagingService
         NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(2,notification);
         Intent intent = new Intent();
-        intent.putExtra("message",remoteMessage.getData().get("mensaje"));
+        intent.putExtra("obj_carrera",remoteMessage.getData().get("json"));
         intent.setAction("conductor_cerca");
         sendBroadcast(intent);
     }
@@ -160,7 +160,7 @@ public class FirebaseMessagin extends FirebaseMessagingService
         NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(2,notification);
         Intent intent = new Intent();
-        intent.putExtra("message",remoteMessage.getData().get("mensaje"));
+        intent.putExtra("obj_carrera",remoteMessage.getData().get("json"));
         intent.setAction("cancelo_carrera");
         sendBroadcast(intent);
     }
