@@ -321,11 +321,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     public class Get_validarCarrera extends AsyncTask<Void, String, String>{
-
-        private int id;
-
+         private int id;
          public Get_validarCarrera(int id){
              this.id=id;
          }
@@ -346,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          @Override
          protected void onPostExecute(String resp) {
              super.onPostExecute(resp);
-             if (resp.toString().contains("falso")) {
+             if (resp.contains("falso")) {
                  Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                  return;
              } else {
