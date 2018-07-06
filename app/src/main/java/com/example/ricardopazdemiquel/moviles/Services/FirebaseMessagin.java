@@ -168,7 +168,7 @@ public class FirebaseMessagin extends FirebaseMessagingService
 
     private void mensaje(RemoteMessage remoteMessage){
         Intent intent = new Intent();
-        intent.putExtra("message",remoteMessage.getData().get("mensaje"));
+        intent.putExtra("message",remoteMessage.getData().get("json"));
         intent.setAction("Message");
         sendBroadcast(intent);
     }
@@ -192,7 +192,7 @@ public class FirebaseMessagin extends FirebaseMessagingService
 
     private void mensajeCT(RemoteMessage remoteMessage){
         Intent intent = new Intent();
-        intent.putExtra("message",remoteMessage.getData().get("mensaje"));
+        intent.putExtra("message",remoteMessage.getData().get("json"));
         intent.setAction("Message");
         sendBroadcast(intent);
     }

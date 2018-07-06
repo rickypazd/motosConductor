@@ -88,6 +88,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
     private Button btn_terminar_carrera;
     private Button btn_cancelar_carrera;
     private Location location;
+    private Location locationTemp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
