@@ -450,7 +450,9 @@ public class EsperandoConductor extends AppCompatActivity {
         }
 
     }
+
     private class buscar_carrera extends AsyncTask<Void, String, String> {
+
         private ProgressDialog progreso;
         @Override
         protected void onPreExecute() {
@@ -479,9 +481,7 @@ public class EsperandoConductor extends AppCompatActivity {
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
-
             progreso.dismiss();
-
             if (resp == null) {
                 Toast.makeText(EsperandoConductor.this,"Eroor al optener Datos",
                         Toast.LENGTH_SHORT).show();
