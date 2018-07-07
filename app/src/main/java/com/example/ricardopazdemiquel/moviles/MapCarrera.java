@@ -507,6 +507,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
             if(resp.equals("exito")){
 
                 btn_waze.setVisibility(View.VISIBLE);
+                iniciar_Carrera.setVisibility(View.GONE);
                 linear_Iniciar_Carrera.setVisibility(View.GONE);
                 btn_terminar_carrera.setVisibility(View.VISIBLE);
 
