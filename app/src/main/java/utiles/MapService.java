@@ -2,14 +2,12 @@ package utiles;
 
 import android.Manifest;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -20,13 +18,9 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
-import com.example.ricardopazdemiquel.moviles.EsperandoConductor;
-import com.example.ricardopazdemiquel.moviles.Login;
-import com.example.ricardopazdemiquel.moviles.MainActivity;
-import com.example.ricardopazdemiquel.moviles.MainActivityConductor;
-import com.example.ricardopazdemiquel.moviles.R;
+import com.example.ricardopazdemiquel.movilesConductor.MainActivityConductor;
+import com.example.ricardopazdemiquel.movilesConductor.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

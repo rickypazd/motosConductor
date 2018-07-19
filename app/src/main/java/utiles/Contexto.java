@@ -8,7 +8,7 @@ import android.os.Build;
 public class Contexto extends Application {
 
     private static Contexto instancia;
-    public static String APP_TAG = "moviles";
+    public static String APP_TAG = "movilesConductor";
     public static final String CHANNEL_ID = "ServiceMap";
     @Override
     public void onCreate() {
