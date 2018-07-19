@@ -114,7 +114,6 @@ public class MainActivityConductor extends AppCompatActivity
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
