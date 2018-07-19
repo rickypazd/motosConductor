@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundcolor"
-    tools:context=".Carga">
+    tools:context="com.example.ricardopazdemiquel.movilesConductor.Carga">
 
     <ImageView
         android:id="@+id/imageView2"
