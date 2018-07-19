@@ -28,7 +28,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import com.example.ricardopazdemiquel.movilesConductor.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,9 +40,7 @@ import java.util.concurrent.ExecutionException;
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
-import utiles.Constants;
 import utiles.Contexto;
-import utiles.ForegroundService;
 import utiles.MapService;
 import utiles.Token;
 
@@ -100,8 +99,8 @@ public class MainActivityConductor extends AppCompatActivity
                         SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferencias.edit();
                         editor.remove("carrera");
-                        String  as = new get_Turno(usr_log.getInt("id")).execute().get();
                         new Get_ActualizarToken(usr_log.getInt("id")).execute();
+                        String  as = new get_Turno(usr_log.getInt("id")).execute().get();
                         seleccionarFragmento("carrerasactivas");
                     }
                 }

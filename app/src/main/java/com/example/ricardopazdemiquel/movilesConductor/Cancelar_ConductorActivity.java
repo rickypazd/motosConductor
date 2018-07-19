@@ -1,29 +1,20 @@
 package com.example.ricardopazdemiquel.movilesConductor;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.example.ricardopazdemiquel.movilesConductor.Model.Cancelar;
+import com.example.ricardopazdemiquel.movilesConductor.R;
 import com.example.ricardopazdemiquel.movilesConductor.adapter.cancelar_ListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
 
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;

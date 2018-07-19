@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.example.ricardopazdemiquel.movilesConductor.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;

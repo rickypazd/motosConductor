@@ -15,7 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.json.JSONArray;
+import com.example.ricardopazdemiquel.movilesConductor.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

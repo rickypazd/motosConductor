@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.ricardopazdemiquel.movilesConductor.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -2,7 +2,6 @@ package com.example.ricardopazdemiquel.movilesConductor;
 
 import android.Manifest;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -29,11 +28,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.ricardopazdemiquel.movilesConductor.adapter.cancelar_ListAdapter;
+import com.example.ricardopazdemiquel.movilesConductor.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,7 +45,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -68,7 +65,6 @@ import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
 import utiles.Contexto;
 import utiles.DirectionsJSONParser;
-import utiles.Token;
 
 public class MapCarrera extends AppCompatActivity implements LocationListener{
 
@@ -88,7 +84,6 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
     private Button btn_terminar_carrera;
     private Button btn_cancelar_carrera;
     private Location location;
-    private Location locationTemp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
