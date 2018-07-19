@@ -43,6 +43,7 @@ import utiles.Constants;
 import utiles.Contexto;
 import utiles.ForegroundService;
 import utiles.MapService;
+import utiles.Token;
 
 public class MainActivityConductor extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -73,7 +74,10 @@ public class MainActivityConductor extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.inflateHeaderView(R.layout.nav_header_main_activity_conductor);
+
+
         JSONObject usr_log = getUsr_log();
+
         if (usr_log == null) {
             Intent intent = new Intent(MainActivityConductor.this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -96,6 +100,7 @@ public class MainActivityConductor extends AppCompatActivity
                         SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferencias.edit();
                         editor.remove("carrera");
+                        new Get_ActualizarToken(usr_log.getInt("id")).execute();
                         String  as = new get_Turno(usr_log.getInt("id")).execute().get();
                         seleccionarFragmento("carrerasactivas");
                     }
@@ -177,7 +182,7 @@ public class MainActivityConductor extends AppCompatActivity
     }//onActivityResult
 
 
-
+    // Json : obtiene el id del usuario si es que ya estuvo registrado en la aplicaacion o aiga iniciado sesion
     public JSONObject getUsr_log() {
         SharedPreferences preferencias = getSharedPreferences("myPref", MODE_PRIVATE);
         String usr = preferencias.getString("usr_log", "");
@@ -193,6 +198,8 @@ public class MainActivityConductor extends AppCompatActivity
             }
         }
     }
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -373,6 +380,43 @@ public class MainActivityConductor extends AppCompatActivity
 
         }
     }
+
+
+
+    public class Get_ActualizarToken extends AsyncTask<Void, String, String>{
+
+        private int id;
+
+        public Get_ActualizarToken(int id){
+            this.id=id;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(Void... params) {
+            Hashtable<String, String> parametros = new Hashtable<>();
+            parametros.put("evento", "actualizar_token");
+            parametros.put("id_usr",id+"");
+            parametros.put("token", Token.currentToken);
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, parametros));
+            return respuesta;
+        }
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+        }
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
+    }
+
+
 
 
     private class get_validar_carrera extends AsyncTask<Void, String, String> {

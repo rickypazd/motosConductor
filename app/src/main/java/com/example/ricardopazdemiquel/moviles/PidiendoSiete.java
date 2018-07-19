@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -18,6 +19,7 @@ import java.util.Hashtable;
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
+import utiles.Contexto;
 import utiles.Token;
 
 public class PidiendoSiete extends AppCompatActivity {
@@ -33,6 +35,7 @@ public class PidiendoSiete extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pidiendo_siete);
+
         Intent intent= getIntent();
         latInicio=intent.getStringExtra("latInicio");
         lngInicio=intent.getStringExtra("lngInicio");
@@ -41,7 +44,8 @@ public class PidiendoSiete extends AppCompatActivity {
         token=intent.getStringExtra("token");
         id_usr=intent.getStringExtra("id_usr");
         tipoCarrera = intent.getStringExtra("tipo");
-        new buscar_carrera().execute();
+
+        new Get_ActualizarToken(id_usr).execute();
 
     }
 
@@ -49,7 +53,41 @@ public class PidiendoSiete extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
 
+
+    public class Get_ActualizarToken extends AsyncTask<Void, String, String>{
+
+        private String id;
+
+        public Get_ActualizarToken(String id){
+            this.id=id;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(Void... params) {
+            Hashtable<String, String> parametros = new Hashtable<>();
+            parametros.put("evento", "actualizar_token");
+            parametros.put("id_usr",id);
+            parametros.put("token", Token.currentToken);
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, parametros));
+            return respuesta;
+        }
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+            new buscar_carrera().execute();
+        }
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
     }
 
     private class buscar_carrera extends AsyncTask<Void, String, String> {
@@ -107,4 +145,8 @@ public class PidiendoSiete extends AppCompatActivity {
         }
 
     }
+
+
+
+
 }

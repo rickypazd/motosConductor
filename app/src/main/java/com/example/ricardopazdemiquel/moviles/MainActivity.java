@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_nav_preferencias=header.findViewById(R.id.btn_nav_preferencias);
         btn_nav_preferencias.setOnClickListener(this);
 
+
+
         if(getUsr_log()!=null){
             if(!runtime_permissions()){
                 seleccionarFragmento("Mapa");
@@ -172,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+
+         // Json : obtiene el id del usuario si es que ya estuvo registrado en la aplicaacion o aiga iniciado sesion
          public JSONObject getUsr_log() {
              SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
              String usr = preferencias.getString("usr_log", "");
@@ -190,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                  }
              }
          }
+
+
 
     private void seleccionarFragmento(String fragmento) {
         Fragment fragmentoGenerico = null;
