@@ -401,7 +401,7 @@ public class MainActivityConductor extends AppCompatActivity
             parametros.put("evento", "actualizar_token");
             parametros.put("id_usr",id+"");
             parametros.put("token", Token.currentToken);
-            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, parametros));
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
             return respuesta;
         }
         @Override
