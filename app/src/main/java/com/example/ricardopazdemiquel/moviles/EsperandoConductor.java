@@ -207,7 +207,7 @@ public class EsperandoConductor extends AppCompatActivity {
         Toast.makeText(EsperandoConductor.this,"El conductor Llego",Toast.LENGTH_SHORT).show();
 
         ll_conductor_llego.setVisibility(View.VISIBLE);
-        perfil_condutor.setVisibility(View.VISIBLE);
+        //perfil_condutor.setVisibility(View.VISIBLE);
     }
 
     private void Inicio_Carrera(Intent intent){
@@ -215,7 +215,7 @@ public class EsperandoConductor extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
         ll_conductor_llego.setVisibility(View.GONE);
         new buscar_carrera().execute();
-        perfil_condutor.setVisibility(View.VISIBLE);
+        //perfil_condutor.setVisibility(View.VISIBLE);
     }
 
     private void finalizo_carrera(Intent intenta){
