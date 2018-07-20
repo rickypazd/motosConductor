@@ -198,31 +198,34 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
                     sw_togo.setChecked(false);
                     sw_maravilla.setChecked(false);
                     sw_super.setChecked(false);
-
             }else{
-
                     JSONObject obj=new JSONObject(pacientes);
+                    if(obj2.getBoolean("act_estandar")){
+                        sw_estandar.setVisibility(View.VISIBLE);
+                    }
+                    if(obj2.getBoolean("act_togo")){
+                        sw_togo.setVisibility(View.VISIBLE);
+                    }
+                    if(obj2.getBoolean("act_maravilla")){
+                        sw_super.setVisibility(View.VISIBLE);
+                    }
+                    if(obj2.getBoolean("act_supe")){
+                        sw_super.setVisibility(View.VISIBLE);
+                    }
 
                     boolean estandar = obj.getBoolean("estandar");
                     if(sw_estandar.isChecked()!=estandar){
                         sw_estandar.setChecked(estandar);
                     }
-
-
                     boolean togo = obj.getBoolean("togo");
-
                     if(sw_togo.isChecked()!=togo){
                         sw_togo.setChecked(togo);
                     }
-
                     boolean maravilla = obj.getBoolean("maravilla");
-
                     if(sw_maravilla.isChecked()!=maravilla && usr_log.getString("sexo").equals("MUJER")){
                         sw_maravilla.setChecked(maravilla);
                     }
-
                     boolean superr = obj.getBoolean("super");
-
                     if(sw_super.isChecked()!=superr){
                         sw_super.setChecked(superr);
                     }

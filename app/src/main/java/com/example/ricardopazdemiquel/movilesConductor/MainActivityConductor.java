@@ -28,6 +28,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 
@@ -45,34 +47,51 @@ import utiles.MapService;
 import utiles.Token;
 
 public class MainActivityConductor extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private BroadcastReceiver broadcastReceiver;
     private BroadcastReceiver broadcastReceiverMessage;
     private JSONObject obj_turno;
+    private Button btn_nav_pidesiete;
+    private Button btn_nav_formaspago;
+    private Button btn_nav_miperfil;
+    private Button btn_nav_misviajes;
+    private Button btn_nav_preferencias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_conductor);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else{
+                    drawer.openDrawer(GravityCompat.START);
+                }
             }
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.inflateHeaderView(R.layout.nav_header_main_activity_conductor);
+        btn_nav_pidesiete=header.findViewById(R.id.btn_nav_pidesiete);
+        btn_nav_pidesiete.setOnClickListener(this);
+        btn_nav_formaspago=header.findViewById(R.id.btn_nav_formaspago);
+        btn_nav_formaspago.setOnClickListener(this);
+        btn_nav_miperfil=header.findViewById(R.id.btn_nav_miperfil);
+        btn_nav_miperfil.setOnClickListener(this);
+        btn_nav_misviajes=header.findViewById(R.id.btn_nav_misviajes);
+        btn_nav_misviajes.setOnClickListener(this);
+        btn_nav_preferencias=header.findViewById(R.id.btn_nav_preferencias);
+        btn_nav_preferencias.setOnClickListener(this);
 
 
         JSONObject usr_log = getUsr_log();
@@ -131,20 +150,6 @@ public class MainActivityConductor extends AppCompatActivity
         registerReceiver(broadcastReceiverMessage,new IntentFilter("confirmar_carrera"));
     }
 
-    private void seleccionarFragmento(String fragmento) {
-
-        Fragment fragmentoGenerico = null;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Object obj = -1;
-        switch (fragmento) {
-            case "carrerasactivas":
-                fragmentoGenerico= new fragment_carrera_activa();
-                break;
-        }
-        fragmentManager.beginTransaction().replace(R.id.content_conductor, fragmentoGenerico).commit();
-        if (fragmentoGenerico != null) {
-        }
-    }
 
     Intent inte;
     private void notificacionReciber(Intent intent){
@@ -278,6 +283,46 @@ public class MainActivityConductor extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    public void onClick(View v) {
+        int id=v.getId();
+        switch (id){
+            case R.id.btn_nav_pidesiete:
+                seleccionarFragmento("carrerasactivas");
+                break;
+            case R.id.btn_nav_formaspago:
+                break;
+            case R.id.btn_nav_miperfil:
+                break;
+            case R.id.btn_nav_misviajes:
+                seleccionarFragmento("HistorialCarreras");
+                break;
+            case R.id.btn_nav_preferencias:
+                break;
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+    private void seleccionarFragmento(String fragmento) {
+
+        Fragment fragmentoGenerico = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Object obj = -1;
+        switch (fragmento) {
+            case "carrerasactivas":
+                fragmentoGenerico= new fragment_carrera_activa();
+                break;
+            case "HistorialCarreras":
+                fragmentoGenerico= new HistorialCarreras();
+                break;
+        }
+        fragmentManager.beginTransaction().replace(R.id.content_conductor, fragmentoGenerico).commit();
+        if (fragmentoGenerico != null) {
+        }
+    }
+
 
     private class get_Turno extends AsyncTask<Void, String, String> {
 
