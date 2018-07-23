@@ -18,6 +18,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -84,11 +86,31 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
     private Button btn_terminar_carrera;
     private Button btn_cancelar_carrera;
     private Location location;
+    private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_carrera);
         id_carrera = getIntent().getIntExtra("id_carrera", 0);
+        View view =findViewById(R.id.bottom_sheet);
+        bottomSheetBehavior=BottomSheetBehavior.from(view);
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState){
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
         btn_waze = findViewById(R.id.btn_ver_en_waze);
      //   btn_waze.setOnClickListener(this);
             btn_waze.setOnTouchListener(new View.OnTouchListener() {
