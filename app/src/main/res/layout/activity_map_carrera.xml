@@ -125,13 +125,14 @@ android:layout_height="match_parent">
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/cordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_blue_light"
+            android:background="@android:color/background_light"
             app:behavior_hideable="true"
             app:behavior_peekHeight="55dp"
             app:layout_behavior="@string/bottom_sheet_behavior">
