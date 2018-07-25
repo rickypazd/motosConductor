@@ -2,9 +2,11 @@ package com.example.ricardopazdemiquel.movilesConductor;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -29,6 +31,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
@@ -51,12 +55,15 @@ public class MainActivityConductor extends AppCompatActivity
     private BroadcastReceiver broadcastReceiver;
     private BroadcastReceiver broadcastReceiverMessage;
     private JSONObject obj_turno;
+    private JSONObject usr_log;
     private Button btn_nav_pidesiete;
     private Button btn_nav_formaspago;
     private Button btn_nav_miperfil;
     private Button btn_nav_misviajes;
     private Button btn_nav_preferencias;
-
+    private RadioGroup radioGroup;
+    private RadioButton activo;
+    private RadioButton descativo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +81,8 @@ public class MainActivityConductor extends AppCompatActivity
                 }
             }
         });
-
+        activo=findViewById(R.id.activo);
+        descativo=findViewById(R.id.desactivo);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -94,8 +102,10 @@ public class MainActivityConductor extends AppCompatActivity
         btn_nav_preferencias.setOnClickListener(this);
 
 
-        JSONObject usr_log = getUsr_log();
 
+
+
+         usr_log = getUsr_log();
         if (usr_log == null) {
             Intent intent = new Intent(MainActivityConductor.this, LoginConductor.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -120,7 +130,7 @@ public class MainActivityConductor extends AppCompatActivity
                         editor.remove("carrera");
                         new Get_ActualizarToken(usr_log.getInt("id")).execute();
                         String  as = new get_Turno(usr_log.getInt("id")).execute().get();
-                        seleccionarFragmento("carrerasactivas");
+
                     }
                 }
 
@@ -322,30 +332,55 @@ public class MainActivityConductor extends AppCompatActivity
         if (fragmentoGenerico != null) {
         }
     }
+    private void alert(){
 
+        if(obj_turno!=null){
+            activo.setChecked(true);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityConductor.this);
+            builder.setMessage("Esta seguro que desea desactivarse? Usted no recibira viajes.")
+                    .setTitle("Terminar Turno")
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id) {
+                            // CONFIRM
+                            try {
+                                new terminar_turno(usr_log.getInt("id")).execute();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    })
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            AlertDialog dialog=builder.create();
+            dialog.show();
+        }
+
+    }
+    public JSONObject getObj_turno() {
+        return obj_turno;
+    }
 
     private class get_Turno extends AsyncTask<Void, String, String> {
-
         private int id;
         public get_Turno( int id){
             this.id=id;
         }
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
-
         @Override
         protected String doInBackground(Void... params) {
-
             Hashtable<String, String> parametros = new Hashtable<>();
             parametros.put("evento", "get_turno_conductor");
             parametros.put("id",id+"");
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
             return respuesta;
         }
-
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
@@ -354,20 +389,42 @@ public class MainActivityConductor extends AppCompatActivity
                 return;
             }
             try {
-                JSONObject obj = new JSONObject(resp);
+                final JSONObject obj = new JSONObject(resp);
                 if(obj.length()>0){
                     obj_turno=obj;
                     if(!runtime_permissions()){
                         Intent i =new Intent(MainActivityConductor.this, MapService.class);
                         i.putExtra("id_vehiculo",obj_turno.getInt("id_vehiculo"));
+                        activo.setChecked(true);
+                        descativo.setChecked(false);
                         startService(i);
 
                     }
                 }else{
                     Log.e(Contexto.APP_TAG, "No tiene turno iniciado.");
                     Intent intent = new Intent(MainActivityConductor.this,InicieTurno.class);
+                    descativo.setChecked(true);
+                    activo.setChecked(false);
                     startActivity(intent);
                 }
+                radioGroup=findViewById(R.id.group_Activo);
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        if(checkedId == R.id.activo){
+                            if(obj_turno==null){
+                                Intent intent = new Intent(MainActivityConductor.this,InicieTurno.class);
+                                descativo.setChecked(true);
+                                activo.setChecked(false);
+                                startActivity(intent);
+                            }
+
+                        }else if(checkedId == R.id.desactivo){
+                            alert();
+                        }
+                    }
+                });
+                seleccionarFragmento("carrerasactivas");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -380,7 +437,6 @@ public class MainActivityConductor extends AppCompatActivity
 
         }
     }
-
 
     private class pushPosition extends AsyncTask<Void, String, String> {
 
@@ -424,8 +480,6 @@ public class MainActivityConductor extends AppCompatActivity
         }
     }
 
-
-
     public class Get_ActualizarToken extends AsyncTask<Void, String, String>{
 
         private int id;
@@ -458,9 +512,6 @@ public class MainActivityConductor extends AppCompatActivity
 
         }
     }
-
-
-
 
     private class get_validar_carrera extends AsyncTask<Void, String, String> {
         private int id;
@@ -506,6 +557,55 @@ public class MainActivityConductor extends AppCompatActivity
 
         }
 
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
+    }
+
+    private class terminar_turno extends AsyncTask<Void, String, String> {
+
+        private ProgressDialog progreso;
+        private int id_usr;
+
+        public terminar_turno(int id_usr) {
+            this.id_usr = id_usr;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progreso = new ProgressDialog(MainActivityConductor.this);
+            progreso.setIndeterminate(true);
+            progreso.setTitle("Esperando Respuesta");
+            progreso.setCancelable(false);
+            progreso.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            publishProgress("por favor espere...");
+            Hashtable<String, String> parametros = new Hashtable<>();
+            parametros.put("evento", "terminar_turno");
+            parametros.put("id",id_usr+"");
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+            progreso.dismiss();
+
+            if(resp.equals("falso")){
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+                return;
+            }else if(resp.equals("exito")){
+                obj_turno=null;
+                descativo.setChecked(true);
+                seleccionarFragmento("carrerasactivas");
+            }
+        }
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);

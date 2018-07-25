@@ -151,7 +151,6 @@ public class AdaptadorVehiculo extends BaseAdapter {
                 Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                 return;
             }
-
                 if(resp.equals("exito")){
                     Intent intent = new Intent(contexto, MainActivityConductor.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -159,15 +158,11 @@ public class AdaptadorVehiculo extends BaseAdapter {
                 }else{
                     Log.e(Contexto.APP_TAG, "Hubo un error al registrar turno");
                 }
-
-
         }
-
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
 
         }
-
     }
 }

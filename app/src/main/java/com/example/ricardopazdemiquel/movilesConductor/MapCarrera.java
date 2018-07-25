@@ -92,7 +92,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_carrera);
         id_carrera = getIntent().getIntExtra("id_carrera", 0);
-        View view =findViewById(R.id.bottom_sheet);
+        View view =findViewById(R.id.Container_verPerfil);
         bottomSheetBehavior=BottomSheetBehavior.from(view);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -424,6 +424,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         }
 
     }
+
     private class conductor_llego extends AsyncTask<Void, String, String> {
         private ProgressDialog progreso;
         @Override
@@ -487,6 +488,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         }
 
     }
+
     private class iniciar_carrera extends AsyncTask<Void, String, String> {
         private ProgressDialog progreso;
         @Override
@@ -539,6 +541,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         }
 
     }
+
     private void alert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MapCarrera.this);
         builder.setMessage("Esta seguro que quiere terminar la carrera?")
@@ -560,6 +563,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         dialog.show();
 
     }
+
     private String obtenerDireccionesURL(LatLng origin,LatLng dest){
 
         String str_origin = "origin="+origin.latitude+","+origin.longitude;
@@ -576,6 +580,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
 
         return url;
     }
+
     public JSONObject getUsr_log() {
         SharedPreferences preferencias = getSharedPreferences("myPref", MODE_PRIVATE);
         String usr = preferencias.getString("usr_log", "");
@@ -618,8 +623,8 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         }
     }
 
-
     private boolean first=false;
+
     private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> >{
 
         @Override
@@ -689,7 +694,6 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         }
     }
 
-
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
@@ -728,18 +732,14 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         return data;
     }
 
-
-
     private class terminar_Carrera extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;
         private int id_carrera;
 
-
         public terminar_Carrera(int id_carrera) {
             this.id_carrera = id_carrera;
         }
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -787,9 +787,5 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
 
         }
     }
-
-
-
-
 
 }

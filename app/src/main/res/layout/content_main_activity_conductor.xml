@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.ricardopazdemiquel.movilesConductor.MainActivityConductor"
-    tools:showIn="@layout/app_bar_main_activity_conductor">
+    tools:showIn="@layout/app_bar_main_activity_conductor"
+    android:layout_marginTop="40dp">
 
 </android.support.constraint.ConstraintLayout>

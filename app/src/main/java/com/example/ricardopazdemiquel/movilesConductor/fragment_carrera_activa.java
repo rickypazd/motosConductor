@@ -32,6 +32,7 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
     private Switch sw_super;
 
     private JSONObject usr_log;
+    private JSONObject turno;
 
     public fragment_carrera_activa() {
         // Required empty public constructor
@@ -50,7 +51,6 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
         sw_super = view.findViewById(R.id.sw_super_siete);
         sw_maravilla.setVisibility(View.GONE);
         if(getUsr_log()!=null){
-
             sw_estandar.setOnClickListener(this);
             sw_togo.setOnClickListener(this);
             sw_maravilla.setOnClickListener(this);
@@ -67,8 +67,12 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+            turno=((MainActivityConductor)getActivity()).getObj_turno();
+            if(turno!=null){
                 new obtener_activos().execute();
+
+            }
+
 
         }
         return view;
@@ -200,35 +204,46 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
                     sw_super.setChecked(false);
             }else{
                     JSONObject obj=new JSONObject(pacientes);
-                    if(obj2.getBoolean("act_estandar")){
-                        sw_estandar.setVisibility(View.VISIBLE);
-                    }
-                    if(obj2.getBoolean("act_togo")){
-                        sw_togo.setVisibility(View.VISIBLE);
-                    }
-                    if(obj2.getBoolean("act_maravilla")){
+                    if(turno.getInt("tipo")==1){
                         sw_super.setVisibility(View.VISIBLE);
-                    }
-                    if(obj2.getBoolean("act_supe")){
-                        sw_super.setVisibility(View.VISIBLE);
+                        boolean superr = obj.getBoolean("super");
+                        if(sw_super.isChecked()!=superr){
+                            sw_super.setChecked(superr);
+                        }
+                    }else{
+
+                        if(obj2.getBoolean("act_estandar")){
+                            sw_estandar.setVisibility(View.VISIBLE);
+                        }
+                        if(obj2.getBoolean("act_togo")){
+                            sw_togo.setVisibility(View.VISIBLE);
+                        }
+                        if(obj2.getBoolean("act_maravilla")){
+                            sw_maravilla.setVisibility(View.VISIBLE);
+                        }
+                        if(obj2.getBoolean("act_supe")){
+                            sw_super.setVisibility(View.VISIBLE);
+                        }
+
+                        boolean estandar = obj.getBoolean("estandar");
+                        if(sw_estandar.isChecked()!=estandar){
+                            sw_estandar.setChecked(estandar);
+                        }
+                        boolean togo = obj.getBoolean("togo");
+                        if(sw_togo.isChecked()!=togo){
+                            sw_togo.setChecked(togo);
+                        }
+                        boolean maravilla = obj.getBoolean("maravilla");
+                        if(sw_maravilla.isChecked()!=maravilla && usr_log.getString("sexo").equals("Mujer")){
+                            sw_maravilla.setChecked(maravilla);
+                        }
+                        boolean superr = obj.getBoolean("super");
+                        if(sw_super.isChecked()!=superr){
+                            sw_super.setChecked(superr);
+                        }
+
                     }
 
-                    boolean estandar = obj.getBoolean("estandar");
-                    if(sw_estandar.isChecked()!=estandar){
-                        sw_estandar.setChecked(estandar);
-                    }
-                    boolean togo = obj.getBoolean("togo");
-                    if(sw_togo.isChecked()!=togo){
-                        sw_togo.setChecked(togo);
-                    }
-                    boolean maravilla = obj.getBoolean("maravilla");
-                    if(sw_maravilla.isChecked()!=maravilla && usr_log.getString("sexo").equals("MUJER")){
-                        sw_maravilla.setChecked(maravilla);
-                    }
-                    boolean superr = obj.getBoolean("super");
-                    if(sw_super.isChecked()!=superr){
-                        sw_super.setChecked(superr);
-                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

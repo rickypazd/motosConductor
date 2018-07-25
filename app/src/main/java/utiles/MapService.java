@@ -112,7 +112,6 @@ public class MapService extends Service {
                             notifico = false;
                             llego = false;
                         }
-
                     }
                 }
             }

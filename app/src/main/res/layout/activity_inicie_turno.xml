@@ -34,10 +34,11 @@
         app:layout_constraintTop_toBottomOf="@+id/tv" />
 
     <LinearLayout
-        android:id="@+id/linearLayout9"
+        android:id="@+id/linear_iniciar_sin_vehi"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/tv2">
 
         <TextView
@@ -68,6 +69,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
+        app:layout_constraintTop_toBottomOf="@+id/linear_iniciar_sin_vehi" />
 
 </android.support.constraint.ConstraintLayout>

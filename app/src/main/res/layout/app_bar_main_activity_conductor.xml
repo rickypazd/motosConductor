@@ -1,23 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.ricardopazdemiquel.movilesConductor.MainActivityConductor">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:background="@drawable/backgroundcolor2"
+        android:gravity="right|center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioGroup
+            android:id="@+id/group_Activo"
+            android:layout_width="match_parent"
+
+            android:layout_height="30dp"
+            android:layout_marginStart="70dp"
+            android:layout_weight="5"
+            android:background="@drawable/pink_out_line"
+            android:checkedButton="@+id/offer"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/activo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_widget_background"
+                android:button="@null"
+                android:gravity="center"
+                android:text="ACTIVO"
+                android:textColor="@color/cardview_light_background" />
+
+            <RadioButton
+                android:id="@+id/desactivo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_widget_background"
+                android:button="@null"
+                android:gravity="center"
+                android:text="DESACTIVADO"
+                android:textColor="@color/cardview_light_background" />
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_logosiete_foreground" />
+
+    </LinearLayout>
+
+
     <include
         android:id="@+id/content_conductor"
-        layout="@layout/content_main_activity_conductor" />
-
+        layout="@layout/content_main_activity_conductor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/ic_iconmenu_foreground"
         app:backgroundTint="@android:color/background_light"
-        app:elevation="2dp"  />
+        app:elevation="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>
