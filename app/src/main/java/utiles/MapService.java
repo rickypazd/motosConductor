@@ -90,13 +90,13 @@ public class MapService extends Service {
                                     float result[] = new float[1];
                                     Location.distanceBetween(latfin, lgnini, latfin, lngfin, result);
                                     if (!notifico) {
-                                        if (result[0] <= 300) {
+                                        if (result[0] <= 200) {
                                             new conductor_cerca(obj.getInt("id"), result[0]).execute();
                                             notifico = true;
                                         }
                                     }
                                     if (!llego) {
-                                        if (result[0] <= 50) {
+                                        if (result[0] <= 40) {
                                             Intent intent = new Intent();
                                             intent.putExtra("message", "");
                                             intent.setAction("llego_conductor");

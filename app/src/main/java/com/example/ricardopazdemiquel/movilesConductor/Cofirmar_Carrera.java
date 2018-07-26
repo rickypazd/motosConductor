@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 
@@ -164,15 +165,17 @@ public class Cofirmar_Carrera extends AppCompatActivity {
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-
             if(resp.equals("falso")){
-                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-                return;
+                Toast.makeText(Cofirmar_Carrera.this,"No encontramos el viaje, disculpe las molestias. ",Toast.LENGTH_SHORT).show();
+                finish();
             }
             if(resp.equals("exito")){
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result",id_carrera);
                 setResult(Activity.RESULT_OK,returnIntent);
+                finish();
+            }else if(resp.equals("confirmada")){
+                Toast.makeText(Cofirmar_Carrera.this,"El viaje ya fue aceptado por otro conductor, disculpe las molestias.",Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

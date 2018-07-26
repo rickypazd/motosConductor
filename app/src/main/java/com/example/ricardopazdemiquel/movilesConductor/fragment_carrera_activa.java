@@ -60,13 +60,6 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
             sw_togo.setChecked(false);
             sw_maravilla.setChecked(false);
             sw_super.setChecked(false);
-            try {
-                if(usr_log.getString("sexo").equals("MUJER")){
-                    sw_maravilla.setVisibility(View.VISIBLE);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
             turno=((MainActivityConductor)getActivity()).getObj_turno();
             if(turno!=null){
                 new obtener_activos().execute();

@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -86,13 +88,15 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
     private Button btn_terminar_carrera;
     private Button btn_cancelar_carrera;
     private Location location;
+    private CoordinatorLayout Container_verPerfil;
     private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_carrera);
         id_carrera = getIntent().getIntExtra("id_carrera", 0);
-        View view =findViewById(R.id.Container_verPerfil);
+        View view =findViewById(R.id.button_sheet);
+        Container_verPerfil = findViewById(R.id.Container_verPerfil);
         bottomSheetBehavior=BottomSheetBehavior.from(view);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -102,12 +106,9 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                         break;
                 }
-
             }
-
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
             }
         });
 
@@ -249,6 +250,8 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
     public void onLocationChanged(Location location) {
            this.location=location;
     }
+    private Marker marfin;
+    private float dist=0;
     private boolean hilo;
     private void hilo(){
         hilo=true;
@@ -261,7 +264,6 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
 
                             @Override
                             public void run() {
-
                                 if (carrera!=null && location!=null && googleMap!=null){
                                     float acuracy =location.getAccuracy();
                                     LatLng latlng2= null;
@@ -273,34 +275,12 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                                                 latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
                                                 latwazefinal = latlng2.latitude;
                                                 lngwazefinal = latlng2.longitude;
-                                                googleMap.clear();
-                                                googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
-                                                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                                                builder.include(latlng1);
-                                                builder.include(latlng2);
-                                                LatLngBounds bounds = builder.build();
-                                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
-                                                googleMap.moveCamera(cu);
-                                                String url = obtenerDireccionesURL(latlng1, latlng2);
-                                                DownloadTask downloadTask = new DownloadTask();
-                                                downloadTask.execute(url);
                                             } else if (carrera.getInt("estado") == 4) {
                                                 btn_cancelar_carrera.setVisibility(View.INVISIBLE);
                                                 latlng2 = new LatLng(carrera.getDouble("latfinal"), carrera.getDouble("lngfinal"));
                                                 latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
                                                 latwazefinal = latlng2.latitude;
                                                 lngwazefinal = latlng2.longitude;
-                                                googleMap.clear();
-                                                googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
-                                                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                                                builder.include(latlng1);
-                                                builder.include(latlng2);
-                                                LatLngBounds bounds = builder.build();
-                                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
-                                                googleMap.moveCamera(cu);
-                                                String url = obtenerDireccionesURL(latlng1, latlng2);
-                                                DownloadTask downloadTask = new DownloadTask();
-                                                downloadTask.execute(url);
                                                 btn_terminar_carrera.setVisibility(View.VISIBLE);
                                             }else if (carrera.getInt("estado") == 3) {
                                                 btn_cancelar_carrera.setVisibility(View.INVISIBLE);
@@ -308,17 +288,6 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                                                 latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
                                                 latwazefinal = latlng2.latitude;
                                                 lngwazefinal = latlng2.longitude;
-                                                googleMap.clear();
-                                                googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
-                                                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                                                builder.include(latlng1);
-                                                builder.include(latlng2);
-                                                LatLngBounds bounds = builder.build();
-                                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
-                                                googleMap.moveCamera(cu);
-                                                String url = obtenerDireccionesURL(latlng1, latlng2);
-                                                DownloadTask downloadTask = new DownloadTask();
-                                                downloadTask.execute(url);
                                                 linear_marcar_llegada.setVisibility(View.GONE);
                                                 btn_waze.setVisibility(View.INVISIBLE);
                                                 linear_Iniciar_Carrera.setVisibility(View.VISIBLE);
@@ -337,6 +306,35 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                                                 });
 
                                             }
+                                            if(latlng1!=null && latlng2!=null){
+                                                float[] results = new float[1];
+                                                Location.distanceBetween(
+                                                        latlng1.latitude,
+                                                        latlng1.longitude,
+                                                        latlng2.latitude,
+                                                        latlng2.longitude,
+                                                        results);
+                                                if((dist-results[0])> 20 || (dist-results[0])< -20|| dist==0){
+                                                    googleMap.clear();
+                                                    marfin=null;
+                                                    dist=results[0];
+                                                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                                    builder.include(latlng1);
+                                                    builder.include(latlng2);
+                                                    LatLngBounds bounds=builder.build();
+                                                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,300);
+                                                    googleMap.moveCamera(cu);
+                                                    String url = obtenerDireccionesURL(latlng1, latlng2);
+                                                    DownloadTask downloadTask= new DownloadTask();
+                                                    downloadTask.execute(url);
+                                                }
+                                                if(marfin==null){
+                                                    marfin=googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
+                                                }else{
+                                                    marfin.setPosition(latlng2);
+                                                }
+                                            }
+
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -345,7 +343,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
 
                             }
                         });
-                        Thread.sleep(2000);
+                        Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -464,6 +462,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                 linear_marcar_llegada.setVisibility(View.GONE);
                 btn_waze.setVisibility(View.INVISIBLE);
                 linear_Iniciar_Carrera.setVisibility(View.VISIBLE);
+                Container_verPerfil.setVisibility(View.VISIBLE);
                 iniciar_Carrera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -528,6 +527,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                 btn_waze.setVisibility(View.VISIBLE);
                 iniciar_Carrera.setVisibility(View.GONE);
                 linear_Iniciar_Carrera.setVisibility(View.GONE);
+                Container_verPerfil.setVisibility(View.GONE);
                 btn_terminar_carrera.setVisibility(View.VISIBLE);
 
                 new buscar_carrera().execute();
@@ -773,6 +773,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                     String a=new buscar_carrera().execute().get();
                     Intent intent = new Intent(MapCarrera.this, cobranza.class);
                     startActivity(intent);
+                    finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

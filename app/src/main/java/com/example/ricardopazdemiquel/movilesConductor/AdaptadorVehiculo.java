@@ -72,12 +72,23 @@ public class AdaptadorVehiculo extends BaseAdapter {
 
 
         TextView tv_placa = view.findViewById(R.id.tv_placa);
+        TextView tv_marca = view.findViewById(R.id.tv_marca);
+        TextView tv_modelo = view.findViewById(R.id.tv_modelo);
+        TextView tv_ano = view.findViewById(R.id.tv_ano);
+        TextView tv_color = view.findViewById(R.id.tv_color);
+
+
         Button inciar = view.findViewById(R.id.btn_inciar);
         try {
             final JSONObject cancha = listaVehiculos.getJSONObject(i);
             //imgCancha.setImageResource(cancha.getImagen());
 
-            tv_placa.setText(cancha.getString("placa"));
+            tv_placa.setText("Placa: "+cancha.getString("placa"));
+            tv_marca.setText("Marca: "+cancha.getString("marca"));
+            tv_modelo.setText("Tipo: "+cancha.getString("modelo"));
+            tv_ano.setText("Modelo: "+cancha.getString("ano"));
+            tv_color.setText("Color: "+cancha.getString("color"));
+
             inciar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

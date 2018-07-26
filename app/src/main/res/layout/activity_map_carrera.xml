@@ -27,7 +27,9 @@ android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <Button
             android:id="@+id/btn_cancelar_carrera"
@@ -37,7 +39,7 @@ android:layout_height="match_parent">
             android:layout_marginEnd="152dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/phonebackground"
-            android:text="Cancelar Carrera"
+            android:text="Cancelar Viaje"
             android:textAppearance="@android:style/TextAppearance.Material.Title"
             android:textColor="#fff"
             android:textSize="12sp"
@@ -53,7 +55,7 @@ android:layout_height="match_parent">
             android:layout_height="120dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/phonebackground"
-            android:text="Terminar Carrera"
+            android:text="Terminar Viaje"
             android:textAppearance="@android:style/TextAppearance.Material.Title"
             android:textColor="#fff"
             android:visibility="gone"
@@ -65,7 +67,7 @@ android:layout_height="match_parent">
             android:id="@+id/linear_Iniciar_Carrera"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="45dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:gravity="center_horizontal"
@@ -74,28 +76,30 @@ android:layout_height="match_parent">
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="280dp"
+                android:layout_height="match_parent"
+                android:text="Inicie el viaje cuando el cliente este dentro del vehiculo"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btn_iniciar_carrera"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:background="@drawable/phonebackground"
-                android:text="Iniciar Carrera"
+                android:text="Iniciar Viaje"
                 android:textAppearance="@android:style/TextAppearance.Material.Title"
                 android:textColor="#fff"
 
                 android:textSize="23dp"
                 android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="280dp"
-                android:layout_height="match_parent"
-                android:text="Inicie la carrera cuando el cliente este dentro del vehiculo"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
