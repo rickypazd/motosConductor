@@ -226,7 +226,7 @@ android:layout_height="match_parent">
                         android:gravity="center">
 
                         <TextView
-                            android:id="@+id/text_nombreConductor"
+                            android:id="@+id/text_nombreCliente"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:background="@drawable/ic_redondo1_finalizar"
@@ -247,7 +247,7 @@ android:layout_height="match_parent">
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/text_nombreAuto"
+                            android:id="@+id/text_data1"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:layout_gravity="center"
@@ -259,7 +259,7 @@ android:layout_height="match_parent">
                             android:textSize="15dp" />
 
                         <TextView
-                            android:id="@+id/text_numeroPlaca"
+                            android:id="@+id/text_data2"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:layout_gravity="center"
@@ -291,123 +291,8 @@ android:layout_height="match_parent">
                             android:textColor="#fff"
                             android:textSize="20dp" />
 
-                        <TextView
-                            android:id="@+id/text_Logros"
-                            android:layout_width="180dp"
-                            android:layout_height="45dp"
-                            android:background="@drawable/ic_redondo1_finalizar"
-                            android:gravity="center"
-                            android:inputType="textPersonName"
-                            android:text="Logros"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="22dp"
-                            android:textStyle="bold" />
-
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <Button
-                                android:id="@+id/button6"
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:background="@drawable/round_foreground" />
-
-                            <TextView
-                                android:id="@+id/textView12"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="Amable"
-                                android:textAlignment="center"
-                                android:textColor="#fff" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <Button
-                                android:id="@+id/button3"
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:background="@drawable/round_foreground" />
-
-                            <TextView
-                                android:id="@+id/textView11"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="Buena Ruta"
-                                android:textAlignment="center"
-                                android:textColor="#fff" />
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <Button
-                                android:id="@+id/button7"
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:background="@drawable/round_foreground" />
-
-                            <TextView
-                                android:id="@+id/textView13"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="10dp"
-                                android:text="Auto limpio"
-                                android:textAlignment="center"
-                                android:textColor="#fff" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginEnd="40dp"
-                        android:layout_marginStart="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center">
-
-                        <TextView
-                            android:id="@+id/textView14"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:alpha="0.5"
-                            android:background="@drawable/rounded_corner"
-                            android:inputType="textMultiLine"
-                            android:padding="10dp"
-                            android:text="nombre"
-                            android:textColor="#fff" />
-
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -416,5 +301,24 @@ android:layout_height="match_parent">
         </android.support.design.widget.CoordinatorLayout>
 
     </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/cargandomapaline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                layout="@layout/cargandomapa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+        </FrameLayout>
+    </LinearLayout>
 
 </RelativeLayout>

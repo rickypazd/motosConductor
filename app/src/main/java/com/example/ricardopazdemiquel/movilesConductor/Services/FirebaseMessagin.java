@@ -28,6 +28,9 @@ public class FirebaseMessagin extends FirebaseMessagingService
             case "confirmar_carrera":
                 confirmar_carrera(remoteMessage);
                 break;
+            case "Carrera_Cancelada":
+                Carrera_Cancelada(remoteMessage);
+                break;
             case "mensaje":
                 mensaje(remoteMessage);
                 break;
@@ -36,10 +39,12 @@ public class FirebaseMessagin extends FirebaseMessagingService
         return;
     }
 
-
-
-
-
+    private void Carrera_Cancelada(RemoteMessage remoteMessage) {
+        Intent intent = new Intent();
+        intent.putExtra("json",remoteMessage.getData().get("json"));
+        intent.setAction("Carrera_Cancelada");
+        sendBroadcast(intent);
+    }
 
 
     private void confirmar_carrera(RemoteMessage remoteMessage) {

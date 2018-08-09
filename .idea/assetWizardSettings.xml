@@ -13,6 +13,33 @@
                       <PersistentState>
                         <option name="children">
                           <map>
+                            <entry key="actionbar">
+                              <value>
+                                <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="clipartAsset">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_brightness_1_black_24dp.xml" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="e50003" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
                             <entry key="launcher">
                               <value>
                                 <PersistentState>
@@ -34,7 +61,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="110" />
+                                                <entry key="scalingPercent" value="133" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -45,15 +72,20 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundLayerName" value="ic_phone" />
-                                      <entry key="foregroundImage" value="C:\Users\Edson\Desktop\ServisisSRL\SVG\sgvphoneRecurso 9.svg" />
-                                      <entry key="foregroundLayerName" value="ic_launcher_phone" />
-                                      <entry key="outputName" value="ic_phone_laucher" />
+                                      <entry key="backgroundLayerName" value="ic_point_back" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/unnamed.png" />
+                                      <entry key="foregroundLayerName" value="ic_point_for" />
+                                      <entry key="outputName" value="ic_point" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

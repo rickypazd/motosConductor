@@ -193,15 +193,13 @@ public class Cofirmar_Carrera extends AppCompatActivity {
             List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
             if (addresses != null) {
                 Address returnedAddress = addresses.get(0);
-                StringBuilder strReturnedAddress = new StringBuilder("");
+                //StringBuilder strReturnedAddress = new StringBuilder("");
+                    strAdd=returnedAddress.getThoroughfare();
 
-                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
-                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
-                }
-                strAdd = strReturnedAddress.toString();
-                Log.w("My Current loction addr", strReturnedAddress.toString());
+
+              //  Log.w("My Current loction addr", strReturnedAddress.toString());
             } else {
-                Log.w("My Current loction addr", "No Address returned!");
+               Log.w("My Current loction addr", "No Address returned!");
             }
         } catch (Exception e) {
             e.printStackTrace();

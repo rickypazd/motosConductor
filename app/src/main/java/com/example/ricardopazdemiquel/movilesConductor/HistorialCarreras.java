@@ -1,6 +1,7 @@
 package com.example.ricardopazdemiquel.movilesConductor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,8 +28,15 @@ public class HistorialCarreras extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_historial_carreras, container, false);
-    }
+        View view=inflater.inflate(R.layout.fragment_historial_carreras, container, false);
+        verViaje(93);
 
+        return view;
+    }
+    private void verViaje(int id){
+        Intent intent = new Intent(getActivity(),PerfilCarrera.class);
+        intent.putExtra("id_carrera",id);
+        startActivity(intent);
+    }
 
 }

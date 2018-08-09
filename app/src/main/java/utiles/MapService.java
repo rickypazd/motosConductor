@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -147,10 +148,13 @@ public class MapService extends Service {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 3, listener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 3, listener);
 
     }
+
+
     private class pushPosition extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;

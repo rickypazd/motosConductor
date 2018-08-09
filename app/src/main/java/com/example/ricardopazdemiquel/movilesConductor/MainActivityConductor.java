@@ -48,6 +48,7 @@ import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
 import utiles.Contexto;
 import utiles.MapService;
+import utiles.MapService2;
 import utiles.Token;
 
 public class MainActivityConductor extends AppCompatActivity
@@ -118,7 +119,7 @@ public class MainActivityConductor extends AppCompatActivity
                     JSONObject objcar = new JSONObject(carrera);
                     if(objcar.getBoolean("exito")){
                         if(!runtime_permissions()){
-                            Intent i =new Intent(MainActivityConductor.this, MapService.class);
+                            Intent i =new Intent(MainActivityConductor.this, MapService2.class);
                             JSONObject turno = new JSONObject(carrera).getJSONObject("turno");
                             i.putExtra("id_vehiculo",turno.getInt("id_vehiculo"));
                             startService(i);
@@ -239,7 +240,7 @@ public class MainActivityConductor extends AppCompatActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 100){
             if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                Intent i =new Intent(getApplicationContext(),MapService.class);
+                Intent i =new Intent(getApplicationContext(),MapService2.class);
                 startService(i);
             }else {
                 runtime_permissions();
@@ -393,7 +394,7 @@ public class MainActivityConductor extends AppCompatActivity
                 if(obj.length()>0){
                     obj_turno=obj;
                     if(!runtime_permissions()){
-                        Intent i =new Intent(MainActivityConductor.this, MapService.class);
+                        Intent i =new Intent(MainActivityConductor.this, MapService2.class);
                         i.putExtra("id_vehiculo",obj_turno.getInt("id_vehiculo"));
                         activo.setChecked(true);
                         descativo.setChecked(false);

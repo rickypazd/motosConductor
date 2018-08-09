@@ -13,6 +13,11 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -32,6 +37,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
@@ -41,10 +47,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -59,6 +67,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -70,7 +79,7 @@ import clienteHTTP.StandarRequestConfiguration;
 import utiles.Contexto;
 import utiles.DirectionsJSONParser;
 
-public class MapCarrera extends AppCompatActivity implements LocationListener{
+public class MapCarrera extends AppCompatActivity implements LocationListener, SensorEventListener {
 
     MapView mMapView;
     private GoogleMap googleMap;
@@ -79,17 +88,40 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
     private FloatingActionButton btn_waze;
     private LocationManager locationManager;
     private BroadcastReceiver broadcastReceiverMessage;
+    private BroadcastReceiver bradcastCanceloCarrera;
     private LinearLayout linear_marcar_llegada;
     private LinearLayout linear_Iniciar_Carrera;
+    private LinearLayout cargandomapaline;
     private Button btn_marcar_llegada;
     private Button iniciar_Carrera;
     private double latwazefinal;
     private double lngwazefinal;
+    //PERFIL DEL CLIENTE
+    private ImageView img_foto;
+    private TextView text_nombreCliente;
+    private TextView text_data1;
+    private TextView text_data2;
+    private TextView text_Viajes;
+    ///////
     private Button btn_terminar_carrera;
     private Button btn_cancelar_carrera;
     private Location location;
     private CoordinatorLayout Container_verPerfil;
     private BottomSheetBehavior bottomSheetBehavior;
+    private float currentDegree = 0f;
+    // El sensor manager del dispositivo
+    private SensorManager mSensorManager;
+    // Los dos sensores que son necesarios porque TYPE_ORINETATION esta deprecated
+    private Sensor accelerometer;
+    private Sensor magnetometer;
+    // Los angulos del movimiento de la flecha que señala al norte
+    float degree;
+    // Guarda el valor del azimut
+    float azimut;
+    // Guarda los valores que cambián con las variaciones del sensor TYPE_ACCELEROMETER
+    float[] mGravity;
+    // Guarda los valores que cambián con las variaciones del sensor TYPE_MAGNETIC_FIELD
+    float[] mGeomagnetic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +129,12 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         id_carrera = getIntent().getIntExtra("id_carrera", 0);
         View view =findViewById(R.id.button_sheet);
         Container_verPerfil = findViewById(R.id.Container_verPerfil);
+        img_foto=findViewById(R.id.img_foto);
+        text_nombreCliente=findViewById(R.id.text_nombreCliente);
+        text_data1=findViewById(R.id.text_data1);
+        text_data2=findViewById(R.id.text_data2);
+        text_Viajes=findViewById(R.id.text_Viajes);
+        cargandomapaline=findViewById(R.id.cargandomapaline);
         bottomSheetBehavior=BottomSheetBehavior.from(view);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -129,7 +167,9 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         linear_Iniciar_Carrera=findViewById(R.id.linear_Iniciar_Carrera);
         linear_marcar_llegada= findViewById(R.id.linear_marcar_llegada);
         try {
+
             String resp =new buscar_carrera().execute().get();
+
             btn_cancelar_carrera.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -167,7 +207,8 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                 if (ActivityCompat.checkSelfPermission(MapCarrera.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapCarrera.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-                mMap.setMyLocationEnabled(true);
+                  mMap.setMyLocationEnabled(true);
+                    mMap.getUiSettings().setCompassEnabled(true);
 
 
             }
@@ -182,6 +223,9 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
             layoutParams.setMargins(0, 0, 30, 600);
             locationButton.setImageResource(R.drawable.ic_mapposition_foreground);
+
+
+
         }
         if (ActivityCompat.checkSelfPermission(MapCarrera.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapCarrera.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -197,6 +241,12 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
 
             }
         });
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        mGravity = null;
+        mGeomagnetic = null;
         hilo();
     }
 
@@ -212,6 +262,19 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
             };
         }
         registerReceiver(broadcastReceiverMessage,new IntentFilter("llego_conductor"));
+        if(bradcastCanceloCarrera == null){
+            bradcastCanceloCarrera = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    cancelocarrera(intent);
+                }
+            };
+        }
+        registerReceiver(bradcastCanceloCarrera,new IntentFilter("Carrera_Cancelada"));
+
+        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI);
+
     }
     Intent inte;
     private void notificacionReciber(Intent intent){
@@ -228,6 +291,17 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+    }
+
+    private void cancelocarrera(Intent intent){
+        Intent inten = new Intent(MapCarrera.this,CanceloViaje.class);
+        inten.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(inten);
+    }
     private void ver_en_waze(){
         if(carrera!=null){
             try
@@ -249,10 +323,20 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
     @Override
     public void onLocationChanged(Location location) {
            this.location=location;
+
+
+        if(auto==null){
+
+            auto=googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),location.getLongitude())).title("YO").icon(BitmapDescriptorFactory.fromResource(R.drawable.auto)).anchor(0.5f,0.5f));
+        }else{
+            auto.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
+        }
     }
     private Marker marfin;
+    private Marker auto;
     private float dist=0;
     private boolean hilo;
+    private JSONObject cliente;
     private void hilo(){
         hilo=true;
 
@@ -265,6 +349,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                             @Override
                             public void run() {
                                 if (carrera!=null && location!=null && googleMap!=null){
+                                    cargandomapaline.setVisibility(View.GONE);
                                     float acuracy =location.getAccuracy();
                                     LatLng latlng2= null;
                                     LatLng latlng1= null;
@@ -291,6 +376,11 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                                                 linear_marcar_llegada.setVisibility(View.GONE);
                                                 btn_waze.setVisibility(View.INVISIBLE);
                                                 linear_Iniciar_Carrera.setVisibility(View.VISIBLE);
+                                                if(cliente==null){
+                                                    new get_cliente().execute();
+                                                    cliente=new JSONObject();
+                                                }
+                                                Container_verPerfil.setVisibility(View.VISIBLE);
                                                 iniciar_Carrera.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View v) {
@@ -317,6 +407,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                                                 if((dist-results[0])> 20 || (dist-results[0])< -20|| dist==0){
                                                     googleMap.clear();
                                                     marfin=null;
+                                                    auto=null;
                                                     dist=results[0];
                                                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
                                                     builder.include(latlng1);
@@ -332,6 +423,13 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
                                                     marfin=googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
                                                 }else{
                                                     marfin.setPosition(latlng2);
+                                                }
+
+                                                if(auto==null){
+                                                    auto=googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),location.getLongitude())).title("YO").icon(BitmapDescriptorFactory.fromResource(R.drawable.auto)).anchor(0.5f,0.5f));
+                                                }else{
+                                                    auto.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
+
                                                 }
                                             }
 
@@ -366,6 +464,42 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
 
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        switch (event.sensor.getType()) {
+            case Sensor.TYPE_ACCELEROMETER:
+                mGravity = event.values;
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                mGeomagnetic = event.values;
+                break;
+        }
+
+        if ((mGravity != null) && (mGeomagnetic != null)) {
+            float RotationMatrix[] = new float[16];
+            boolean success = SensorManager.getRotationMatrix(RotationMatrix,                                                             null, mGravity, mGeomagnetic);
+            if (success) {
+                float orientation[] = new float[3];
+                SensorManager.getOrientation(RotationMatrix, orientation);
+                azimut = orientation[0] * (180 / (float) Math.PI);
+            }
+        }
+        degree = azimut;
+
+
+        currentDegree = -degree;
+        if(auto!=null){
+
+            auto.setRotation(currentDegree);
+        }
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
 
     private class buscar_carrera extends AsyncTask<Void, String, String> {
         private ProgressDialog progreso;
@@ -397,18 +531,19 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
             progreso.dismiss();
 
             if (resp == null) {
-                Toast.makeText(MapCarrera.this,"Eroor al optener Datos",
+                Toast.makeText(MapCarrera.this,"Error al optener datos.",
                         Toast.LENGTH_SHORT).show();
-                return;
             }else{
                 try {
                     JSONObject obj = new JSONObject(resp);
+
+
                     carrera=obj;
                     SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferencias.edit();
                     editor.putString("carrera", obj.toString());
-
                     editor.commit();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -541,11 +676,67 @@ public class MapCarrera extends AppCompatActivity implements LocationListener{
         }
 
     }
+    private class get_cliente extends AsyncTask<Void, String, String> {
+        private ProgressDialog progreso;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
+            progreso = new ProgressDialog(MapCarrera.this);
+            progreso.setIndeterminate(true);
+            progreso.setTitle("Iniciando Carrera.");
+            progreso.setCancelable(false);
+            progreso.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                publishProgress("por favor espere...");
+                Hashtable<String,String> param = new Hashtable<>();
+                param.put("evento","get_cliente_x_id");
+                param.put("id",carrera.getInt("id_usuario")+"");
+                String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, param));
+                return respuesta;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+          return null;
+        }
+
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+
+            progreso.dismiss();
+
+            if (resp == null) {
+                Toast.makeText(MapCarrera.this,"Eroor al optener Datos",
+                        Toast.LENGTH_SHORT).show();
+            }else{
+                try {
+                    cliente= new JSONObject(resp);
+                    text_nombreCliente.setText(cliente.getString("nombre")+" "+cliente.getString("apellido_pa")+" "+cliente.getString("apellido_ma"));
+                    text_data1.setText(cliente.getString("fecha_nac"));
+                    text_data2.setText(cliente.getString("sexo"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            progreso.setMessage(values[0]);
+        }
+
+    }
     private void alert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MapCarrera.this);
-        builder.setMessage("Esta seguro que quiere terminar la carrera?")
-                .setTitle("Terminar Carrera")
+        builder.setMessage("Esta seguro que desea terminar el viaje?")
+                .setTitle("Terminar Viaje")
                 .setPositiveButton("Si", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id) {
                         // CONFIRM

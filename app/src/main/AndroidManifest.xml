@@ -24,7 +24,6 @@
         android:roundIcon="@mipmap/ic_p_supersiete_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAxdWoqiMpucK4ZOf5M8JzQii8m1x9WrR4" />
@@ -35,27 +34,31 @@
         <service
             android:name="utiles.MapService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
+        <service
+            android:name="utiles.MapService2"
+            android:enabled="true"
+            android:exported="false" />
         <service
             android:name="utiles.GPS_service"
             android:exported="false" />
         <service android:name="utiles.ForegroundService" />
-        <service android:name="com.example.ricardopazdemiquel.movilesConductor.Services.FirebaseService">
+        <service android:name=".Services.FirebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="com.example.ricardopazdemiquel.movilesConductor.Services.FirebaseMessagin">
+        <service android:name=".Services.FirebaseMessagin">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <activity
-            android:name="com.example.ricardopazdemiquel.movilesConductor.Cofirmar_Carrera"
+            android:name=".Cofirmar_Carrera"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.example.ricardopazdemiquel.movilesConductor.Carga"
+            android:name=".Carga"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,28 +67,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.ricardopazdemiquel.movilesConductor.LoginConductor"
+            android:name=".LoginConductor"
             android:label="@string/title_activity_login_conductor"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.example.ricardopazdemiquel.movilesConductor.MainActivityConductor"
+            android:name=".MainActivityConductor"
             android:label="Conductor"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.ricardopazdemiquel.movilesConductor.InicieTurno"
+            android:name=".InicieTurno"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.example.ricardopazdemiquel.movilesConductor.MapCarrera"
+            android:name=".MapCarrera"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.example.ricardopazdemiquel.movilesConductor.cobranza"
+            android:name=".cobranza"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.example.ricardopazdemiquel.movilesConductor.Sin_conexion"
+            android:name=".Sin_conexion"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name="com.example.ricardopazdemiquel.movilesConductor.CancelarConductor" />
-        <activity android:name="com.example.ricardopazdemiquel.movilesConductor.ConfirmarCancelacion" />
-        <activity android:name="com.example.ricardopazdemiquel.movilesConductor.Perfil_Conductor" />
+        <activity android:name=".CancelarConductor" />
+        <activity android:name=".ConfirmarCancelacion" />
+        <activity android:name=".Perfil_Conductor" />
+        <activity android:name=".PerfilCarrera" />
+        <activity android:name=".CanceloViaje" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
