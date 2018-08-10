@@ -90,7 +90,10 @@
         <activity android:name=".ConfirmarCancelacion" />
         <activity android:name=".Perfil_Conductor" />
         <activity android:name=".PerfilCarrera" />
-        <activity android:name=".CanceloViaje" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name=".CanceloViaje"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".veiheabor"></activity>
     </application>
 
 </manifest>

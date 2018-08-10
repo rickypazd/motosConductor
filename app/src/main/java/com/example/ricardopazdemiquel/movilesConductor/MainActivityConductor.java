@@ -115,7 +115,8 @@ public class MainActivityConductor extends AppCompatActivity
         }else{
             try {
                 String carrera= new get_validar_carrera(usr_log.getInt("id")).execute().get();
-                if(carrera.length()>0){
+
+                if(carrera!=null && carrera.length()>0){
                     JSONObject objcar = new JSONObject(carrera);
                     if(objcar.getBoolean("exito")){
                         if(!runtime_permissions()){
@@ -303,6 +304,9 @@ public class MainActivityConductor extends AppCompatActivity
                 seleccionarFragmento("carrerasactivas");
                 break;
             case R.id.btn_nav_formaspago:
+                Intent intent = new Intent(MainActivityConductor.this,veiheabor.class);
+                startActivity(intent);
+
                 break;
             case R.id.btn_nav_miperfil:
                 break;
@@ -535,7 +539,9 @@ public class MainActivityConductor extends AppCompatActivity
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
-
+            if (resp == null) {
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            }else{
                 if (resp.equals("falso")) {
                     Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                     return;
@@ -543,18 +549,20 @@ public class MainActivityConductor extends AppCompatActivity
                     try {
                         JSONObject obj = new JSONObject(resp);
                         Boolean bo = obj.getBoolean("exito");
-                        if(bo){
-                           Intent intent = new Intent(MainActivityConductor.this , MapCarrera.class);
+                        if (bo) {
+                            Intent intent = new Intent(MainActivityConductor.this, MapCarrera.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                           intent.putExtra("id_carrera",obj.getInt("id"));
-                           startActivity(intent);
+                            intent.putExtra("id_carrera", obj.getInt("id"));
+                            startActivity(intent);
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
+                }
             }
+
 
         }
 

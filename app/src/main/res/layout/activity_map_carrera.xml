@@ -141,6 +141,7 @@ android:layout_height="match_parent">
                 android:background="@color/colorPrimary"
                 app:behavior_hideable="true"
                 app:behavior_peekHeight="55dp"
+
                 app:layout_behavior="@string/bottom_sheet_behavior">
 
                 <LinearLayout
