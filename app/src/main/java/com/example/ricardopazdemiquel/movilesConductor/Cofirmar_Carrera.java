@@ -186,6 +186,26 @@ public class Cofirmar_Carrera extends AppCompatActivity {
         }
     }
 
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                //StringBuilder strReturnedAddress = new StringBuilder("");
+                    strAdd=returnedAddress.getThoroughfare();
 
+
+              //  Log.w("My Current loction addr", strReturnedAddress.toString());
+            } else {
+               Log.w("My Current loction addr", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("My Current loction addr", "Canont get Address!");
+        }
+        return strAdd;
+    }
 
 }
