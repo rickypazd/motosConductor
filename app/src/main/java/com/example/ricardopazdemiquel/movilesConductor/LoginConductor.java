@@ -253,7 +253,7 @@ public class LoginConductor extends AppCompatActivity {
                               editor.putString("usr_log", usr.toString());
                             editor.commit();
 
-                        Intent intent = new Intent(LoginConductor.this,MainActivityConductor.class);
+                        Intent intent = new Intent(LoginConductor.this,Carga.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }else{

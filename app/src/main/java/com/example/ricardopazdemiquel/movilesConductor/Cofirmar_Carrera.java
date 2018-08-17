@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
@@ -38,8 +39,10 @@ public class Cofirmar_Carrera extends AppCompatActivity {
     private EditText inicio;
     private EditText llegada;
     private EditText puntuacion;
+    private TextView tv_tipo_siete;
     private boolean acepto;
     private int id_carrera;
+    private int tipo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public class Cofirmar_Carrera extends AppCompatActivity {
         setContentView(R.layout.activity_cofirmar__carrera);
 
         btn_aceptar=findViewById(R.id.btn_aceptar_Carrera);
-
+        tv_tipo_siete=findViewById(R.id.tv_tipo_siete);
         nombre =findViewById(R.id.editName);
         inicio =findViewById(R.id.editInicio);
         llegada =findViewById(R.id.editLlegada);
@@ -58,9 +61,9 @@ public class Cofirmar_Carrera extends AppCompatActivity {
         JSONObject jsonUsuario;
         JSONObject json;
         try {
+
             jsonUsuario = new JSONObject(getIntent().getStringExtra("jsonUsuario"));
             json = new JSONObject(getIntent().getStringExtra("json"));
-
             String auxNombre = jsonUsuario.getString("nombre");
             String auxapellidopa = jsonUsuario.getString("apellido_pa");
             String auxapellidoma = jsonUsuario.getString("apellido_ma");
@@ -68,12 +71,15 @@ public class Cofirmar_Carrera extends AppCompatActivity {
             double lnginicio = json.getDouble("lnginicial");
             double latfinal = json.getDouble("latfinal");
             double lngfinal = json.getDouble("lngfinal");
-
+            tv_tipo_siete.setText(json.getString("tipo"));
+            tipo=json.getInt("id_tipo");
+            if(tipo==2){
+                inicio.setVisibility(View.GONE);
+            }
             nombre.setText(auxNombre +" "+ auxapellidopa +" "+ auxapellidoma);
             puntuacion.setText("6.9");
             inicio.setText(getCompleteAddressString(latinicio,lnginicio));
             llegada.setText(getCompleteAddressString(latfinal,lngfinal));
-
             id_carrera = json.getInt("id");
 
         } catch (JSONException e) {
@@ -172,6 +178,7 @@ public class Cofirmar_Carrera extends AppCompatActivity {
             if(resp.equals("exito")){
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result",id_carrera);
+                returnIntent.putExtra("tipo",tipo);
                 setResult(Activity.RESULT_OK,returnIntent);
                 finish();
             }else if(resp.equals("confirmada")){
@@ -195,7 +202,6 @@ public class Cofirmar_Carrera extends AppCompatActivity {
                 Address returnedAddress = addresses.get(0);
                 //StringBuilder strReturnedAddress = new StringBuilder("");
                     strAdd=returnedAddress.getThoroughfare();
-
 
               //  Log.w("My Current loction addr", strReturnedAddress.toString());
             } else {

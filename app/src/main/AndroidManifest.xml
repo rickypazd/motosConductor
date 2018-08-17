@@ -81,6 +81,9 @@
             android:name=".MapCarrera"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
+            android:name=".MapCarreraTogo"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name=".cobranza"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity

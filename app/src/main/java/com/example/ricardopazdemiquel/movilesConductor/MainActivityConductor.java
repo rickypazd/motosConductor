@@ -134,6 +134,12 @@ public class MainActivityConductor extends AppCompatActivity
                         String  as = new get_Turno(usr_log.getInt("id")).execute().get();
 
                     }
+                }else{
+                    SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferencias.edit();
+                    editor.remove("carrera");
+                    new Get_ActualizarToken(usr_log.getInt("id")).execute();
+                    String  as = new get_Turno(usr_log.getInt("id")).execute().get();
                 }
 
 
@@ -185,10 +191,19 @@ public class MainActivityConductor extends AppCompatActivity
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 int result=data.getIntExtra("result",0);
-                Intent intent = new Intent(MainActivityConductor.this, MapCarrera.class);
-                intent.putExtra("id_carrera",result);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                int tipo=data.getIntExtra("tipo",0);
+                if(tipo==2){
+                    Intent intent = new Intent(MainActivityConductor.this, MapCarreraTogo.class);
+                    intent.putExtra("id_carrera",result);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(MainActivityConductor.this, MapCarrera.class);
+                    intent.putExtra("id_carrera",result);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 inte=null;
@@ -389,49 +404,53 @@ public class MainActivityConductor extends AppCompatActivity
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
-            if(resp.equals("falso")){
+            if(resp==null){
                 Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-                return;
-            }
-            try {
-                final JSONObject obj = new JSONObject(resp);
-                if(obj.length()>0){
-                    obj_turno=obj;
-                    if(!runtime_permissions()){
-                        Intent i =new Intent(MainActivityConductor.this, MapService2.class);
-                        i.putExtra("id_vehiculo",obj_turno.getInt("id_vehiculo"));
-                        activo.setChecked(true);
-                        descativo.setChecked(false);
-                        startService(i);
-
-                    }
+            }else{
+                if(resp.equals("falso")){
+                    Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                 }else{
-                    Log.e(Contexto.APP_TAG, "No tiene turno iniciado.");
-                    Intent intent = new Intent(MainActivityConductor.this,InicieTurno.class);
-                    descativo.setChecked(true);
-                    activo.setChecked(false);
-                    startActivity(intent);
-                }
-                radioGroup=findViewById(R.id.group_Activo);
-                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        if(checkedId == R.id.activo){
-                            if(obj_turno==null){
-                                Intent intent = new Intent(MainActivityConductor.this,InicieTurno.class);
-                                descativo.setChecked(true);
-                                activo.setChecked(false);
-                                startActivity(intent);
-                            }
+                    try {
+                        if(resp.length()>0 && !resp.equals("{}")){
+                            final JSONObject obj = new JSONObject(resp);
+                            obj_turno=obj;
+                            if(!runtime_permissions()){
+                                Intent i =new Intent(MainActivityConductor.this, MapService2.class);
+                                i.putExtra("id_vehiculo",obj_turno.getInt("id_vehiculo"));
+                                activo.setChecked(true);
+                                descativo.setChecked(false);
+                                startService(i);
 
-                        }else if(checkedId == R.id.desactivo){
-                            alert();
+                            }
+                        }else{
+                            Log.e(Contexto.APP_TAG, "No tiene turno iniciado.");
+                            Intent intent = new Intent(MainActivityConductor.this,InicieTurno.class);
+                            descativo.setChecked(true);
+                            activo.setChecked(false);
+                            startActivity(intent);
                         }
+                        radioGroup=findViewById(R.id.group_Activo);
+                        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                if(checkedId == R.id.activo){
+                                    if(obj_turno==null){
+                                        Intent intent = new Intent(MainActivityConductor.this,InicieTurno.class);
+                                        descativo.setChecked(true);
+                                        activo.setChecked(false);
+                                        startActivity(intent);
+                                    }
+
+                                }else if(checkedId == R.id.desactivo){
+                                    alert();
+                                }
+                            }
+                        });
+                        seleccionarFragmento("carrerasactivas");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                });
-                seleccionarFragmento("carrerasactivas");
-            } catch (JSONException e) {
-                e.printStackTrace();
+                }
             }
 
         }
@@ -550,10 +569,25 @@ public class MainActivityConductor extends AppCompatActivity
                         JSONObject obj = new JSONObject(resp);
                         Boolean bo = obj.getBoolean("exito");
                         if (bo) {
-                            Intent intent = new Intent(MainActivityConductor.this, MapCarrera.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("id_carrera", obj.getInt("id"));
-                            startActivity(intent);
+                            if(obj.getInt("estado")==6){
+                                Intent intent = new Intent(MainActivityConductor.this, cobranza.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }else{
+                                if(obj.getInt("id_tipo")==2){
+                                    Intent intent = new Intent(MainActivityConductor.this, MapCarreraTogo.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("id_carrera", obj.getInt("id"));
+                                    startActivity(intent);
+                                }else{
+                                    Intent intent = new Intent(MainActivityConductor.this, MapCarrera.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("id_carrera", obj.getInt("id"));
+                                    startActivity(intent);
+                                }
+                            }
+
+
                         }
 
                     } catch (JSONException e) {
