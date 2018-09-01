@@ -9,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.ConfirmarCancelacion;
 import com.example.ricardopazdemiquel.movilesConductor.R;
@@ -27,16 +30,16 @@ import utiles.Contexto;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class cancelar_ListAdapter extends BaseAdapter {
+public class costos_extrasAdapter extends BaseAdapter {
 
     private JSONArray listaCanchas;
     private Context contexto;
 
 
-    private  int id_carrera;
+    private  String id_carrera;
 
 
-    public cancelar_ListAdapter( Context contexto,JSONArray lista , int id_carrera) {
+    public costos_extrasAdapter(Context contexto, JSONArray lista , String id_carrera) {
         this.contexto = contexto;
         this.listaCanchas = lista;
         this.id_carrera = id_carrera;
@@ -66,20 +69,23 @@ public class cancelar_ListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
             view = LayoutInflater.from(contexto)
-                    .inflate(R.layout.layou_list_marca, viewGroup, false);
+                    .inflate(R.layout.costos_extras, viewGroup, false);
         }
-        TextView nombre = view.findViewById(R.id.tv_NombreList);
-
+        TextView nombre = view.findViewById(R.id.Cnombre);
+        TextView costo = view.findViewById(R.id.Ccosto);
+        CheckBox estado =view.findViewById(R.id.Cestado);
         try {
             final JSONObject cancha = listaCanchas.getJSONObject(i);
-
             nombre.setText(cancha.getString("nombre"));
-            view.setOnClickListener(new View.OnClickListener() {
+            costo.setText(cancha.getString("costo"));
+            estado.setChecked(cancha.getBoolean("estado"));
+            estado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View view) {
-                    final JSONObject usr_log = getUsr_log();
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                     try {
-                        new cancelar_carrera(usr_log.getInt("id"),id_carrera,cancha.getInt("id")).execute();
+                        new marcar(cancha.getInt("id"),id_carrera).execute();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -94,32 +100,16 @@ public class cancelar_ListAdapter extends BaseAdapter {
     }
 
 
-    public JSONObject getUsr_log() {
-        SharedPreferences preferencias = contexto.getSharedPreferences("myPref", MODE_PRIVATE);
-        String usr = preferencias.getString("usr_log", "");
-        if (usr.length() <= 0) {
-            return null;
-        } else {
-            try {
-                JSONObject usr_log = new JSONObject(usr);
-                return usr_log;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-    }
 
-    private class cancelar_carrera extends AsyncTask<Void, String, String> {
+    private class marcar extends AsyncTask<Void, String, String> {
 
-        private int usuario;
-        private int id_carrera;
-        private int tipo;
+        private int id_costo;
+        private String id_carrera;
 
-        public cancelar_carrera( int usuario , int id_carrera, int tipo ){
-            this.usuario = usuario;
+        public marcar( int id_costo , String id_carrera){
+            this.id_costo = id_costo;
             this.id_carrera = id_carrera;
-            this.tipo = tipo;
+
         }
         @Override
         protected void onPreExecute() {
@@ -129,11 +119,9 @@ public class cancelar_ListAdapter extends BaseAdapter {
         @Override
         protected String doInBackground(Void... params) {
             Hashtable<String, String> parametros = new Hashtable<>();
-            parametros.put("evento", "cancelar_carrera");
-            parametros.put("id_usr",usuario+"");
-            parametros.put("id_carrera",id_carrera+"");
-            parametros.put("id_tipo",tipo+"");
-            parametros.put("tipo_cancelacion", 1+"");
+            parametros.put("evento", "marcar_costo_extra");
+            parametros.put("id_costo",id_costo+"");
+            parametros.put("id_carrera",id_carrera);
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(contexto.getString(R.string.url_servlet_admin), MethodType.POST, parametros));
             return respuesta;
         }
@@ -146,16 +134,7 @@ public class cancelar_ListAdapter extends BaseAdapter {
                     Log.e(Contexto.APP_TAG, "Hubo un error al obtener la lista de servidor.");
                     return;
                 } else {
-                    try {
-                        JSONObject obj = new JSONObject(resp);
-                        Intent inte = new Intent(contexto, ConfirmarCancelacion.class);
-                        inte.putExtra("obj_cancelacion", obj.toString());
-                        //inte.putExtra("obj_carrera",obj.toString());
-                        contexto.startActivity(inte);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                    Toast.makeText(contexto,"marcado",Toast.LENGTH_LONG).show();
                 }
             }
         }

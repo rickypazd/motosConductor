@@ -32,6 +32,20 @@ android:layout_height="match_parent">
         android:layout_alignParentTop="true">
 
         <Button
+            android:id="@+id/btn_agregar_costo_extra"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/phonebackground"
+            android:text="Costo extras"
+            android:textAppearance="@android:style/TextAppearance.Material.Title"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Button
             android:id="@+id/btn_cancelar_carrera"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -171,8 +185,8 @@ android:layout_height="match_parent">
                             android:layout_weight="1"
                             android:gravity="center">
 
-                            <EditText
-                                android:id="@+id/button"
+                            <Button
+                                android:id="@+id/btn_llamar"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
@@ -206,7 +220,7 @@ android:layout_height="match_parent">
                             android:gravity="center">
 
                             <Button
-                                android:id="@+id/button2"
+                                android:id="@+id/btn_enviar_mensaje"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"

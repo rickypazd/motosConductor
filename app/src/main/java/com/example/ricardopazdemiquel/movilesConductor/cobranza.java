@@ -79,6 +79,9 @@ public class cobranza extends AppCompatActivity{
                         case 4:
                             info+="<p>Pago de Deuda: </p></br>";
                             break;
+                        case 5:
+                            info+="<p>"+obj.getString("nombre")+"</p></br>";
+                            break;
                     }
                     costo+="<p>"+String.format("%.2f", obj.getDouble("costo"))+"</p></br>";
                 }
@@ -137,6 +140,7 @@ public class cobranza extends AppCompatActivity{
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
+            if(resp!=null){
             if(resp.equals("falso")){
                 Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                 return;
@@ -152,6 +156,7 @@ public class cobranza extends AppCompatActivity{
                 startActivity(intent);
                 finish();
             }
+        }
         }
         @Override
         protected void onProgressUpdate(String... values) {

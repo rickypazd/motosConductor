@@ -6,8 +6,9 @@
     tools:context=".HistorialCarreras">
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/listhistory"
+    <ListView
+        android:id="@+id/list_misViajes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:listitem="@layout/layout_item_ultimos_viajes" />
 </FrameLayout>

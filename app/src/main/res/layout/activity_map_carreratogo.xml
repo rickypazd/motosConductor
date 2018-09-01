@@ -6,11 +6,114 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
 android:layout_height="match_parent">
 
+
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapviewcarrera"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:translationZ="99999dp">
 
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:rotation="180"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/bottom_sheet2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:background="@color/colorPrimary"
+                android:clipToPadding="true"
+                app:behavior_peekHeight="55dp"
+                app:layout_behavior="utiles.BehaviorCuston">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:rotation="180">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:stackFromBottom="true"
+                        android:transcriptMode="alwaysScroll">
+
+
+                        <ListView
+                            android:id="@+id/lista_productos"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/colorWhite"
+                            android:clickable="true"
+                            android:divider="#929292"
+                            android:dividerHeight="1px"
+                            android:stackFromBottom="true"
+
+                            android:transcriptMode="alwaysScroll"
+                            tools:listitem="@layout/layout_item_pedidos_togo"></ListView>
+
+                        <Button
+                            android:id="@+id/btn_confirmar_compra"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:background="@drawable/phonebackground"
+                            android:text="Confirmar Compra"
+                            android:textAppearance="@android:style/TextAppearance.Material.Title"
+                            android:textColor="#fff"
+                            android:textSize="12sp"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_cantidad"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:drawablePadding="20dp"
+                                android:drawableStart="@drawable/ic_down_arrow"
+                                android:padding="16dp"
+                                android:text="Productos (0)"
+                                android:textColor="@color/cardview_light_background"
+                                android:textSize="18dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </android.support.design.widget.CoordinatorLayout>
+    </android.support.constraint.ConstraintLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_ver_en_waze"
         android:layout_width="141dp"
@@ -18,38 +121,23 @@ android:layout_height="match_parent">
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="14dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="80dp"
         android:src="@drawable/wazelogo"
         android:text="Select"
         app:backgroundTint="@android:color/background_light"
         app:elevation="24dp"
+        android:visibility="gone"
         app:fabSize="normal" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+       >
 
 
 
-        <Button
-            android:id="@+id/btn_cancelar_carrera"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="28dp"
-            android:layout_marginEnd="152dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/phonebackground"
-            android:text="Cancelar Viaje"
-            android:textAppearance="@android:style/TextAppearance.Material.Title"
-            android:textColor="#fff"
-            android:textSize="12sp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btn_terminar_carrera"
@@ -95,7 +183,7 @@ android:layout_height="match_parent">
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:background="@drawable/phonebackground"
-                android:text="Iniciar Viaje"
+                android:text="Marcar Compra"
                 android:textAppearance="@android:style/TextAppearance.Material.Title"
                 android:textColor="#fff"
 
@@ -129,84 +217,7 @@ android:layout_height="match_parent">
                 android:textColor="#fff"
                 android:textSize="16dp" />
         </LinearLayout>
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/main_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:rotation="180"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/bottom_sheet2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:background="@color/colorPrimary"
-                android:clipToPadding="true"
-                app:behavior_peekHeight="55dp"
-                app:layout_behavior="utiles.BehaviorCuston">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:rotation="180">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:stackFromBottom="true"
-                        android:transcriptMode="alwaysScroll">
-
-                        <ListView
-                            android:id="@+id/lista_productos"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/colorWhite"
-                            android:clickable="true"
-                            android:divider="#929292"
-                            android:dividerHeight="1px"
-                            android:stackFromBottom="true"
-                            android:transcriptMode="alwaysScroll"
-                            tools:listitem="@layout/layout_item_pedidos_togo"></ListView>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tv_cantidad"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:drawablePadding="20dp"
-                                android:drawableStart="@drawable/ic_down_arrow"
-                                android:padding="16dp"
-                                android:text="Productos (0)"
-                                android:textColor="@color/cardview_light_background"
-                                android:textSize="18dp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-        </android.support.design.widget.CoordinatorLayout>
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/Container_verPerfil"
             android:layout_width="match_parent"
@@ -380,6 +391,23 @@ android:layout_height="match_parent">
 
         </android.support.design.widget.CoordinatorLayout>
 
+        <Button
+            android:id="@+id/btn_cancelar_carrera"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="28dp"
+            android:layout_marginEnd="152dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/phonebackground"
+            android:text="Cancelar Viaje"
+            android:textAppearance="@android:style/TextAppearance.Material.Title"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
@@ -387,7 +415,8 @@ android:layout_height="match_parent">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible"
+        android:translationZ="999999dp">
 
         <FrameLayout
             android:layout_width="match_parent"

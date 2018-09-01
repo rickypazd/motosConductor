@@ -41,7 +41,7 @@ public class Carga extends AppCompatActivity {
                 JSONObject historial =getHistorial();
                 if(historial==null){
                     try {
-                        String resp=new get_historial_carrera(33,"1990-01-01").execute().get();
+                        String resp=new get_historial_carrera(usr_log.getInt("id"),"1990-01-01").execute().get();
                         cargarHistorial(resp);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -50,7 +50,7 @@ public class Carga extends AppCompatActivity {
                     }
                 }else{
                     try {
-                        String resp=new get_historial_carrera(33,historial.getJSONArray("arr").getJSONObject(0).getString("fecha_pedido")).execute().get();
+                        String resp=new get_historial_carrera(usr_log.getInt("id"),historial.getJSONArray("arr").getJSONObject(0).getString("fecha_pedido")).execute().get();
                         cargarHistorial(resp);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -72,7 +72,7 @@ public class Carga extends AppCompatActivity {
             @Override
             public void run() {
 
-
+                continuar();
 
             }
         }, 1000);
@@ -91,6 +91,7 @@ public class Carga extends AppCompatActivity {
                     JSONObject obj = new JSONObject(resp);
                     switch (obj.getInt("tipo")){
                         case 1:
+
                             break;
                         case 2:
                             JSONObject historial =getHistorial();

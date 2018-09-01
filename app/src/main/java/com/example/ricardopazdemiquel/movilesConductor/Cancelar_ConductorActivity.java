@@ -75,6 +75,7 @@ public class Cancelar_ConductorActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
+            if(resp!=null){
             if (resp.equals("falso")) {
                 Log.e(Contexto.APP_TAG, "Hubo un error al obtener la lista de servidor.");
                 return;
@@ -87,6 +88,7 @@ public class Cancelar_ConductorActivity extends AppCompatActivity{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
             }
         }
 

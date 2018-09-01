@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -56,9 +57,11 @@
 
         <activity
             android:name=".Cofirmar_Carrera"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Carga"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,34 +72,67 @@
         <activity
             android:name=".LoginConductor"
             android:label="@string/title_activity_login_conductor"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".MainActivityConductor"
             android:label="Conductor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Detalle_viaje_Cliente"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name=".InicieTurno"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".MapCarrera"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".MapCarreraTogo"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".cobranza"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Sin_conexion"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".CancelarConductor" />
-        <activity android:name=".ConfirmarCancelacion" />
-        <activity android:name=".Perfil_Conductor" />
-        <activity android:name=".PerfilCarrera" />
+        <activity
+            android:name=".CancelarConductor"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ConfirmarCancelacion"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Perfil_Conductor"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".PerfilCarrera"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CanceloViaje"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".veiheabor"></activity>
+        <activity
+            android:name=".veiheabor"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Editar_perfil_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".CostosExtras"
+            android:label="Costos extras" />
+        <activity android:name=".Chat_Activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

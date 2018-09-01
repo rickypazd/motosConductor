@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -101,11 +102,6 @@ public class MainActivityConductor extends AppCompatActivity
         btn_nav_misviajes.setOnClickListener(this);
         btn_nav_preferencias=header.findViewById(R.id.btn_nav_preferencias);
         btn_nav_preferencias.setOnClickListener(this);
-
-
-
-
-
          usr_log = getUsr_log();
         if (usr_log == null) {
             Intent intent = new Intent(MainActivityConductor.this, LoginConductor.class);
@@ -324,6 +320,8 @@ public class MainActivityConductor extends AppCompatActivity
 
                 break;
             case R.id.btn_nav_miperfil:
+                Intent intenta = new Intent(MainActivityConductor.this,Perfil_Conductor.class);
+                startActivity(intenta);
                 break;
             case R.id.btn_nav_misviajes:
                 seleccionarFragmento("HistorialCarreras");
@@ -346,6 +344,7 @@ public class MainActivityConductor extends AppCompatActivity
                 break;
             case "HistorialCarreras":
                 fragmentoGenerico= new HistorialCarreras();
+
                 break;
         }
         fragmentManager.beginTransaction().replace(R.id.content_conductor, fragmentoGenerico).commit();
@@ -588,6 +587,11 @@ public class MainActivityConductor extends AppCompatActivity
                             }
 
 
+                        }else{
+                            SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferencias.edit();
+                            editor.putString("chat_carrera", new JSONArray().toString());
+                            editor.commit();
                         }
 
                     } catch (JSONException e) {
@@ -639,15 +643,18 @@ public class MainActivityConductor extends AppCompatActivity
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-
-            if(resp.equals("falso")){
-                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-                return;
-            }else if(resp.equals("exito")){
-                obj_turno=null;
-                descativo.setChecked(true);
-                seleccionarFragmento("carrerasactivas");
+            if(resp!=null){
+                if(resp.equals("falso")){
+                    Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+                }else if(resp.equals("exito")){
+                    obj_turno=null;
+                    descativo.setChecked(true);
+                    Intent i =new Intent(MainActivityConductor.this, MapService2.class);
+                    stopService(i);
+                    seleccionarFragmento("carrerasactivas");
+                }
             }
+
         }
         @Override
         protected void onProgressUpdate(String... values) {

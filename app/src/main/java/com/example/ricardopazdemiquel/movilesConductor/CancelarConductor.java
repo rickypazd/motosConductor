@@ -72,17 +72,19 @@ public class CancelarConductor extends AppCompatActivity {
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
-            if (resp.equals("falso")) {
-                Log.e(Contexto.APP_TAG, "Hubo un error al obtener la lista de servidor.");
-                return;
-            } else {
-                try {
-                    JSONArray arr = new JSONArray(resp);
-                    ListAdapter adaptador = new cancelar_ListAdapter(CancelarConductor.this, arr , id_carrera);
-                    listView.setAdapter(adaptador);
+            if(resp!=null) {
+                if (resp.equals("falso")) {
+                    Log.e(Contexto.APP_TAG, "Hubo un error al obtener la lista de servidor.");
+                    return;
+                } else {
+                    try {
+                        JSONArray arr = new JSONArray(resp);
+                        ListAdapter adaptador = new cancelar_ListAdapter(CancelarConductor.this, arr, id_carrera);
+                        listView.setAdapter(adaptador);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

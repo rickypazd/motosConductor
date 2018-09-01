@@ -105,6 +105,7 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
     private ListView lista_productos;
     private Button btn_terminar_carrera;
     private Button btn_cancelar_carrera;
+    private Button btn_confirmar_compra;
     private Location location;
     private CoordinatorLayout Container_verPerfil;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -137,6 +138,7 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
         text_Viajes=findViewById(R.id.text_Viajes);
         tv_cantidad=findViewById(R.id.tv_cantidad);
         lista_productos=findViewById(R.id.lista_productos);
+
         cargandomapaline=findViewById(R.id.cargandomapaline);
         bottomSheetBehavior=BottomSheetBehavior.from(view);
         bottomSheetBehavior.setHideable(false);
@@ -243,7 +245,7 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
             layoutParams.setMargins(0, 0, 30, 600);
-            locationButton.setImageResource(R.drawable.ic_mapposition_foreground);
+           // locationButton.setImageResource(R.drawable.ic_mapposition_foreground);
 
 
 
@@ -260,6 +262,14 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
             public void onClick(View v) {
                 alert();
 
+            }
+        });
+
+        btn_confirmar_compra=findViewById(R.id.btn_confirmar_compra);
+        btn_confirmar_compra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            new iniciar_carrera().execute();
             }
         });
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -300,7 +310,6 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
     Intent inte;
     private void notificacionReciber(Intent intent){
         linear_marcar_llegada.setVisibility(View.VISIBLE);
-        btn_cancelar_carrera.setVisibility(View.GONE);
         btn_marcar_llegada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -370,7 +379,7 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
                             @Override
                             public void run() {
                                 if (carrera!=null && location!=null && googleMap!=null){
-                                    cargandomapaline.setVisibility(View.GONE);
+
                                     float acuracy =location.getAccuracy();
                                     LatLng latlng2= null;
                                     LatLng latlng1= null;
@@ -381,7 +390,7 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
                                                 latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
                                                 latwazefinal = latlng2.latitude;
                                                 lngwazefinal = latlng2.longitude;
-                                            } else if (carrera.getInt("estado") == 4) {
+                                            } else if (carrera.getInt("estado") == 5) {
                                                 btn_cancelar_carrera.setVisibility(View.INVISIBLE);
                                                 latlng2 = new LatLng(carrera.getDouble("latfinal"), carrera.getDouble("lngfinal"));
                                                 latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
@@ -389,14 +398,14 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
                                                 lngwazefinal = latlng2.longitude;
                                                 btn_terminar_carrera.setVisibility(View.VISIBLE);
                                             }else if (carrera.getInt("estado") == 3) {
-                                                btn_cancelar_carrera.setVisibility(View.INVISIBLE);
+                                                btn_cancelar_carrera.setVisibility(View.GONE);
+                                                btn_confirmar_compra.setVisibility(View.INVISIBLE);
                                                 latlng2 = new LatLng(carrera.getDouble("latfinal"), carrera.getDouble("lngfinal"));
                                                 latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
                                                 latwazefinal = latlng2.latitude;
                                                 lngwazefinal = latlng2.longitude;
-                                                linear_marcar_llegada.setVisibility(View.GONE);
-                                                btn_waze.setVisibility(View.INVISIBLE);
-                                                linear_Iniciar_Carrera.setVisibility(View.VISIBLE);
+                                                btn_waze.setVisibility(View.VISIBLE);
+                                                //linear_Iniciar_Carrera.setVisibility(View.VISIBLE);
                                                 if(cliente==null){
                                                     new get_cliente().execute();
                                                     cliente=new JSONObject();
@@ -448,13 +457,15 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
 
                                                 if(auto==null){
                                                     auto=googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),location.getLongitude())).title("YO").icon(BitmapDescriptorFactory.fromResource(R.drawable.auto)).anchor(0.5f,0.5f));
+
                                                 }else{
                                                     auto.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
 
                                                 }
                                             }
-
+                                            cargandomapaline.setVisibility(View.GONE);
                                         }
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -552,7 +563,7 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
             progreso.dismiss();
 
             if (resp == null) {
-                Toast.makeText(MapCarreraTogo.this,"Error al optener datos.",
+                Toast.makeText(MapCarreraTogo.this,"Error al obtener datos.",
                         Toast.LENGTH_SHORT).show();
             }else{
                 try {
@@ -611,29 +622,18 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
             if (resp == null) {
                 Toast.makeText(MapCarreraTogo.this,"Eroor al optener Datos",
                         Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(resp.equals("exito")){
 
-                linear_marcar_llegada.setVisibility(View.GONE);
-                btn_waze.setVisibility(View.INVISIBLE);
-                linear_Iniciar_Carrera.setVisibility(View.VISIBLE);
-                Container_verPerfil.setVisibility(View.VISIBLE);
-                iniciar_Carrera.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(carrera!=null)
-                        try {
-                            latwazefinal=carrera.getDouble("latfinal");
-                            lngwazefinal=carrera.getDouble("lngfinal");
-                            new iniciar_carrera().execute();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                new buscar_carrera().execute();
+            }else{
+                if(resp.equals("exito")){
+
+                    linear_marcar_llegada.setVisibility(View.GONE);
+                    btn_waze.setVisibility(View.INVISIBLE);
+                    btn_terminar_carrera.setVisibility(View.VISIBLE);
+
+                    new buscar_carrera().execute();
+                }
             }
+
         }
 
         @Override
@@ -652,7 +652,7 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
 
             progreso = new ProgressDialog(MapCarreraTogo.this);
             progreso.setIndeterminate(true);
-            progreso.setTitle("Iniciando Carrera.");
+            progreso.setTitle("Confirmando Compra.");
             progreso.setCancelable(false);
             progreso.show();
         }
@@ -661,7 +661,7 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
         protected String doInBackground(Void... params) {
             publishProgress("por favor espere...");
             Hashtable<String,String> param = new Hashtable<>();
-            param.put("evento","inciar_carrera");
+            param.put("evento","confirmar_compra");
             param.put("id_carrera",id_carrera+"");
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, param));
             return respuesta;
@@ -677,17 +677,20 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
                 Toast.makeText(MapCarreraTogo.this,"Eroor al optener Datos",
                         Toast.LENGTH_SHORT).show();
                 return;
-            }
-            if(resp.equals("exito")){
+            }else{
+                if(resp.equals("exito")){
 
-                btn_waze.setVisibility(View.VISIBLE);
-                iniciar_Carrera.setVisibility(View.GONE);
-                linear_Iniciar_Carrera.setVisibility(View.GONE);
-                Container_verPerfil.setVisibility(View.GONE);
-                btn_terminar_carrera.setVisibility(View.VISIBLE);
+                    btn_waze.setVisibility(View.VISIBLE);
+                    iniciar_Carrera.setVisibility(View.GONE);
+                    linear_Iniciar_Carrera.setVisibility(View.GONE);
+                    Container_verPerfil.setVisibility(View.GONE);
+                    btn_terminar_carrera.setVisibility(View.VISIBLE);
 
-                new buscar_carrera().execute();
+                    new buscar_carrera().execute();
+                }
             }
+
+
         }
 
         @Override
@@ -976,23 +979,25 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
+            if(resp!=null){
+                if(resp.equals("falso")){
+                    Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+                    return;
+                }else if(resp.equals("exito")){
+                    try {
+                        String a=new buscar_carrera().execute().get();
+                        Intent intent = new Intent(MapCarreraTogo.this, cobranza.class);
+                        startActivity(intent);
+                        finish();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
 
-            if(resp.equals("falso")){
-                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-                return;
-            }else if(resp.equals("exito")){
-                try {
-                    String a=new buscar_carrera().execute().get();
-                    Intent intent = new Intent(MapCarreraTogo.this, cobranza.class);
-                    startActivity(intent);
-                    finish();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
                 }
-
             }
+
         }
         @Override
         protected void onProgressUpdate(String... values) {

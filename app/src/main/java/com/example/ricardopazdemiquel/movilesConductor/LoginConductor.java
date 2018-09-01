@@ -243,27 +243,29 @@ public class LoginConductor extends AppCompatActivity {
             super.onPostExecute(success);
             mAuthTask = null;
             showProgress(false);
-
-            if (success.length()>0){
-                try {
-                    JSONObject usr = new JSONObject(success);
-                    if(usr.getString("exito").equals("si")){
-                          SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
-                          SharedPreferences.Editor editor = preferencias.edit();
-                              editor.putString("usr_log", usr.toString());
+            if(success!=null){
+                if (success.length()>0){
+                    try {
+                        JSONObject usr = new JSONObject(success);
+                        if(usr.getString("exito").equals("si")){
+                            SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferencias.edit();
+                            editor.putString("usr_log", usr.toString());
                             editor.commit();
 
-                        Intent intent = new Intent(LoginConductor.this,Carga.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }else{
-                        mPasswordView.setError(getString(R.string.error_incorrect_password));
-                        mPasswordView.requestFocus();
+                            Intent intent = new Intent(LoginConductor.this,Carga.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }else{
+                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordView.requestFocus();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
+
 
         }
 

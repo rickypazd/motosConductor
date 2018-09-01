@@ -150,9 +150,6 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
         @Override
         protected void onPostExecute(String pacientes) {
             super.onPostExecute(pacientes);
-            if (pacientes.equals("falso")) {
-                return ;
-            }
         }
 
         @Override
@@ -187,60 +184,63 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
         @Override
         protected void onPostExecute(String pacientes) {
             super.onPostExecute(pacientes);
-            try {
-                JSONObject obj2 = new JSONObject(pacientes);
-                boolean exito = obj2.getBoolean("exito");
-                if (!exito) {
-                    sw_estandar.setChecked(false);
-                    sw_togo.setChecked(false);
-                    sw_maravilla.setChecked(false);
-                    sw_super.setChecked(false);
-            }else{
-                    JSONObject obj=new JSONObject(pacientes);
-                    if(turno.getInt("tipo")==1){
-                        sw_super.setVisibility(View.VISIBLE);
-                        boolean superr = obj.getBoolean("super");
-                        if(sw_super.isChecked()!=superr){
-                            sw_super.setChecked(superr);
-                        }
+            if(pacientes!=null){
+                try {
+                    JSONObject obj2 = new JSONObject(pacientes);
+                    boolean exito = obj2.getBoolean("exito");
+                    if (!exito) {
+                        sw_estandar.setChecked(false);
+                        sw_togo.setChecked(false);
+                        sw_maravilla.setChecked(false);
+                        sw_super.setChecked(false);
                     }else{
-
-                        if(obj2.getBoolean("act_estandar")){
-                            sw_estandar.setVisibility(View.VISIBLE);
-                        }
-                        if(obj2.getBoolean("act_togo")){
-                            sw_togo.setVisibility(View.VISIBLE);
-                        }
-                        if(obj2.getBoolean("act_maravilla")){
-                            sw_maravilla.setVisibility(View.VISIBLE);
-                        }
-                        if(obj2.getBoolean("act_supe")){
+                        JSONObject obj=new JSONObject(pacientes);
+                        if(turno.getInt("tipo")==1){
                             sw_super.setVisibility(View.VISIBLE);
-                        }
+                            boolean superr = obj.getBoolean("super");
+                            if(sw_super.isChecked()!=superr){
+                                sw_super.setChecked(superr);
+                            }
+                        }else{
 
-                        boolean estandar = obj.getBoolean("estandar");
-                        if(sw_estandar.isChecked()!=estandar){
-                            sw_estandar.setChecked(estandar);
-                        }
-                        boolean togo = obj.getBoolean("togo");
-                        if(sw_togo.isChecked()!=togo){
-                            sw_togo.setChecked(togo);
-                        }
-                        boolean maravilla = obj.getBoolean("maravilla");
-                        if(sw_maravilla.isChecked()!=maravilla && usr_log.getString("sexo").equals("Mujer")){
-                            sw_maravilla.setChecked(maravilla);
-                        }
-                        boolean superr = obj.getBoolean("super");
-                        if(sw_super.isChecked()!=superr){
-                            sw_super.setChecked(superr);
+                            if(obj2.getBoolean("act_estandar")){
+                                sw_estandar.setVisibility(View.VISIBLE);
+                            }
+                            if(obj2.getBoolean("act_togo")){
+                                sw_togo.setVisibility(View.VISIBLE);
+                            }
+                            if(obj2.getBoolean("act_maravilla")){
+                                sw_maravilla.setVisibility(View.VISIBLE);
+                            }
+                            if(obj2.getBoolean("act_supe")){
+                                sw_super.setVisibility(View.VISIBLE);
+                            }
+
+                            boolean estandar = obj.getBoolean("estandar");
+                            if(sw_estandar.isChecked()!=estandar){
+                                sw_estandar.setChecked(estandar);
+                            }
+                            boolean togo = obj.getBoolean("togo");
+                            if(sw_togo.isChecked()!=togo){
+                                sw_togo.setChecked(togo);
+                            }
+                            boolean maravilla = obj.getBoolean("maravilla");
+                            if(sw_maravilla.isChecked()!=maravilla && usr_log.getString("sexo").equals("Mujer")){
+                                sw_maravilla.setChecked(maravilla);
+                            }
+                            boolean superr = obj.getBoolean("super");
+                            if(sw_super.isChecked()!=superr){
+                                sw_super.setChecked(superr);
+                            }
+
                         }
 
                     }
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+
         }
 
         @Override

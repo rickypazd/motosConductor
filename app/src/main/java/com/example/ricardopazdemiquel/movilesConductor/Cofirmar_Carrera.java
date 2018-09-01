@@ -30,6 +30,7 @@ import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
 import utiles.Contexto;
+import utiles.Single;
 
 public class Cofirmar_Carrera extends AppCompatActivity {
 
@@ -43,12 +44,12 @@ public class Cofirmar_Carrera extends AppCompatActivity {
     private boolean acepto;
     private int id_carrera;
     private int tipo;
-
+    private int tiempo_espera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cofirmar__carrera);
-
+        tiempo_espera=10000;
         btn_aceptar=findViewById(R.id.btn_aceptar_Carrera);
         tv_tipo_siete=findViewById(R.id.tv_tipo_siete);
         nombre =findViewById(R.id.editName);
@@ -64,6 +65,8 @@ public class Cofirmar_Carrera extends AppCompatActivity {
 
             jsonUsuario = new JSONObject(getIntent().getStringExtra("jsonUsuario"));
             json = new JSONObject(getIntent().getStringExtra("json"));
+            int tiempo = Single.getTiempo();
+            tiempo_espera-=tiempo;
             String auxNombre = jsonUsuario.getString("nombre");
             String auxapellidopa = jsonUsuario.getString("apellido_pa");
             String auxapellidoma = jsonUsuario.getString("apellido_ma");
@@ -116,7 +119,7 @@ public class Cofirmar_Carrera extends AppCompatActivity {
                     }
 
                 }
-            }, 9000);
+            }, tiempo_espera);
         }
     }
     public JSONObject getUsr_log() {
@@ -171,19 +174,21 @@ public class Cofirmar_Carrera extends AppCompatActivity {
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if(resp.equals("falso")){
-                Toast.makeText(Cofirmar_Carrera.this,"No encontramos el viaje, disculpe las molestias. ",Toast.LENGTH_SHORT).show();
-                finish();
-            }
-            if(resp.equals("exito")){
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("result",id_carrera);
-                returnIntent.putExtra("tipo",tipo);
-                setResult(Activity.RESULT_OK,returnIntent);
-                finish();
-            }else if(resp.equals("confirmada")){
-                Toast.makeText(Cofirmar_Carrera.this,"El viaje ya fue aceptado por otro conductor, disculpe las molestias.",Toast.LENGTH_SHORT).show();
-                finish();
+            if(resp!=null) {
+                if (resp.equals("falso")) {
+                    Toast.makeText(Cofirmar_Carrera.this, "No encontramos el viaje, disculpe las molestias. ", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                if (resp.equals("exito")) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("result", id_carrera);
+                    returnIntent.putExtra("tipo", tipo);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                } else if (resp.equals("confirmada")) {
+                    Toast.makeText(Cofirmar_Carrera.this, "El viaje ya fue aceptado por otro conductor, disculpe las molestias.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         }
         @Override

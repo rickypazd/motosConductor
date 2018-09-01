@@ -85,6 +85,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
     private GoogleMap googleMap;
     private int id_carrera = 0;
     private JSONObject carrera;
+    private JSONObject usr_log;
     private FloatingActionButton btn_waze;
     private LocationManager locationManager;
     private BroadcastReceiver broadcastReceiverMessage;
@@ -102,9 +103,11 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
     private TextView text_data1;
     private TextView text_data2;
     private TextView text_Viajes;
+    private Button btn_enviar_mensaje;
     ///////
     private Button btn_terminar_carrera;
     private Button btn_cancelar_carrera;
+    private Button btn_costos_extras;
     private Location location;
     private CoordinatorLayout Container_verPerfil;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -135,6 +138,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         text_data2=findViewById(R.id.text_data2);
         text_Viajes=findViewById(R.id.text_Viajes);
         cargandomapaline=findViewById(R.id.cargandomapaline);
+        btn_enviar_mensaje=findViewById(R.id.btn_enviar_mensaje);
         bottomSheetBehavior=BottomSheetBehavior.from(view);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -161,13 +165,14 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             });
         btn_terminar_carrera=findViewById(R.id.btn_terminar_carrera);
         btn_cancelar_carrera=findViewById(R.id.btn_cancelar_carrera);
+        btn_costos_extras=findViewById(R.id.btn_agregar_costo_extra);
 
         btn_marcar_llegada=findViewById(R.id.btn_marcar_llegada);
         iniciar_Carrera=findViewById(R.id.btn_iniciar_carrera);
         linear_Iniciar_Carrera=findViewById(R.id.linear_Iniciar_Carrera);
         linear_marcar_llegada= findViewById(R.id.linear_marcar_llegada);
         try {
-
+            usr_log=getUsr_log();
             String resp =new buscar_carrera().execute().get();
 
             btn_cancelar_carrera.setOnClickListener(new View.OnClickListener() {
@@ -176,6 +181,20 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                     if(carrera!=null){
                         try {
                             Intent inte = new Intent(MapCarrera.this,CancelarConductor.class);
+                            inte.putExtra("id_carrera",carrera.getString("id"));
+                            startActivity(inte);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            btn_costos_extras.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(carrera!=null){
+                        try {
+                            Intent inte = new Intent(MapCarrera.this,CostosExtras.class);
                             inte.putExtra("id_carrera",carrera.getString("id"));
                             startActivity(inte);
                         } catch (JSONException e) {
@@ -222,7 +241,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
             layoutParams.setMargins(0, 0, 30, 600);
-            locationButton.setImageResource(R.drawable.ic_mapposition_foreground);
+           locationButton.setImageResource(R.drawable.ic_mapposition_foreground);
 
 
 
@@ -367,6 +386,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                                                 latwazefinal = latlng2.latitude;
                                                 lngwazefinal = latlng2.longitude;
                                                 btn_terminar_carrera.setVisibility(View.VISIBLE);
+                                                btn_costos_extras.setVisibility(View.VISIBLE);
                                             }else if (carrera.getInt("estado") == 3) {
                                                 btn_cancelar_carrera.setVisibility(View.INVISIBLE);
                                                 latlng2 = new LatLng(carrera.getDouble("latfinal"), carrera.getDouble("lngfinal"));
@@ -719,6 +739,20 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                     text_nombreCliente.setText(cliente.getString("nombre")+" "+cliente.getString("apellido_pa")+" "+cliente.getString("apellido_ma"));
                     text_data1.setText(cliente.getString("fecha_nac"));
                     text_data2.setText(cliente.getString("sexo"));
+                    btn_enviar_mensaje.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(MapCarrera.this,Chat_Activity.class);
+                            try {
+                                intent.putExtra("id_receptor",cliente.getString("id"));
+                                intent.putExtra("nombre_receptor",cliente.getString("nombre")+" "+cliente.getString("apellido_pa")+" "+cliente.getString("apellido_ma"));
+                                intent.putExtra("id_emisor",usr_log.getString("id"));
+                                startActivity(intent);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -955,23 +989,26 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
+            if(resp!=null){
+                if(resp.equals("falso")){
+                    Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+                    return;
+                }else if(resp.equals("exito")){
+                    try {
+                        String a=new buscar_carrera().execute().get();
+                        Intent intent = new Intent(MapCarrera.this, cobranza.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
 
-            if(resp.equals("falso")){
-                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-                return;
-            }else if(resp.equals("exito")){
-                try {
-                    String a=new buscar_carrera().execute().get();
-                    Intent intent = new Intent(MapCarrera.this, cobranza.class);
-                    startActivity(intent);
-                    finish();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
                 }
-
             }
+
         }
         @Override
         protected void onProgressUpdate(String... values) {
