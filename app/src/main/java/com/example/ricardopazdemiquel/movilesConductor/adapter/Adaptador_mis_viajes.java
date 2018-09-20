@@ -80,7 +80,7 @@ public class Adaptador_mis_viajes extends BaseAdapter {
             int costo = viajes.getInt("costo_final");
             int tipo = viajes.getInt("tipo_pago");
 
-            text_fecha.setText(viajes.getString("fecha_pedido"));
+            text_fecha.setText(viajes.getString("fecha_pedido").substring(0,16));
             text_auto.setText(viajes.getString("marca"));
             if(get_estado(estado)){
                 text_inicio.setText(getCompleteAddressString(latinicial,lnginicial));

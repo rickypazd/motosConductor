@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 
@@ -24,22 +26,25 @@ import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
 import utiles.Contexto;
+import utiles.Font;
 import utiles.Token;
 
 public class InicieTurno extends AppCompatActivity {
 
     private ListView lista_vehiculos;
     JSONObject usr_log;
-    private Button btn_iniciar_sin_vehiculo;
-    private LinearLayout linear_iniciar_sin_vehi;
+    private CardView btn_iniciar_sin_vehiculo;
+    private CardView linear_iniciar_sin_vehi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicie_turno);
 
         lista_vehiculos=findViewById(R.id.lv_vehiculos);
-        btn_iniciar_sin_vehiculo= findViewById(R.id.btn_iniciar_sin_vehiculo);
+        btn_iniciar_sin_vehiculo= findViewById(R.id.iniciar_como_super_7);
         linear_iniciar_sin_vehi=findViewById(R.id.linear_iniciar_sin_vehi);
+       // TextView text_title = findViewById(R.id.tv);
+        //Font.Gotham_Rounded.apply(this,text_title);
          usr_log = getUsr_log();
         if (usr_log == null) {
             Intent intent = new Intent(InicieTurno.this, LoginConductor.class);
@@ -154,20 +159,23 @@ public class InicieTurno extends AppCompatActivity {
             try {
                 JSONObject obj = new JSONObject(resp);
                 if(obj.length()>0){
-                    if(obj.getBoolean("act_supe")){
-                        linear_iniciar_sin_vehi.setVisibility(View.VISIBLE);
-                        btn_iniciar_sin_vehiculo.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //INICIAR TURNO SIN VEHICULO
-                                try {
-                                    new iniciar_turno(usr_log.getInt("id")).execute();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                    if(obj.getBoolean("exito")){
+                        if(obj.getBoolean("act_supe")){
+                            linear_iniciar_sin_vehi.setVisibility(View.VISIBLE);
+                            linear_iniciar_sin_vehi.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //INICIAR TURNO SIN VEHICULO
+                                    try {
+                                        new iniciar_turno(usr_log.getInt("id")).execute();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,7 +79,7 @@ public class AdaptadorVehiculo extends BaseAdapter {
         TextView tv_color = view.findViewById(R.id.tv_color);
 
 
-        Button inciar = view.findViewById(R.id.btn_inciar);
+        CardView inciar = view.findViewById(R.id.btn_inciar);
         try {
             final JSONObject cancha = listaVehiculos.getJSONObject(i);
             //imgCancha.setImageResource(cancha.getImagen());

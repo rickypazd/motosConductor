@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -27,6 +29,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -101,6 +104,8 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
     private TextView text_data2;
     private TextView text_Viajes;
     private TextView tv_cantidad;
+    private Button btn_enviar_mensaje;
+    private Button btn_llamar;
     ///////
     private ListView lista_productos;
     private Button btn_terminar_carrera;
@@ -138,7 +143,8 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
         text_Viajes=findViewById(R.id.text_Viajes);
         tv_cantidad=findViewById(R.id.tv_cantidad);
         lista_productos=findViewById(R.id.lista_productos);
-
+        btn_llamar = findViewById(R.id.btn_llamar);
+        btn_enviar_mensaje = findViewById(R.id.btn_enviar_mensaje);
         cargandomapaline=findViewById(R.id.cargandomapaline);
         bottomSheetBehavior=BottomSheetBehavior.from(view);
         bottomSheetBehavior.setHideable(false);
@@ -739,10 +745,50 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
                         Toast.LENGTH_SHORT).show();
             }else{
                 try {
-                    cliente= new JSONObject(resp);
-                    text_nombreCliente.setText(cliente.getString("nombre")+" "+cliente.getString("apellido_pa")+" "+cliente.getString("apellido_ma"));
+                    cliente = new JSONObject(resp);
+                    text_nombreCliente.setText(cliente.getString("nombre") + " " + cliente.getString("apellido_pa") + " " + cliente.getString("apellido_ma"));
                     text_data1.setText(cliente.getString("fecha_nac"));
                     text_data2.setText(cliente.getString("sexo"));
+                    btn_enviar_mensaje.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(MapCarreraTogo.this, Chat_Activity.class);
+                            try {
+                                intent.putExtra("id_receptor", cliente.getString("id"));
+                                intent.putExtra("nombre_receptor", cliente.getString("nombre") + " " + cliente.getString("apellido_pa") + " " + cliente.getString("apellido_ma"));
+                                intent.putExtra("id_emisor", getUsr_log().getString("id"));
+                                startActivity(intent);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    btn_llamar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                String telefono = cliente.getString("telefono");
+                                number=telefono;
+
+                                int permissionCheck = ContextCompat.checkSelfPermission(
+                                        MapCarreraTogo.this, Manifest.permission.CALL_PHONE);
+                                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                                    Log.i("Mensaje", "No se tiene permiso para realizar llamadas telefónicas.");
+                                    ActivityCompat.requestPermissions(MapCarreraTogo.this, new String[]{Manifest.permission.CALL_PHONE}, 225);
+                                } else {
+                                    callPhone();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    if(cliente.has("foto_perfil")){
+                        if (cliente.getString("foto_perfil").length() > 0) {
+                            new AsyncTaskLoadImage(img_foto).execute(getString(R.string.url_foto)+cliente.getString("foto_perfil"));
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -756,6 +802,38 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
             progreso.setMessage(values[0]);
         }
 
+    }
+    private String number;
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 255: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    callPhone();
+                } else {
+                    System.out.println("El usuario ha rechazado el permiso");
+                }
+                return;
+            }
+        }
+    }
+
+    public void callPhone() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + number));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(intent);
     }
     private void alert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MapCarreraTogo.this);
@@ -1003,6 +1081,29 @@ public class MapCarreraTogo extends AppCompatActivity implements LocationListene
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
 
+        }
+    }
+
+    public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {
+        private final static String TAG = "AsyncTaskLoadImage";
+        private ImageView imageView;
+        public AsyncTaskLoadImage(ImageView imageView) {
+            this.imageView = imageView;
+        }
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            Bitmap bitmap = null;
+            try {
+                URL url = new URL(params[0]);
+                bitmap = BitmapFactory.decodeStream((InputStream)url.getContent());
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            return bitmap;
+        }
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            imageView.setImageBitmap(bitmap);
         }
     }
 

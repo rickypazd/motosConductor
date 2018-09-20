@@ -315,7 +315,7 @@ public class MainActivityConductor extends AppCompatActivity
                 seleccionarFragmento("carrerasactivas");
                 break;
             case R.id.btn_nav_formaspago:
-                Intent intent = new Intent(MainActivityConductor.this,veiheabor.class);
+                Intent intent = new Intent(MainActivityConductor.this,Transaccion_cliente_Activity.class);
                 startActivity(intent);
 
                 break;
@@ -327,6 +327,8 @@ public class MainActivityConductor extends AppCompatActivity
                 seleccionarFragmento("HistorialCarreras");
                 break;
             case R.id.btn_nav_preferencias:
+                Intent intentas = new Intent(MainActivityConductor.this,Preferencias.class);
+                startActivity(intentas);
                 break;
         }
 

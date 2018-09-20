@@ -82,13 +82,16 @@
 
                         </View>
 
+
                         <TextView
                             android:id="@+id/text_inicioViaje"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:drawableLeft="@drawable/ic_pointer_map2"
+                            android:drawablePadding="10dp"
+                            android:layout_marginBottom="10dp"
                             android:textSize="15sp"
-                            android:inputType="textMultiLine"
                             tools:text="callea capitan velarde" />
 
                         <TextView
@@ -96,8 +99,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:drawableLeft="@drawable/ic_pointer_map"
+                            android:drawablePadding="5dp"
                             android:textSize="15sp"
-                            android:inputType="textMultiLine"
                             tools:text="ave tres passos al f" />
 
                         <View

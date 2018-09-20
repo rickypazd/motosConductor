@@ -261,8 +261,8 @@ android:layout_height="match_parent">
                             android:layout_weight="1"
                             android:gravity="center">
 
-                            <EditText
-                                android:id="@+id/button"
+                            <Button
+                                android:id="@+id/btn_llamar"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
@@ -296,7 +296,7 @@ android:layout_height="match_parent">
                             android:gravity="center">
 
                             <Button
-                                android:id="@+id/button2"
+                                android:id="@+id/btn_enviar_mensaje"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"

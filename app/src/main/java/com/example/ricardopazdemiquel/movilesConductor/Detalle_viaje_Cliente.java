@@ -160,7 +160,7 @@ public class Detalle_viaje_Cliente extends AppCompatActivity {
 
                         nombre.setText(obj.getString("nombre"));
                         placa_numerotelefono.setText(placa+" ° "+telefono);
-                        fecha.setText(obj.getString("fecha_pedido"));
+                        fecha.setText(obj.getString("fecha_pedido").substring(0,16));
                         marca_auto.setText(obj.getString("marca")+" "+obj.getString("modelo"));
 
 

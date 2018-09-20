@@ -107,8 +107,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_estrella" />
-                            <entry key="sourceFile" value="C:\Users\Edson\Downloads\estrella.svg" />
+                            <entry key="outputName" value="ic_icon_buena_ruta" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../../SVG/esta4Asset 9.svg" />
                           </map>
                         </option>
                       </PersistentState>

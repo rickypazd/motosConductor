@@ -45,7 +45,7 @@ public class cobranza extends AppCompatActivity{
         btn_cobranza = findViewById(R.id.btn_cobrar);
         tv1 = findViewById(R.id.tv1);
         tv2 = findViewById(R.id.tv2);
-
+        tv_metodo_pago=findViewById(R.id.tv3);
         SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
         carrera = preferencias.getString("carrera", "");
 
@@ -54,7 +54,7 @@ public class cobranza extends AppCompatActivity{
                 obj_carrera = new JSONObject(carrera);
 
                 tv_total.setText(obj_carrera.getInt("costo_final")+" Bs.");
-                int metodopago=obj_carrera.getInt("costo_final");
+                int metodopago=obj_carrera.getInt("tipo_pago");
                 if(metodopago==1){
                     tv_metodo_pago.setText("Efectivo");
                 }else if(metodopago==2){

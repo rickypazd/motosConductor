@@ -75,7 +75,6 @@ public class MapService2 extends Service implements LocationListener, GpsStatus.
     // Guarda los valores que cambián con las variaciones del sensor TYPE_MAGNETIC_FIELD
     float[] mGeomagnetic;
     ArrayList<Location> locationList;
-
     ArrayList<Location> oldLocationList;
     ArrayList<Location> noAccuracyLocationList;
     ArrayList<Location> inaccurateLocationList;

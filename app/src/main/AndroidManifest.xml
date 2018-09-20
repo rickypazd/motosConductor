@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -81,6 +81,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Detalle_viaje_Cliente"
+            android:label="Detalle del viaje"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
@@ -105,13 +106,16 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".CancelarConductor"
+            android:label="Cancelar viaje"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ConfirmarCancelacion"
+            android:label="Cancelar viaje"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Perfil_Conductor"
             android:screenOrientation="portrait"
+            android:label="Mi Perfil"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".PerfilCarrera"
@@ -126,11 +130,22 @@
         <activity
             android:name=".Editar_perfil_Activity"
             android:screenOrientation="portrait"
+            android:label="Editar"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".CostosExtras"
             android:label="Costos extras" />
+
         <activity android:name=".Chat_Activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".Preferencias"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".Transaccion_cliente_Activity"
+            android:label="Creditos"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"></activity>
     </application>

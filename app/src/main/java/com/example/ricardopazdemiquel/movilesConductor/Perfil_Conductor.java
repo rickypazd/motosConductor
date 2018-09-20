@@ -3,6 +3,8 @@ package com.example.ricardopazdemiquel.movilesConductor;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.Hashtable;
 
 import clienteHTTP.HttpConnection;
@@ -32,7 +39,7 @@ public class Perfil_Conductor extends AppCompatActivity implements View.OnClickL
     private TextView textTelefono;
     private TextView textEmail;
     private TextView textcredito;
-
+    private com.mikhaellopez.circularimageview.CircularImageView img_photo;
 
     private LinearLayout Liner_nombre;
     private LinearLayout Liner_apellido;
@@ -47,11 +54,13 @@ public class Perfil_Conductor extends AppCompatActivity implements View.OnClickL
         Toolbar toolbar = findViewById(R.id.toolbar3aa);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_left_arrow);
 
         textNombre = findViewById(R.id.text_nombreCliente);
         textApellido = findViewById(R.id.text_apellidoCliente);
         textTelefono = findViewById(R.id.text_numero_telefono);
         textEmail = findViewById(R.id.text_email_cliente);
+        img_photo = findViewById(R.id.img_photo);
 
         textcredito = findViewById(R.id.creditos);
 
@@ -169,12 +178,16 @@ public class Perfil_Conductor extends AppCompatActivity implements View.OnClickL
                 String apellido_ma = usr_log.getString("apellido_ma");
                 String telefono= usr_log.getString("telefono");
                 String correo = usr_log.getString("correo");
-                String credito = usr_log.getString("creditos");
+                DecimalFormat df = new DecimalFormat("#.00");
+                String credito = df.format(Double.parseDouble(usr_log.getString("creditos")));
                 textNombre.setText(nombre);
                 textApellido.setText(apellido_pa+" "+apellido_ma);
                 textTelefono.setText("+591 "+telefono);
                 textEmail.setText(correo);
                 textcredito.setText(credito);
+                if(usr_log.getString("foto_perfil").length()>0){
+                    new AsyncTaskLoadImage(img_photo).execute(getString(R.string.url_foto)+usr_log.getString("foto_perfil"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -261,4 +274,33 @@ public class Perfil_Conductor extends AppCompatActivity implements View.OnClickL
 
         }
     }
+
+
+    public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {
+        private final static String TAG = "AsyncTaskLoadImage";
+        private ImageView imageView;
+        public AsyncTaskLoadImage(ImageView imageView) {
+            this.imageView = imageView;
+        }
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            Bitmap bitmap = null;
+            try {
+                URL url = new URL(params[0]);
+                bitmap = BitmapFactory.decodeStream((InputStream)url.getContent());
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            return bitmap;
+        }
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            imageView.setImageBitmap(bitmap);
+        }
+    }
+
+
+
+
+
 }

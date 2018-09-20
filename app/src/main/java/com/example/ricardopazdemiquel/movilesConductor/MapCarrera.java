@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.hardware.Sensor;
@@ -28,6 +30,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -104,6 +107,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
     private TextView text_data2;
     private TextView text_Viajes;
     private Button btn_enviar_mensaje;
+    private Button btn_llamar;
     ///////
     private Button btn_terminar_carrera;
     private Button btn_cancelar_carrera;
@@ -125,63 +129,66 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
     float[] mGravity;
     // Guarda los valores que cambián con las variaciones del sensor TYPE_MAGNETIC_FIELD
     float[] mGeomagnetic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_carrera);
         id_carrera = getIntent().getIntExtra("id_carrera", 0);
-        View view =findViewById(R.id.button_sheet);
+        View view = findViewById(R.id.button_sheet);
         Container_verPerfil = findViewById(R.id.Container_verPerfil);
-        img_foto=findViewById(R.id.img_foto);
-        text_nombreCliente=findViewById(R.id.text_nombreCliente);
-        text_data1=findViewById(R.id.text_data1);
-        text_data2=findViewById(R.id.text_data2);
-        text_Viajes=findViewById(R.id.text_Viajes);
-        cargandomapaline=findViewById(R.id.cargandomapaline);
-        btn_enviar_mensaje=findViewById(R.id.btn_enviar_mensaje);
-        bottomSheetBehavior=BottomSheetBehavior.from(view);
+        img_foto = findViewById(R.id.img_foto);
+        text_nombreCliente = findViewById(R.id.text_nombreCliente);
+        text_data1 = findViewById(R.id.text_data1);
+        text_data2 = findViewById(R.id.text_data2);
+        text_Viajes = findViewById(R.id.text_Viajes);
+        cargandomapaline = findViewById(R.id.cargandomapaline);
+        btn_llamar = findViewById(R.id.btn_llamar);
+        btn_enviar_mensaje = findViewById(R.id.btn_enviar_mensaje);
+        bottomSheetBehavior = BottomSheetBehavior.from(view);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState){
+                switch (newState) {
                     case BottomSheetBehavior.STATE_HIDDEN:
                         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                         break;
                 }
             }
+
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
         });
 
         btn_waze = findViewById(R.id.btn_ver_en_waze);
-     //   btn_waze.setOnClickListener(this);
-            btn_waze.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    ver_en_waze();
-                    return false;
-                }
-            });
-        btn_terminar_carrera=findViewById(R.id.btn_terminar_carrera);
-        btn_cancelar_carrera=findViewById(R.id.btn_cancelar_carrera);
-        btn_costos_extras=findViewById(R.id.btn_agregar_costo_extra);
+        //   btn_waze.setOnClickListener(this);
+        btn_waze.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ver_en_waze();
+                return false;
+            }
+        });
+        btn_terminar_carrera = findViewById(R.id.btn_terminar_carrera);
+        btn_cancelar_carrera = findViewById(R.id.btn_cancelar_carrera);
+        btn_costos_extras = findViewById(R.id.btn_agregar_costo_extra);
 
-        btn_marcar_llegada=findViewById(R.id.btn_marcar_llegada);
-        iniciar_Carrera=findViewById(R.id.btn_iniciar_carrera);
-        linear_Iniciar_Carrera=findViewById(R.id.linear_Iniciar_Carrera);
-        linear_marcar_llegada= findViewById(R.id.linear_marcar_llegada);
+        btn_marcar_llegada = findViewById(R.id.btn_marcar_llegada);
+        iniciar_Carrera = findViewById(R.id.btn_iniciar_carrera);
+        linear_Iniciar_Carrera = findViewById(R.id.linear_Iniciar_Carrera);
+        linear_marcar_llegada = findViewById(R.id.linear_marcar_llegada);
         try {
-            usr_log=getUsr_log();
-            String resp =new buscar_carrera().execute().get();
+            usr_log = getUsr_log();
+            String resp = new buscar_carrera().execute().get();
 
             btn_cancelar_carrera.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(carrera!=null){
+                    if (carrera != null) {
                         try {
-                            Intent inte = new Intent(MapCarrera.this,CancelarConductor.class);
-                            inte.putExtra("id_carrera",carrera.getString("id"));
+                            Intent inte = new Intent(MapCarrera.this, CancelarConductor.class);
+                            inte.putExtra("id_carrera", carrera.getString("id"));
                             startActivity(inte);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -192,10 +199,10 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             btn_costos_extras.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(carrera!=null){
+                    if (carrera != null) {
                         try {
-                            Intent inte = new Intent(MapCarrera.this,CostosExtras.class);
-                            inte.putExtra("id_carrera",carrera.getString("id"));
+                            Intent inte = new Intent(MapCarrera.this, CostosExtras.class);
+                            inte.putExtra("id_carrera", carrera.getString("id"));
                             startActivity(inte);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -208,7 +215,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        mMapView=findViewById(R.id.mapviewcarrera);
+        mMapView = findViewById(R.id.mapviewcarrera);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
         MapsInitializer.initialize(this.getApplicationContext());
@@ -226,8 +233,8 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                 if (ActivityCompat.checkSelfPermission(MapCarrera.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapCarrera.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-                  mMap.setMyLocationEnabled(true);
-                    mMap.getUiSettings().setCompassEnabled(true);
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setCompassEnabled(true);
 
 
             }
@@ -241,8 +248,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
             layoutParams.setMargins(0, 0, 30, 600);
-           locationButton.setImageResource(R.drawable.ic_mapposition_foreground);
-
+            locationButton.setImageResource(R.drawable.ic_mapposition_foreground);
 
 
         }
@@ -272,7 +278,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
     @Override
     protected void onResume() {
         super.onResume();
-        if(broadcastReceiverMessage == null){
+        if (broadcastReceiverMessage == null) {
             broadcastReceiverMessage = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
@@ -280,8 +286,8 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                 }
             };
         }
-        registerReceiver(broadcastReceiverMessage,new IntentFilter("llego_conductor"));
-        if(bradcastCanceloCarrera == null){
+        registerReceiver(broadcastReceiverMessage, new IntentFilter("llego_conductor"));
+        if (bradcastCanceloCarrera == null) {
             bradcastCanceloCarrera = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
@@ -289,20 +295,22 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                 }
             };
         }
-        registerReceiver(bradcastCanceloCarrera,new IntentFilter("Carrera_Cancelada"));
+        registerReceiver(bradcastCanceloCarrera, new IntentFilter("Carrera_Cancelada"));
 
         mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         mSensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI);
 
     }
+
     Intent inte;
-    private void notificacionReciber(Intent intent){
+
+    private void notificacionReciber(Intent intent) {
         linear_marcar_llegada.setVisibility(View.VISIBLE);
         btn_cancelar_carrera.setVisibility(View.GONE);
         btn_marcar_llegada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(id_carrera>0){
+                if (id_carrera > 0) {
                     //avisar llegada
                     new conductor_llego().execute();
                 }
@@ -316,24 +324,22 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         mSensorManager.unregisterListener(this);
     }
 
-    private void cancelocarrera(Intent intent){
-        Intent inten = new Intent(MapCarrera.this,CanceloViaje.class);
+    private void cancelocarrera(Intent intent) {
+        Intent inten = new Intent(MapCarrera.this, CanceloViaje.class);
         inten.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(inten);
     }
-    private void ver_en_waze(){
-        if(carrera!=null){
-            try
-            {
 
-                String url = "https://waze.com/ul?ll="+latwazefinal+","+lngwazefinal+"&navigate=yes";
-                Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( url ) );
-                startActivity( intent );
-            }
-            catch ( ActivityNotFoundException ex  )
-            {
+    private void ver_en_waze() {
+        if (carrera != null) {
+            try {
+
+                String url = "https://waze.com/ul?ll=" + latwazefinal + "," + lngwazefinal + "&navigate=yes";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
                 // If Waze is not installed, open it in Google Play:
-                Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.waze"));
                 startActivity(intent);
             }
         }
@@ -341,23 +347,25 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
 
     @Override
     public void onLocationChanged(Location location) {
-           this.location=location;
+        this.location = location;
 
 
-        if(auto==null){
+        if (auto == null) {
 
-            auto=googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),location.getLongitude())).title("YO").icon(BitmapDescriptorFactory.fromResource(R.drawable.auto)).anchor(0.5f,0.5f));
-        }else{
-            auto.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
+            auto = googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("YO").icon(BitmapDescriptorFactory.fromResource(R.drawable.auto)).anchor(0.5f, 0.5f));
+        } else {
+            auto.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
         }
     }
+
     private Marker marfin;
     private Marker auto;
-    private float dist=0;
+    private float dist = 0;
     private boolean hilo;
     private JSONObject cliente;
-    private void hilo(){
-        hilo=true;
+
+    private void hilo() {
+        hilo = true;
 
         new Thread() {
             public void run() {
@@ -367,13 +375,13 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
 
                             @Override
                             public void run() {
-                                if (carrera!=null && location!=null && googleMap!=null){
+                                if (carrera != null && location != null && googleMap != null) {
                                     cargandomapaline.setVisibility(View.GONE);
-                                    float acuracy =location.getAccuracy();
-                                    LatLng latlng2= null;
-                                    LatLng latlng1= null;
+                                    float acuracy = location.getAccuracy();
+                                    LatLng latlng2 = null;
+                                    LatLng latlng1 = null;
                                     try {
-                                        if (acuracy<30){
+                                        if (acuracy < 30) {
                                             if (carrera.getInt("estado") == 2) {
                                                 latlng2 = new LatLng(carrera.getDouble("latinicial"), carrera.getDouble("lnginicial"));
                                                 latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
@@ -387,7 +395,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                                                 lngwazefinal = latlng2.longitude;
                                                 btn_terminar_carrera.setVisibility(View.VISIBLE);
                                                 btn_costos_extras.setVisibility(View.VISIBLE);
-                                            }else if (carrera.getInt("estado") == 3) {
+                                            } else if (carrera.getInt("estado") == 3) {
                                                 btn_cancelar_carrera.setVisibility(View.INVISIBLE);
                                                 latlng2 = new LatLng(carrera.getDouble("latfinal"), carrera.getDouble("lngfinal"));
                                                 latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
@@ -396,18 +404,18 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                                                 linear_marcar_llegada.setVisibility(View.GONE);
                                                 btn_waze.setVisibility(View.INVISIBLE);
                                                 linear_Iniciar_Carrera.setVisibility(View.VISIBLE);
-                                                if(cliente==null){
+                                                if (cliente == null) {
                                                     new get_cliente().execute();
-                                                    cliente=new JSONObject();
+                                                    cliente = new JSONObject();
                                                 }
                                                 Container_verPerfil.setVisibility(View.VISIBLE);
                                                 iniciar_Carrera.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View v) {
-                                                        if(carrera!=null)
+                                                        if (carrera != null)
                                                             try {
-                                                                latwazefinal=carrera.getDouble("latfinal");
-                                                                lngwazefinal=carrera.getDouble("lngfinal");
+                                                                latwazefinal = carrera.getDouble("latfinal");
+                                                                lngwazefinal = carrera.getDouble("lngfinal");
                                                                 new iniciar_carrera().execute();
                                                             } catch (JSONException e) {
                                                                 e.printStackTrace();
@@ -416,7 +424,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                                                 });
 
                                             }
-                                            if(latlng1!=null && latlng2!=null){
+                                            if (latlng1 != null && latlng2 != null) {
                                                 float[] results = new float[1];
                                                 Location.distanceBetween(
                                                         latlng1.latitude,
@@ -424,31 +432,31 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                                                         latlng2.latitude,
                                                         latlng2.longitude,
                                                         results);
-                                                if((dist-results[0])> 20 || (dist-results[0])< -20|| dist==0){
+                                                if ((dist - results[0]) > 20 || (dist - results[0]) < -20 || dist == 0) {
                                                     googleMap.clear();
-                                                    marfin=null;
-                                                    auto=null;
-                                                    dist=results[0];
+                                                    marfin = null;
+                                                    auto = null;
+                                                    dist = results[0];
                                                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
                                                     builder.include(latlng1);
                                                     builder.include(latlng2);
-                                                    LatLngBounds bounds=builder.build();
-                                                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,300);
+                                                    LatLngBounds bounds = builder.build();
+                                                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 300);
                                                     googleMap.moveCamera(cu);
                                                     String url = obtenerDireccionesURL(latlng1, latlng2);
-                                                    DownloadTask downloadTask= new DownloadTask();
+                                                    DownloadTask downloadTask = new DownloadTask();
                                                     downloadTask.execute(url);
                                                 }
-                                                if(marfin==null){
-                                                    marfin=googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
-                                                }else{
+                                                if (marfin == null) {
+                                                    marfin = googleMap.addMarker(new MarkerOptions().position(latlng2).title("FIN").icon(BitmapDescriptorFactory.fromResource(R.drawable.asetmar)));
+                                                } else {
                                                     marfin.setPosition(latlng2);
                                                 }
 
-                                                if(auto==null){
-                                                    auto=googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),location.getLongitude())).title("YO").icon(BitmapDescriptorFactory.fromResource(R.drawable.auto)).anchor(0.5f,0.5f));
-                                                }else{
-                                                    auto.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
+                                                if (auto == null) {
+                                                    auto = googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("YO").icon(BitmapDescriptorFactory.fromResource(R.drawable.auto)).anchor(0.5f, 0.5f));
+                                                } else {
+                                                    auto.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
 
                                                 }
                                             }
@@ -469,6 +477,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             }
         }.start();
     }
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
@@ -497,7 +506,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
 
         if ((mGravity != null) && (mGeomagnetic != null)) {
             float RotationMatrix[] = new float[16];
-            boolean success = SensorManager.getRotationMatrix(RotationMatrix,                                                             null, mGravity, mGeomagnetic);
+            boolean success = SensorManager.getRotationMatrix(RotationMatrix, null, mGravity, mGeomagnetic);
             if (success) {
                 float orientation[] = new float[3];
                 SensorManager.getOrientation(RotationMatrix, orientation);
@@ -508,7 +517,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
 
 
         currentDegree = -degree;
-        if(auto!=null){
+        if (auto != null) {
 
             auto.setRotation(currentDegree);
         }
@@ -523,6 +532,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
 
     private class buscar_carrera extends AsyncTask<Void, String, String> {
         private ProgressDialog progreso;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -537,9 +547,9 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         @Override
         protected String doInBackground(Void... params) {
             publishProgress("por favor espere...");
-            Hashtable<String,String> param = new Hashtable<>();
-            param.put("evento","get_carrera_id");
-            param.put("id",id_carrera+"");
+            Hashtable<String, String> param = new Hashtable<>();
+            param.put("evento", "get_carrera_id");
+            param.put("id", id_carrera + "");
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, param));
             return respuesta;
         }
@@ -551,15 +561,15 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             progreso.dismiss();
 
             if (resp == null) {
-                Toast.makeText(MapCarrera.this,"Error al optener datos.",
+                Toast.makeText(MapCarrera.this, "Error al optener datos.",
                         Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 try {
                     JSONObject obj = new JSONObject(resp);
 
 
-                    carrera=obj;
-                    SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
+                    carrera = obj;
+                    SharedPreferences preferencias = getSharedPreferences("myPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferencias.edit();
                     editor.putString("carrera", obj.toString());
                     editor.commit();
@@ -580,6 +590,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
 
     private class conductor_llego extends AsyncTask<Void, String, String> {
         private ProgressDialog progreso;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -594,9 +605,9 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         @Override
         protected String doInBackground(Void... params) {
             publishProgress("por favor espere...");
-            Hashtable<String,String> param = new Hashtable<>();
-            param.put("evento","conductor_llego");
-            param.put("id_carrera",id_carrera+"");
+            Hashtable<String, String> param = new Hashtable<>();
+            param.put("evento", "conductor_llego");
+            param.put("id_carrera", id_carrera + "");
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, param));
             return respuesta;
         }
@@ -608,11 +619,11 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             progreso.dismiss();
 
             if (resp == null) {
-                Toast.makeText(MapCarrera.this,"Eroor al optener Datos",
+                Toast.makeText(MapCarrera.this, "Eroor al optener Datos",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(resp.equals("exito")){
+            if (resp.equals("exito")) {
 
                 linear_marcar_llegada.setVisibility(View.GONE);
                 btn_waze.setVisibility(View.INVISIBLE);
@@ -621,14 +632,14 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                 iniciar_Carrera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(carrera!=null)
-                        try {
-                            latwazefinal=carrera.getDouble("latfinal");
-                            lngwazefinal=carrera.getDouble("lngfinal");
-                            new iniciar_carrera().execute();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        if (carrera != null)
+                            try {
+                                latwazefinal = carrera.getDouble("latfinal");
+                                lngwazefinal = carrera.getDouble("lngfinal");
+                                new iniciar_carrera().execute();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                     }
                 });
                 new buscar_carrera().execute();
@@ -645,6 +656,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
 
     private class iniciar_carrera extends AsyncTask<Void, String, String> {
         private ProgressDialog progreso;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -659,9 +671,9 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         @Override
         protected String doInBackground(Void... params) {
             publishProgress("por favor espere...");
-            Hashtable<String,String> param = new Hashtable<>();
-            param.put("evento","inciar_carrera");
-            param.put("id_carrera",id_carrera+"");
+            Hashtable<String, String> param = new Hashtable<>();
+            param.put("evento", "inciar_carrera");
+            param.put("id_carrera", id_carrera + "");
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, param));
             return respuesta;
         }
@@ -673,11 +685,11 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             progreso.dismiss();
 
             if (resp == null) {
-                Toast.makeText(MapCarrera.this,"Eroor al optener Datos",
+                Toast.makeText(MapCarrera.this, "Eroor al optener Datos",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(resp.equals("exito")){
+            if (resp.equals("exito")) {
 
                 btn_waze.setVisibility(View.VISIBLE);
                 iniciar_Carrera.setVisibility(View.GONE);
@@ -696,8 +708,11 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         }
 
     }
+
+    private String number;
     private class get_cliente extends AsyncTask<Void, String, String> {
         private ProgressDialog progreso;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -713,15 +728,15 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         protected String doInBackground(Void... params) {
             try {
                 publishProgress("por favor espere...");
-                Hashtable<String,String> param = new Hashtable<>();
-                param.put("evento","get_cliente_x_id");
-                param.put("id",carrera.getInt("id_usuario")+"");
+                Hashtable<String, String> param = new Hashtable<>();
+                param.put("evento", "get_cliente_x_id");
+                param.put("id", carrera.getInt("id_usuario") + "");
                 String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, param));
                 return respuesta;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-          return null;
+            return null;
         }
 
         @Override
@@ -731,28 +746,57 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             progreso.dismiss();
 
             if (resp == null) {
-                Toast.makeText(MapCarrera.this,"Eroor al optener Datos",
+                Toast.makeText(MapCarrera.this, "Eroor al optener Datos",
                         Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 try {
-                    cliente= new JSONObject(resp);
-                    text_nombreCliente.setText(cliente.getString("nombre")+" "+cliente.getString("apellido_pa")+" "+cliente.getString("apellido_ma"));
+                    cliente = new JSONObject(resp);
+                    text_nombreCliente.setText(cliente.getString("nombre") + " " + cliente.getString("apellido_pa") + " " + cliente.getString("apellido_ma"));
                     text_data1.setText(cliente.getString("fecha_nac"));
                     text_data2.setText(cliente.getString("sexo"));
+
+
                     btn_enviar_mensaje.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(MapCarrera.this,Chat_Activity.class);
+                            Intent intent = new Intent(MapCarrera.this, Chat_Activity.class);
                             try {
-                                intent.putExtra("id_receptor",cliente.getString("id"));
-                                intent.putExtra("nombre_receptor",cliente.getString("nombre")+" "+cliente.getString("apellido_pa")+" "+cliente.getString("apellido_ma"));
-                                intent.putExtra("id_emisor",usr_log.getString("id"));
+                                intent.putExtra("id_receptor", cliente.getString("id"));
+                                intent.putExtra("nombre_receptor", cliente.getString("nombre") + " " + cliente.getString("apellido_pa") + " " + cliente.getString("apellido_ma"));
+                                intent.putExtra("id_emisor", usr_log.getString("id"));
                                 startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
                     });
+                    btn_llamar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                String telefono = cliente.getString("telefono");
+                                number=telefono;
+
+                                int permissionCheck = ContextCompat.checkSelfPermission(
+                                        MapCarrera.this, Manifest.permission.CALL_PHONE);
+                                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                                    Log.i("Mensaje", "No se tiene permiso para realizar llamadas telefónicas.");
+                                    ActivityCompat.requestPermissions(MapCarrera.this, new String[]{Manifest.permission.CALL_PHONE}, 225);
+                                } else {
+                                     callPhone();
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    if(cliente.has("foto_perfil")){
+                        if (cliente.getString("foto_perfil").length() > 0) {
+                            new AsyncTaskLoadImage(img_foto).execute(getString(R.string.url_foto) + cliente.getString("foto_perfil"));
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -767,11 +811,12 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         }
 
     }
-    private void alert(){
+
+    private void alert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MapCarrera.this);
         builder.setMessage("Esta seguro que desea terminar el viaje?")
                 .setTitle("Terminar Viaje")
-                .setPositiveButton("Si", new DialogInterface.OnClickListener(){
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // CONFIRM
                         new terminar_Carrera(id_carrera).execute();
@@ -784,11 +829,42 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                     }
                 });
         // Create the AlertDialog object and return it
-        AlertDialog dialog=builder.create();
+        AlertDialog dialog = builder.create();
         dialog.show();
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 255: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    callPhone();
+                } else {
+                    System.out.println("El usuario ha rechazado el permiso");
+                }
+                return;
+            }
+        }
+    }
+
+    public void callPhone() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + number));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(intent);
+    }
     private String obtenerDireccionesURL(LatLng origin,LatLng dest){
 
         String str_origin = "origin="+origin.latitude+","+origin.longitude;
@@ -1014,6 +1090,29 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
 
+        }
+    }
+
+    public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {
+        private final static String TAG = "AsyncTaskLoadImage";
+        private ImageView imageView;
+        public AsyncTaskLoadImage(ImageView imageView) {
+            this.imageView = imageView;
+        }
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            Bitmap bitmap = null;
+            try {
+                URL url = new URL(params[0]);
+                bitmap = BitmapFactory.decodeStream((InputStream)url.getContent());
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            return bitmap;
+        }
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            imageView.setImageBitmap(bitmap);
         }
     }
 

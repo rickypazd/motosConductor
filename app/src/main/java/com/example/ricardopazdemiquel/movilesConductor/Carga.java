@@ -4,10 +4,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,6 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Hashtable;
 import java.util.concurrent.ExecutionException;
 
@@ -34,6 +39,8 @@ public class Carga extends AppCompatActivity {
         setContentView(R.layout.activity_carga);
         Token.currentToken= FirebaseInstanceId.getInstance().getToken();
        // Log.d("TOKEN",Token.currentToken);
+
+
 
         final JSONObject usr_log = getUsr_log();
         if (usr_log != null) {

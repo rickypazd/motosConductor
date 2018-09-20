@@ -111,17 +111,21 @@ public class PerfilCarrera extends AppCompatActivity {
                                             }
 
                                         }
-                                        PolylineOptions lineOptions = new PolylineOptions();
-                                        lineOptions.addAll(points);
-                                        lineOptions.width(8);
-                                        lineOptions.color(Color.rgb(0,0,255));
-                                      //  googleMap.addPolyline(lineOptions);
-                                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                                        builder.include(points.get(0));
-                                        builder.include(points.get(points.size()-1));
-                                        LatLngBounds bounds=builder.build();
-                                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
-                                        googleMap.moveCamera(cu);
+                                        if(points.size()>0){
+                                            PolylineOptions lineOptions = new PolylineOptions();
+                                            lineOptions.addAll(points);
+                                            lineOptions.width(8);
+                                            lineOptions.color(Color.rgb(0,0,255));
+                                            //  googleMap.addPolyline(lineOptions);
+                                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                            builder.include(points.get(0));
+                                            builder.include(points.get(points.size()-1));
+                                            LatLngBounds bounds=builder.build();
+                                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
+                                            googleMap.moveCamera(cu);
+
+                                        }
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
