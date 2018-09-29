@@ -36,6 +36,7 @@ public class Transaccion_cliente_Activity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_left_arrow);
 
         lv = findViewById(R.id.list_transaccion);
 

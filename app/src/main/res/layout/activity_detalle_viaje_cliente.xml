@@ -22,7 +22,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Detalle del viaje"
-                android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="25dp"
                 android:fontFamily="sans-serif"
@@ -101,8 +100,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="10sp"
             android:background="@drawable/ic_button_border_black"
-            android:drawableLeft="@drawable/ic_pointer_map2"
-            android:paddingTop="10dp"
+            android:drawableLeft="@drawable/ic_icon_pointer_map"
+            android:padding="5dp"
             android:paddingEnd="10dp"
             android:drawablePadding="5dp"
             android:text="direccion direcion"
@@ -117,8 +116,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="5sp"
             android:background="@drawable/ic_button_border_black"
-            android:paddingTop="10dp"
-            android:drawableLeft="@drawable/ic_pointer_map"
+            android:padding="5dp"
+            android:drawableLeft="@drawable/ic_icon_pointer_map2"
             android:drawablePadding="5dp"
             android:paddingEnd="10dp"
             android:text="direccion"
@@ -162,6 +161,34 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo viaje"
+                    android:textSize="15sp"
+                    android:layout_weight="1"
+                    android:textColor="#626262"/>
+
+                <TextView
+                    android:id="@+id/text_tipo_carrera"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="siete estandar"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:textColor="#626262"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30sp"
+                android:layout_marginEnd="30sp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
                     android:id="@+id/text_fecha"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -181,6 +208,8 @@
                     android:textColor="#626262"/>
 
             </LinearLayout>
+
+
 
             <View
                 android:layout_width="match_parent"

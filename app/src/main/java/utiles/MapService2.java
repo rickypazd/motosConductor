@@ -320,7 +320,7 @@ public class MapService2 extends Service implements LocationListener, GpsStatus.
                 //criteria.setSpeedAccuracy(Criteria.ACCURACY_HIGH);
 
                 Integer gpsFreqInMillis = 100;
-                Integer gpsFreqInDistance = 15;  // in meters
+                Integer gpsFreqInDistance = 5;  // in meters
 
                 locationManager.addGpsStatusListener(this);
 

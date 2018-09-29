@@ -44,6 +44,7 @@ public class Cofirmar_Carrera extends AppCompatActivity {
     private boolean acepto;
     private int id_carrera;
     private int tipo;
+    private int server;
     private int tiempo_espera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,8 @@ public class Cofirmar_Carrera extends AppCompatActivity {
             inicio.setText(getCompleteAddressString(latinicio,lnginicio));
             llegada.setText(getCompleteAddressString(latfinal,lngfinal));
             id_carrera = json.getInt("id");
+            server=json.getInt("server");
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -166,7 +169,13 @@ public class Cofirmar_Carrera extends AppCompatActivity {
             parametros.put("evento", "confirmar_carrera");
             parametros.put("id_carrera",id_carrera+"");
             parametros.put("id_conductor",id_usuairo+"");
-            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
+            String respuesta="";
+            if(server==1){
+                 respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
+            }else if(server==2){
+                 respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin_web), MethodType.POST, parametros));
+            }
+
             return respuesta;
         }
 
