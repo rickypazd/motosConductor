@@ -5,10 +5,12 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 
@@ -21,6 +23,7 @@ import java.util.concurrent.ExecutionException;
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
+import utiles.Contexto;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -239,6 +242,9 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }else{
+                Toast.makeText(getActivity(), "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
             }
 
         }

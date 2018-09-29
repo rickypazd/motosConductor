@@ -99,12 +99,12 @@ public class Carga extends AppCompatActivity {
 
     public void cargarHistorial(String resp){
         if (resp == null) {
+            Toast.makeText(Carga.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
             Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-        }else{
-            if (resp.equals("falso")) {
+        }else if (resp.equals("falso")) {
+                Toast.makeText(Carga.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
                 Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-                return;
-            } else {
+        } else {
                 try {
                     JSONObject obj = new JSONObject(resp);
                     switch (obj.getInt("tipo")){
@@ -145,8 +145,6 @@ public class Carga extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-            }
         }
 
     }

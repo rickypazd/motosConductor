@@ -588,8 +588,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             progreso.dismiss();
 
             if (resp == null) {
-                Toast.makeText(MapCarrera.this, "Error al optener datos.",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapCarrera.this, "Error al optener datos.", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     JSONObject obj = new JSONObject(resp);
@@ -646,9 +645,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             progreso.dismiss();
 
             if (resp == null) {
-                Toast.makeText(MapCarrera.this, "Eroor al optener Datos",
-                        Toast.LENGTH_SHORT).show();
-                return;
+                Toast.makeText(MapCarrera.this, "Eroor al optener Datos", Toast.LENGTH_SHORT).show();
             }
             if (resp.equals("exito")) {
 
@@ -712,9 +709,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             progreso.dismiss();
 
             if (resp == null) {
-                Toast.makeText(MapCarrera.this, "Eroor al optener Datos",
-                        Toast.LENGTH_SHORT).show();
-                return;
+                Toast.makeText(MapCarrera.this, "Eroor al optener Datos",Toast.LENGTH_SHORT).show();
             }
             if (resp.equals("exito")) {
 
@@ -773,8 +768,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             progreso.dismiss();
 
             if (resp == null) {
-                Toast.makeText(MapCarrera.this, "Eroor al optener Datos",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapCarrera.this, "Eroor al optener Datos", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     cliente = new JSONObject(resp);
@@ -1094,8 +1088,8 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             progreso.dismiss();
             if(resp!=null){
                 if(resp.equals("falso")){
+                    Toast.makeText(MapCarrera.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
                     Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-                    return;
                 }else if(resp.equals("exito")){
                     try {
                         String a=new buscar_carrera().execute().get();

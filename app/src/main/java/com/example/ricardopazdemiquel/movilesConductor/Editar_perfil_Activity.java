@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -266,17 +267,23 @@ public class Editar_perfil_Activity extends AppCompatActivity implements View.On
         protected void onPostExecute(final String success) {
             super.onPostExecute(success);
             progreso.dismiss();
-            if (success != null || !success.isEmpty()){
+            if (success == null){
+                Toast.makeText(Editar_perfil_Activity.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            } else if (!success.isEmpty()){
                 try {
                     JSONObject usr = new JSONObject(success);
                     if(usr.getString("exito").equals("si")){
                         finish();
                     }else{
-                        return;
+                        Toast.makeText(Editar_perfil_Activity.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }else{
+                Toast.makeText(Editar_perfil_Activity.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
             }
         }
         @Override
@@ -338,17 +345,24 @@ public class Editar_perfil_Activity extends AppCompatActivity implements View.On
         protected void onPostExecute(final String success) {
             super.onPostExecute(success);
             progreso.dismiss();
-            if (success != null || !success.isEmpty()){
+            if (success == null){
+                Toast.makeText(Editar_perfil_Activity.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            }else if (!success.isEmpty()){
                 try {
                     JSONObject usr = new JSONObject(success);
                     if(usr.getString("exito").equals("si")){
                         finish();
                     }else{
-                        return;
+                        Toast.makeText(Editar_perfil_Activity.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                        Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }else{
+                Toast.makeText(Editar_perfil_Activity.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
             }
         }
         @Override

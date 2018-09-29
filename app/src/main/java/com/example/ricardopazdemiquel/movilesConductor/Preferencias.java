@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,9 +24,13 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Hashtable;
 
+<<<<<<< HEAD
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
+=======
+import utiles.Contexto;
+>>>>>>> f9f59c0e1d5a45de6db5ef09f96eadf1cacad762
 import utiles.MapService2;
 import utiles.Token;
 
@@ -70,8 +75,10 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }else{
+            Toast.makeText(Preferencias.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+            Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
         }
-
     }
 
     // Opcion para ir atras sin reiniciar el la actividad anterior de nuevo

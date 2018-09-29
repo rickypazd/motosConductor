@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -135,12 +136,13 @@ public class Detalle_viaje_Cliente extends AppCompatActivity {
         protected void onPostExecute(final String success) {
             super.onPostExecute(success);
             progreso.dismiss();
-            if(success!=null){
-            if (success!="falso"){
+            if(success == null) {
+                Toast.makeText(Detalle_viaje_Cliente.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            }else if (success!="falso"){
                 try {
                     if(!success.isEmpty()){
                         JSONObject obj = new JSONObject(success);
-
                         double latinicial = obj.getDouble("latinicial");
                         double latfinal = obj.getDouble("latfinal");
                         double lnginicial = obj.getDouble("lnginicial");
@@ -194,18 +196,18 @@ public class Detalle_viaje_Cliente extends AppCompatActivity {
                             direccion_final.setText(getCompleteAddressString(latfinal,lngfinal));
                             html_costo += "<p>0 Bs.</p>";
                         }
-
                         html_tipos.setText(Html.fromHtml(html_detalle),TextView.BufferType.SPANNABLE);
                         html_costos.setText(Html.fromHtml(html_costo),TextView.BufferType.SPANNABLE);
                     }else{
-                        return;
+                        Toast.makeText(Detalle_viaje_Cliente.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                        Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }else{
-                return;
-            }
+                Toast.makeText(Detalle_viaje_Cliente.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
             }
         }
         @Override

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 
@@ -76,21 +77,19 @@ public class ConfirmarCancelacion extends AppCompatActivity {
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
-            if(resp!=null){
-            if (resp.equals("falso")) {
+            if (resp == null) {
+                Toast.makeText(ConfirmarCancelacion.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            } else if (resp.equals("falso")) {
+                Toast.makeText(ConfirmarCancelacion.this, "Hubo un error al obtener la lista de servidor.", Toast.LENGTH_SHORT).show();
                 Log.e(Contexto.APP_TAG, "Hubo un error al obtener la lista de servidor.");
-                return;
-            } else {
-
-                    if(resp.equals("exito")){
-                        Intent intent = new Intent(ConfirmarCancelacion.this, MainActivityConductor.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-
-            }
+            } else if (resp.equals("exito")) {
+                Intent intent = new Intent(ConfirmarCancelacion.this, MainActivityConductor.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         }
+
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);

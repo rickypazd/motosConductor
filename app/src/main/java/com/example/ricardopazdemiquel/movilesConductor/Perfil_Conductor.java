@@ -249,7 +249,10 @@ public class Perfil_Conductor extends AppCompatActivity implements View.OnClickL
         protected void onPostExecute(final String success) {
             super.onPostExecute(success);
             progreso.dismiss();
-            if ( success != null || !success.isEmpty()){
+            if ( success == null){
+                Toast.makeText(Perfil_Conductor.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            }else if (!success.isEmpty()){
                 try {
                     JSONObject usr = new JSONObject(success);
                     if(usr.getString("exito").equals("si")){
@@ -259,7 +262,8 @@ public class Perfil_Conductor extends AppCompatActivity implements View.OnClickL
                         editor.commit();
                         cargarUsuario();
                     }else{
-                        return;
+                        Toast.makeText(Perfil_Conductor.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                        Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

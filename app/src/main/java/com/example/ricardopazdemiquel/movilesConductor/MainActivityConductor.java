@@ -406,10 +406,11 @@ public class MainActivityConductor extends AppCompatActivity
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             if(resp==null){
+                Toast.makeText(MainActivityConductor.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
                 Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-            }else{
-                if(resp.equals("falso")){
-                    Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            }else if(resp.equals("falso")){
+                Toast.makeText(MainActivityConductor.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                 }else{
                     try {
                         if(resp.length()>0 && !resp.equals("{}")){
@@ -452,8 +453,6 @@ public class MainActivityConductor extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-            }
-
         }
 
         @Override

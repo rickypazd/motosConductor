@@ -125,7 +125,10 @@ public class Transaccion_cliente_Activity extends AppCompatActivity {
         protected void onPostExecute(final String success) {
             super.onPostExecute(success);
             progreso.dismiss();
-            if (success != null || !success.isEmpty()){
+            if (success == null){
+                Toast.makeText(Transaccion_cliente_Activity.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            }else if ( !success.isEmpty()){
                 try {
                     JSONArray jsonArray = new JSONArray(success);
                     Adapter_transaccion adaptador_mis_viajes = new Adapter_transaccion(Transaccion_cliente_Activity.this,jsonArray);
