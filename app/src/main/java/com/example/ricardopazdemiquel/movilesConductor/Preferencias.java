@@ -24,13 +24,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Hashtable;
 
-<<<<<<< HEAD
+
 import clienteHTTP.HttpConnection;
 import clienteHTTP.MethodType;
 import clienteHTTP.StandarRequestConfiguration;
-=======
+
 import utiles.Contexto;
->>>>>>> f9f59c0e1d5a45de6db5ef09f96eadf1cacad762
 import utiles.MapService2;
 import utiles.Token;
 
