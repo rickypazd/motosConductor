@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 
@@ -140,12 +141,13 @@ public class cobranza extends AppCompatActivity{
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if(resp!=null){
-            if(resp.equals("falso")){
+            if(resp == null) {
+                Toast.makeText(cobranza.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
                 Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-                return;
-            }
-            else if(resp.equals("exito")){
+            }else if(resp.equals("falso")){
+                Toast.makeText(cobranza.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            }else if(resp.equals("exito")){
                 //new MapCarrera.buscar_carrera().execute();
                 SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
                 SharedPreferences.Editor  edit = preferencias.edit();
@@ -156,7 +158,6 @@ public class cobranza extends AppCompatActivity{
                 startActivity(intent);
                 finish();
             }
-        }
         }
         @Override
         protected void onProgressUpdate(String... values) {

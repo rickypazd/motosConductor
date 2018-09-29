@@ -58,12 +58,9 @@ public class CostosExtras extends AppCompatActivity {
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
-
             progreso.dismiss();
-
             if (resp == null) {
-                Toast.makeText(CostosExtras.this,"Error al optener datos.",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(CostosExtras.this,"Error al obtener datos.", Toast.LENGTH_SHORT).show();
             }else{
                 try {
                     JSONArray arr = new JSONArray(resp);

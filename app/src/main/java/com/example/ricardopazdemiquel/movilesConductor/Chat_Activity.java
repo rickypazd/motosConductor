@@ -229,9 +229,10 @@ public class Chat_Activity extends AppCompatActivity implements View.OnClickList
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
-            if (resp == null || resp.isEmpty()) {
-                Toast.makeText(Chat_Activity.this,"Error al optener Datos",
-                        Toast.LENGTH_SHORT).show();
+            if (resp == null){
+                Toast.makeText(Chat_Activity.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+            } else if (resp.isEmpty()) {
+                Toast.makeText(Chat_Activity.this,"Error al obtener Datos", Toast.LENGTH_SHORT).show();
             }else{
 
             }

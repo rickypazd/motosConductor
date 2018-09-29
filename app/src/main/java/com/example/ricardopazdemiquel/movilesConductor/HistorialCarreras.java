@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.adapter.Adaptador_mis_viajes;
 
@@ -125,6 +126,9 @@ public class HistorialCarreras extends Fragment {
                         e.printStackTrace();
                     }
                 }
+            }else{
+                Toast.makeText(getActivity(), "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
             }
 
         }

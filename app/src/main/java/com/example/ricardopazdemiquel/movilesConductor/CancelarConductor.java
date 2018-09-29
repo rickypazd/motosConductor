@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 import com.example.ricardopazdemiquel.movilesConductor.adapter.cancelar_ListAdapter;
@@ -72,23 +73,23 @@ public class CancelarConductor extends AppCompatActivity {
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
-            if(resp!=null) {
-                if (resp.equals("falso")) {
-                    Log.e(Contexto.APP_TAG, "Hubo un error al obtener la lista de servidor.");
-                    return;
-                } else {
-                    try {
-                        JSONArray arr = new JSONArray(resp);
-                        ListAdapter adaptador = new cancelar_ListAdapter(CancelarConductor.this, arr, id_carrera);
-                        listView.setAdapter(adaptador);
+            if (resp == null) {
+                Toast.makeText(CancelarConductor.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            } else if (resp.equals("falso")) {
+                Toast.makeText(CancelarConductor.this, "Hubo un error al obtener la lista de servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al obtener la lista de servidor.");
+            } else {
+                try {
+                    JSONArray arr = new JSONArray(resp);
+                    ListAdapter adaptador = new cancelar_ListAdapter(CancelarConductor.this, arr, id_carrera);
+                    listView.setAdapter(adaptador);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         }
-
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);

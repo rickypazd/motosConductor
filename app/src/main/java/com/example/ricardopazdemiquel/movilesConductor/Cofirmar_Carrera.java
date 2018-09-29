@@ -183,21 +183,21 @@ public class Cofirmar_Carrera extends AppCompatActivity {
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if(resp!=null) {
-                if (resp.equals("falso")) {
+            if(resp == null) {
+                Toast.makeText(Cofirmar_Carrera.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            }else if (resp.equals("falso")) {
                     Toast.makeText(Cofirmar_Carrera.this, "No encontramos el viaje, disculpe las molestias. ", Toast.LENGTH_SHORT).show();
                     finish();
-                }
-                if (resp.equals("exito")) {
+            }else if (resp.equals("exito")) {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("result", id_carrera);
                     returnIntent.putExtra("tipo", tipo);
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
-                } else if (resp.equals("confirmada")) {
+            } else if (resp.equals("confirmada")) {
                     Toast.makeText(Cofirmar_Carrera.this, "El viaje ya fue aceptado por otro conductor, disculpe las molestias.", Toast.LENGTH_SHORT).show();
                     finish();
-                }
             }
         }
         @Override

@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 
@@ -159,21 +160,21 @@ public class AdaptadorVehiculo extends BaseAdapter {
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
-            if(resp!=null){
-                if(resp.equals("falso")){
-                    Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
-                    return;
-                }
-                if(resp.equals("exito")){
+            if(resp == null) {
+                Toast.makeText(contexto,"Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+            }else if(resp.equals("falso")){
+                    Toast.makeText(contexto,"Error al obtener datos.", Toast.LENGTH_SHORT).show();
+                    Log.e(Contexto.APP_TAG, "Error al obtener datos.");
+            }else if(resp.equals("exito")){
                     Intent intent = new Intent(contexto, MainActivityConductor.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     contexto.startActivity(intent);
                 }else{
+                    Toast.makeText(contexto,"Error al obtener datos.", Toast.LENGTH_SHORT).show();
                     Log.e(Contexto.APP_TAG, "Hubo un error al registrar turno");
                 }
             }
-
-        }
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);

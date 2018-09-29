@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 
@@ -216,8 +217,10 @@ public class InicieTurno extends AppCompatActivity {
                 }else{
                     Log.e(Contexto.APP_TAG, "Hubo un error al registrar turno");
                 }
+            }else{
+                Toast.makeText(InicieTurno.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
             }
-
         }
         @Override
         protected void onProgressUpdate(String... values) {

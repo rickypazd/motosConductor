@@ -20,6 +20,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
 
@@ -264,9 +265,10 @@ public class LoginConductor extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+            }else{
+                Toast.makeText(LoginConductor.this, "Hubo un error al conectarse al servidor.", Toast.LENGTH_SHORT).show();
+                Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
             }
-
-
         }
 
         @Override
