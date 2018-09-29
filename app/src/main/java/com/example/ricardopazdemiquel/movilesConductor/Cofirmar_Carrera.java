@@ -1,7 +1,9 @@
 package com.example.ricardopazdemiquel.movilesConductor;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -63,7 +65,7 @@ public class Cofirmar_Carrera extends AppCompatActivity {
         JSONObject jsonUsuario;
         JSONObject json;
         try {
-
+            cancelNotification(this,10);
             jsonUsuario = new JSONObject(getIntent().getStringExtra("jsonUsuario"));
             json = new JSONObject(getIntent().getStringExtra("json"));
             int tiempo = Single.getTiempo();
@@ -139,6 +141,11 @@ public class Cofirmar_Carrera extends AppCompatActivity {
                 return null;
             }
         }
+    }
+    public static void cancelNotification(Context ctx, int notifyId) {
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
+        nMgr.cancel(notifyId);
     }
 
     private class confirmar_carrera extends AsyncTask<Void, String, String> {

@@ -21,8 +21,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Hashtable;
 
+import clienteHTTP.HttpConnection;
+import clienteHTTP.MethodType;
+import clienteHTTP.StandarRequestConfiguration;
 import utiles.MapService2;
+import utiles.Token;
 
 public class Preferencias extends AppCompatActivity implements View.OnClickListener{
 
@@ -51,7 +56,7 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         liner_sign_out.setOnClickListener(this);
         liner_ver_perfil.setOnClickListener(this);
 
-        final JSONObject usr_log = getUsr_log();
+       usr_log = getUsr_log();
         if (usr_log != null) {
             try {
                 String nombre = usr_log.getString("nombre");
@@ -102,17 +107,23 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
+private JSONObject usr_log;
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.liner_sign_out:
+
                 SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferencias.edit();
+               SharedPreferences.Editor editor = preferencias.edit();
                 editor.putString("usr_log", "");
                 editor.commit();
                 Intent i =new Intent(Preferencias.this, MapService2.class);
                 stopService(i);
+                try {
+                    new Desconectarse(usr_log.getInt("id"), Token.currentToken).execute();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent(Preferencias.this,  Carga.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -149,6 +160,36 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Bitmap bitmap) {
             imageView.setImageBitmap(bitmap);
         }
+    }
+    private class Desconectarse extends AsyncTask<Void, String, String> {
+        private int  id  ;
+        private String  nombre ;
+        public Desconectarse(int id ,String nombre ) {
+            this.id= id;
+            this.nombre= nombre;
+
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Hashtable<String,String> param = new Hashtable<>();
+            param.put("evento","desconectarse_conductor");
+            param.put("id",id+"");
+            param.put("token",nombre);
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, param));
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String pacientes) {
+            super.onPostExecute(pacientes);
+
+        }
+
     }
 
 

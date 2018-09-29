@@ -33,6 +33,7 @@ import utiles.Token;
 
 public class Carga extends AppCompatActivity {
 
+    private JSONObject usr_log ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +42,18 @@ public class Carga extends AppCompatActivity {
        // Log.d("TOKEN",Token.currentToken);
 
 
-
-        final JSONObject usr_log = getUsr_log();
+        usr_log = getUsr_log();
+        try {
+            if(usr_log!=null){
+            String calidate=new ValidarSession(usr_log.getInt("id"),Token.currentToken).execute().get();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         if (usr_log != null) {
             try {
                 JSONObject historial =getHistorial();
@@ -225,6 +236,60 @@ public class Carga extends AppCompatActivity {
             super.onPostExecute(resp);
         }
 
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
+    }
+    public class ValidarSession extends AsyncTask<Void, String, String> {
+        private int id;
+        private String  token;
+
+        public ValidarSession(int id, String token) {
+            this.id = id;
+            this.token = token;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(Void... params) {
+            Hashtable<String, String> parametros = new Hashtable<>();
+            parametros.put("evento", "validar_token");
+            parametros.put("id_usr",id+"");
+            parametros.put("token",token+"");
+            String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_index), MethodType.POST, parametros));
+            return respuesta;
+        }
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+            if(resp==null){
+                Toast.makeText(Carga.this,"Error al conectarse con el servidor.",Toast.LENGTH_SHORT).show();
+            }else{
+                if (resp.contains("falso")) {
+                    Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
+                } else {
+                    try {
+                        JSONArray obj = new JSONArray(resp);
+                        if(obj.length()<=0) {
+                            Toast.makeText(Carga.this,"No se encontro la sesión, porfavor vuelva a iniciar.",Toast.LENGTH_LONG).show();
+                            SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferencias.edit();
+                            editor.putString("usr_log", "");
+                            usr_log=null;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
