@@ -358,7 +358,7 @@ public class MainActivityConductor extends AppCompatActivity
         if(obj_turno!=null){
             activo.setChecked(true);
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityConductor.this);
-            builder.setMessage("Esta seguro que desea desactivarse? Usted no recibira viajes.")
+            builder.setMessage("¿Estás seguro que deseas desactivarte? No podrás recibir viajes.")
                     .setTitle("Terminar Turno")
                     .setPositiveButton("Si", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int id) {

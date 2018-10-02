@@ -38,9 +38,9 @@ public class ConfirmarCancelacion extends AppCompatActivity {
             obj_cancelacion=new JSONObject(resp);
             // CONTENDIO DEL JSON  exito boolean, fecha_cancelacion, id_carrera, id_tipo, tipo_cancelacion,id_usr,total,cobro
             if(obj_cancelacion.getBoolean("cobro")){
-                tv_cancelacion_mensaje.setText("Cancelar la carrera en este punto tiene un costo de: "+obj_cancelacion.getDouble("total")+" Bs.");
+                tv_cancelacion_mensaje.setText("Cancelar el viaje en este punto tiene un costo de Bs. "+obj_cancelacion.getDouble("total"));
             }else{
-                tv_cancelacion_mensaje.setText("Cancelar la carrera en este punto no tiene costo.");
+                tv_cancelacion_mensaje.setText("Todavía puedes cancelar este viaje sin costo.");
             }
 
             btn_confirmar.setOnClickListener(new View.OnClickListener() {

@@ -46,7 +46,7 @@ public class cobranza extends AppCompatActivity{
         btn_cobranza = findViewById(R.id.btn_cobrar);
         tv1 = findViewById(R.id.tv1);
         tv2 = findViewById(R.id.tv2);
-        tv_metodo_pago=findViewById(R.id.tv3);
+        tv_metodo_pago=findViewById(R.id.tv_metodo_pago);
         SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
         carrera = preferencias.getString("carrera", "");
 
@@ -59,7 +59,7 @@ public class cobranza extends AppCompatActivity{
                 if(metodopago==1){
                     tv_metodo_pago.setText("Efectivo");
                 }else if(metodopago==2){
-                    tv_metodo_pago.setText("Creditos 7");
+                    tv_metodo_pago.setText("Créditos 7");
                 }
                 JSONArray detalle = obj_carrera.getJSONArray("detalle_costo");
                 JSONObject obj;
@@ -69,16 +69,16 @@ public class cobranza extends AppCompatActivity{
                     obj=detalle.getJSONObject(i);
                     switch (obj.getInt("tipo")){
                         case 1:
-                            info+="<p>Costo x/Distancia: </p></br>";
+                            info+="<p>Costo por distancia: </p></br>";
                             break;
                         case 2:
-                            info+="<p>Costo x/Tiempo: </p></br>";
+                            info+="<p>Costo por tiempo: </p></br>";
                             break;
                         case 3:
-                            info+="<p>Costo Basico: </p></br>";
+                            info+="<p>Costo básico: </p></br>";
                             break;
                         case 4:
-                            info+="<p>Pago de Deuda: </p></br>";
+                            info+="<p>Pago de deuda: </p></br>";
                             break;
                         case 5:
                             info+="<p>"+obj.getString("nombre")+"</p></br>";

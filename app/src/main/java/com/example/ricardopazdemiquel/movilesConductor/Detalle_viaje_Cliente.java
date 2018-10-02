@@ -39,8 +39,9 @@ public class Detalle_viaje_Cliente extends AppCompatActivity {
     private TextView direccion_final;
     private TextView fecha;
     private TextView marca_auto;
-    private TextView tipo_pago;
     private TextView html_tipos;
+    private TextView tipo_pago;
+    private TextView text_tipo_carrera;
     private TextView html_costos;
     private TextView monto_total;
     private Button btn_ver_recorrido;
@@ -62,6 +63,7 @@ public class Detalle_viaje_Cliente extends AppCompatActivity {
         placa_numerotelefono = findViewById(R.id.text_placa_telefono);
         direccion_inicio = findViewById(R.id.text_direccion_inicio);
         direccion_final = findViewById(R.id.text_direccion_fin);
+        text_tipo_carrera = findViewById(R.id.text_tipo_carrera);
         fecha = findViewById(R.id.text_fecha);
         marca_auto = findViewById(R.id.text_auto_marca);
         tipo_pago = findViewById(R.id.text_tipo_pago);
@@ -159,7 +161,7 @@ public class Detalle_viaje_Cliente extends AppCompatActivity {
                         int estado= obj.getInt("estado");
                         int costo = obj.getInt("costo_final");
                         int tipo = obj.getInt("tipo_pago");
-
+                        int tipo_viaje = obj.getInt("tipo");
                         nombre.setText(obj.getString("nombre"));
                         placa_numerotelefono.setText(placa+" ° "+telefono);
                         fecha.setText(obj.getString("fecha_pedido").substring(0,16));
@@ -174,6 +176,31 @@ public class Detalle_viaje_Cliente extends AppCompatActivity {
                                 tipo_pago.setText("Credito");
                                 break;
                         }
+                        switch (tipo_viaje){
+                            case(1):
+                                text_tipo_carrera.setText("Siete Estandar");
+                                break;
+                            case(2):
+                                text_tipo_carrera.setText("Siete To Go");
+                                break;
+                            case(3):
+                                text_tipo_carrera.setText("Siete Maravilla");
+                                break;
+                            case(4):
+                                text_tipo_carrera.setText("Super Siete");
+                                break;
+                            case(5):
+                                text_tipo_carrera.setText("Siete 4x4");
+                                break;
+                            case(6):
+                                text_tipo_carrera.setText("Siete Camioneta");
+                                break;
+                            case(7):
+                                text_tipo_carrera.setText("Siete 3 Filas");
+                                break;
+                        }
+
+
                         JSONArray array = obj.getJSONArray("detalle_costo");
                         JSONObject object;
                         String html_detalle ="";

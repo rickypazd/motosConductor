@@ -21,7 +21,7 @@
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tipos de viajes disponibles"
+            android:text="Servicios disponibles."
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:textAlignment="center"
-            android:text="Solo recibirá viajes de los tipos activados."
+            android:text="Solo recibirás viajes de servicios activados."
             android:textSize="18sp" />
 
         <Switch
@@ -42,7 +42,7 @@
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="40dp"
-            android:text="Estandar"
+            android:text="Estándar"
             android:textSize="20dp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="40dp"
-            android:text="To Go"
+            android:text="TO GO"
             android:textSize="20dp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"

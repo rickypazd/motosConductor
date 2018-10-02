@@ -396,7 +396,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                                                 btn_costos_extras.setVisibility(View.VISIBLE);
                                             } else if (carrera.getInt("estado") == 3) {
                                                 btn_cancelar_carrera.setVisibility(View.INVISIBLE);
-                                                latlng2 = new LatLng(carrera.getDouble("latfinal"), carrera.getDouble("lngfinal"));
+                                                latlng2 = new LatLng(carrera.getDouble("latinicial"), carrera.getDouble("lnginicial"));
                                                 latlng1 = new LatLng(location.getLatitude(), location.getLongitude());
                                                 latwazefinal = latlng2.latitude;
                                                 lngwazefinal = latlng2.longitude;
@@ -835,7 +835,7 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
 
     private void alert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MapCarrera.this);
-        builder.setMessage("Esta seguro que desea terminar el viaje?")
+        builder.setMessage("¿Estás seguro que deseas terminar el viaje?")
                 .setTitle("Terminar Viaje")
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

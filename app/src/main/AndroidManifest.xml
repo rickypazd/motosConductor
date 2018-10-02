@@ -142,10 +142,12 @@
 
         <activity android:name=".Preferencias"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="Preferencias"
             android:screenOrientation="portrait"></activity>
 
+
         <activity android:name=".Transaccion_cliente_Activity"
-            android:label="Creditos"
+            android:label="Créditos"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait"></activity>
     </application>

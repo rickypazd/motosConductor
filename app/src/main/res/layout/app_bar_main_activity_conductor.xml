@@ -20,11 +20,9 @@
 
         <RadioGroup
             android:id="@+id/group_Activo"
-            android:layout_width="match_parent"
-
+            android:layout_width="250dp"
+            android:layout_marginEnd="32dp"
             android:layout_height="30dp"
-            android:layout_marginStart="70dp"
-            android:layout_weight="5"
             android:background="@drawable/pink_out_line"
             android:checkedButton="@+id/offer"
             android:orientation="horizontal">
@@ -67,7 +65,7 @@
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_logosiete_foreground" />
+            android:src="@drawable/ic_logosiete_foreground" android:visibility="gone" />
 
     </LinearLayout>
 

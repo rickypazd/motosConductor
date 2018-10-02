@@ -106,6 +106,7 @@ android:layout_height="match_parent">
                 android:id="@+id/btn_iniciar_carrera"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/phonebackground"
                 android:text="Iniciar Viaje"
                 android:textAppearance="@android:style/TextAppearance.Material.Title"
