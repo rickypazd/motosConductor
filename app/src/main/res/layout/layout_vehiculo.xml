@@ -28,7 +28,7 @@
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/sietelogostandar"/>
+                android:src="@drawable/ic_icon_imoto"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:textColor="#5D3892"
+                        android:textColor="#000"
                         android:text="TextView"
 
                         android:textSize="18sp" />
@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:textColor="#5D3892"
+                        android:textColor="#000"
                         android:text="TextView"
 
                         android:textSize="18sp" />
@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:textColor="#5D3892"
+                        android:textColor="#000"
                         android:text="TextView"
 
                         android:textSize="18sp" />
@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:textColor="#5D3892"
+                        android:textColor="#000"
                         android:text="TextView"
 
                         android:textSize="18sp" />
@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:textColor="#5D3892"
+                        android:textColor="#000"
                         android:text="TextView"
                         android:textSize="18sp" />
                 </LinearLayout>

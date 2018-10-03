@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.ricardopazdemiquel.movilesConductor.MainActivityConductor">
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -39,7 +38,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="ACTIVO"
-                android:textColor="@color/cardview_light_background" />
+                android:textColor="#fff" />
 
             <RadioButton
                 android:id="@+id/desactivo"
@@ -53,7 +52,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="DESACTIVADO"
-                android:textColor="@color/cardview_light_background" />
+                android:textColor="#fff" />
         </RadioGroup>
 
         <ImageView
@@ -87,7 +86,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_iconmenu_foreground"
-        app:backgroundTint="@android:color/background_light"
+        app:backgroundTint="@android:color/black"
         app:elevation="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

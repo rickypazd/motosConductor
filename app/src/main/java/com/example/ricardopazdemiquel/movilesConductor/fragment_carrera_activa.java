@@ -141,7 +141,7 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
                 param.put("id_usr",usr_log.getString("id"));
                 param.put("estandar",estandar+"");
                 param.put("togo",togo+"");
-                param.put("maravilla",maravilla+"");
+                param.put("maravilxla",maravilla+"");
                 param.put("super", ssuper+"");
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -213,10 +213,10 @@ public class fragment_carrera_activa extends Fragment implements View.OnClickLis
                                 sw_togo.setVisibility(View.VISIBLE);
                             }
                             if(obj2.getBoolean("act_maravilla")){
-                                sw_maravilla.setVisibility(View.VISIBLE);
+                               // sw_maravilla.setVisibility(View.VISIBLE);
                             }
                             if(obj2.getBoolean("act_supe")){
-                                sw_super.setVisibility(View.VISIBLE);
+                               // sw_super.setVisibility(View.VISIBLE);
                             }
 
                             boolean estandar = obj.getBoolean("estandar");

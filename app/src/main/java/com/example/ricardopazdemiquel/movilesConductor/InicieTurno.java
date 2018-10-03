@@ -162,7 +162,7 @@ public class InicieTurno extends AppCompatActivity {
                 if(obj.length()>0){
                     if(obj.getBoolean("exito")){
                         if(obj.getBoolean("act_supe")){
-                            linear_iniciar_sin_vehi.setVisibility(View.VISIBLE);
+                           // linear_iniciar_sin_vehi.setVisibility(View.VISIBLE);
                             linear_iniciar_sin_vehi.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

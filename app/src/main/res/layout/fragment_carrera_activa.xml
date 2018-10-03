@@ -22,51 +22,63 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Servicios disponibles."
-            android:textAlignment="center"
+            android:layout_marginLeft="3dp"
             android:textColor="@android:color/black"
-            android:textSize="24sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:textAlignment="center"
+            android:layout_marginLeft="3dp"
             android:text="Solo recibirás viajes de servicios activados."
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <Switch
             android:id="@+id/sw_estandar"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
-            android:text="Estándar"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="iMoto Taxi"
             android:textSize="20dp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="347dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/grey_10" />
 
         <Switch
             android:id="@+id/sw_togo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
-            android:text="TO GO"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="iMoto Delivery"
             android:textSize="20dp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="393dp" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/grey_10" />
         <Switch
             android:id="@+id/sw_maravilla"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="40dp"
             android:text="Maravilla"
             android:textSize="20dp"
@@ -76,10 +88,11 @@
 
         <Switch
             android:id="@+id/sw_super_siete"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="40dp"
             android:text="Super Siete"
             android:textSize="20dp"

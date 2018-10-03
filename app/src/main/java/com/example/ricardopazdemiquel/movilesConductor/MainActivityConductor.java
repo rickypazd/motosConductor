@@ -31,8 +31,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.movilesConductor.R;
@@ -58,11 +60,13 @@ public class MainActivityConductor extends AppCompatActivity
     private BroadcastReceiver broadcastReceiverMessage;
     private JSONObject obj_turno;
     private JSONObject usr_log;
-    private Button btn_nav_pidesiete;
-    private Button btn_nav_formaspago;
-    private Button btn_nav_miperfil;
-    private Button btn_nav_misviajes;
-    private Button btn_nav_preferencias;
+    private LinearLayout btn_nav_pidesiete;
+    private LinearLayout btn_nav_formaspago;
+    private LinearLayout btn_nav_miperfil;
+    private LinearLayout btn_nav_misviajes;
+    private LinearLayout btn_nav_preferencias;
+    private TextView barnombre;
+    private TextView bartelefono;
     private RadioGroup radioGroup;
     private RadioButton activo;
     private RadioButton descativo;
@@ -103,12 +107,22 @@ public class MainActivityConductor extends AppCompatActivity
         btn_nav_preferencias=header.findViewById(R.id.btn_nav_preferencias);
         btn_nav_preferencias.setOnClickListener(this);
          usr_log = getUsr_log();
+        barnombre=header.findViewById(R.id.barnombre);
+        bartelefono=header.findViewById(R.id.bartelefono);
+
         if (usr_log == null) {
             Intent intent = new Intent(MainActivityConductor.this, LoginConductor.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         }else{
+            try {
+                barnombre.setText(usr_log.getString("nombre")+" "+usr_log.getString("apellido_pa")+" "+usr_log.getString("apellido_ma"));
+                bartelefono.setText("Telefono: "+usr_log.getString("telefono"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             try {
                 String carrera= new get_validar_carrera(usr_log.getInt("id")).execute().get();
 
