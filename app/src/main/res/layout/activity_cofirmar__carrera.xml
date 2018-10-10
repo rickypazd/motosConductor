@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondoconfirmar"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.example.ricardopazdemiquel.movilesConductor.Cofirmar_Carrera">
+    tools:context=".Cofirmar_Carrera">
 
     <TextView
         android:id="@+id/tv_tipo_siete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SIETE TO GO"
+        android:text="iMoto"
         android:layout_marginTop="36dp"
-        android:textColor="@android:color/background_light"
+        android:textColor="@android:color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -36,7 +35,7 @@
             android:drawableLeft="@drawable/ic_marca_de_localizacion"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
-            android:textColor="#fff" />
+            android:textColor="#000" />
 
         <EditText
             android:id="@+id/editLlegada"
@@ -49,7 +48,7 @@
             android:drawableLeft="@drawable/ic_marca_de_localizacion"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
-            android:textColor="#fff" />
+            android:textColor="#000" />
 
 
     </LinearLayout>
@@ -64,13 +63,13 @@
             android:id="@+id/editName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginEnd="42dp"
+            android:layout_marginStart="42dp"
             android:layout_marginTop="18dp"
             android:background="@drawable/botonred"
             android:inputType="textPersonName"
             android:paddingLeft="20dp"
-            android:textColor="#fff" />
+            android:textColor="#000" />
 
         <EditText
             android:id="@+id/editaPuntacion"
@@ -81,8 +80,9 @@
             android:drawableRight="@drawable/ic_estrella"
             android:inputType="textPersonName"
             android:paddingRight="15dp"
+            android:visibility="gone"
             android:textAlignment="center"
-            android:textColor="#fff" />
+            android:textColor="#000" />
     </LinearLayout>
 
     <LinearLayout
@@ -98,6 +98,7 @@
             android:layout_height="115dp"
             android:layout_margin="10dp"
             android:background="@drawable/round_foreground"
+            android:backgroundTint="#dddddd"
             android:text="Confirmar Viaje" />
 
 

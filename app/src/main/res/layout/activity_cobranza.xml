@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.ricardopazdemiquel.movilesConductor.cobranza"
-    android:background="@drawable/fondocobranza">
-
-
-    <TextView
-        android:id="@+id/tv_total"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:text="24 Bs"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#fff"
-        android:textSize="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:gravity="center"
+    android:background="@drawable/backgroundcolor2">
 
     <LinearLayout
         android:id="@+id/linearLayout8"
@@ -31,10 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="#33000000"
+        android:padding="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_total">
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/textView9"
@@ -42,12 +25,12 @@
             android:layout_height="wrap_content"
             android:text="DETALLE"
             android:textAlignment="center"
-            android:textColor="@android:color/background_light"
+            android:textColor="@android:color/black"
             android:textSize="24sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
@@ -58,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Método de pago:"
-                android:textColor="#ffffff"
+                android:textColor="#000"
                 android:textSize="18sp" />
 
             <TextView
@@ -67,13 +50,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Efectivo"
-                android:textColor="#ffffff"
+                android:textColor="#000"
                 android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
@@ -83,8 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Costo de Carrera:"
-                android:textColor="#ffffff"
+                android:text=""
+                android:textColor="#000"
                 android:textSize="18sp" />
 
             <TextView
@@ -92,29 +75,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="30bs"
-                android:textColor="#ffffff"
+                android:text=""
+                android:textColor="#000"
                 android:textSize="18sp" />
         </LinearLayout>
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="24 Bs"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#000"
+        android:textSize="100dp" />
+
+
     <Button
         android:id="@+id/btn_cobrar"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_margin="16dp"
         android:background="@drawable/round_foreground"
+        android:backgroundTint="#000"
         android:text="Cobrar"
+        android:textColor="@color/colorPrimary2"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
+         />
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -407,31 +407,7 @@ public class MapService2 extends Service implements LocationListener, GpsStatus.
                 if (carrera.length() > 0) {
                     try {
                         JSONObject obj = new JSONObject(carrera);
-                        if(obj.getInt("id_tipo")==2){//tipo togo
-                            if (obj.getInt("estado") == 3) {
-                                double latini = obj.getDouble("latfinal");
-                                double lgnini = obj.getDouble("lngfinal");
-                                double latfin = location.getLatitude();
-                                double lngfin = location.getLongitude();
-                                float result[] = new float[1];
-                                Location.distanceBetween(latfin, lgnini, latfin, lngfin, result);
-                                if (!notifico) {
-                                    if (result[0] <= 200) {
-                                        new conductor_cerca(obj.getInt("id"), result[0]).execute();
-                                        notifico = true;
-                                    }
-                                }
-                                if (!llego) {
-                                    if (result[0] <= 40) {
-                                        Intent intent = new Intent();
-                                        intent.putExtra("message", "");
-                                        intent.setAction("llego_conductor");
-                                        sendBroadcast(intent);
-                                        llego = true;
-                                    }
-                                }
-                            }
-                        }else{//diferentes de togo
+                       //diferentes de togo
                             if (obj.getInt("estado") == 2) {
                                 double latini = obj.getDouble("latinicial");
                                 double lgnini = obj.getDouble("lnginicial");
@@ -455,7 +431,7 @@ public class MapService2 extends Service implements LocationListener, GpsStatus.
                                     }
                                 }
                             }
-                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

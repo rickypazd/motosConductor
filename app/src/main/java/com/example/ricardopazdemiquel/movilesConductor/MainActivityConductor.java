@@ -202,17 +202,11 @@ public class MainActivityConductor extends AppCompatActivity
             if(resultCode == Activity.RESULT_OK){
                 int result=data.getIntExtra("result",0);
                 int tipo=data.getIntExtra("tipo",0);
-                if(tipo==2){
-                    Intent intent = new Intent(MainActivityConductor.this, MapCarreraTogo.class);
-                    intent.putExtra("id_carrera",result);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }else{
                     Intent intent = new Intent(MainActivityConductor.this, MapCarrera.class);
                     intent.putExtra("id_carrera",result);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                }
+
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -588,17 +582,12 @@ public class MainActivityConductor extends AppCompatActivity
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                             }else{
-                                if(obj.getInt("id_tipo")==2){
-                                    Intent intent = new Intent(MainActivityConductor.this, MapCarreraTogo.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra("id_carrera", obj.getInt("id"));
-                                    startActivity(intent);
-                                }else{
+
                                     Intent intent = new Intent(MainActivityConductor.this, MapCarrera.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.putExtra("id_carrera", obj.getInt("id"));
                                     startActivity(intent);
-                                }
+
                             }
 
 

@@ -89,6 +89,8 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
     private JSONObject carrera;
     private JSONObject usr_log;
     private FloatingActionButton btn_waze;
+    private FloatingActionButton btn_ver_google_driving;
+
     private LocationManager locationManager;
     private BroadcastReceiver broadcastReceiverMessage;
     private BroadcastReceiver bradcastCanceloCarrera;
@@ -160,12 +162,20 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
             }
         });
 
+        btn_ver_google_driving=findViewById(R.id.btn_ver_google_driving);
         btn_waze = findViewById(R.id.btn_ver_en_waze);
         //   btn_waze.setOnClickListener(this);
         btn_waze.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 ver_en_waze();
+                return false;
+            }
+        });
+        btn_ver_google_driving.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ver_en_google();
                 return false;
             }
         });
@@ -340,6 +350,21 @@ public class MapCarrera extends AppCompatActivity implements LocationListener, S
                 // If Waze is not installed, open it in Google Play:
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.waze"));
                 startActivity(intent);
+            }
+        }
+    }
+    private void ver_en_google() {
+        if (carrera != null) {
+            try {
+
+                String packageName = "com.google.android.apps.maps";
+                String query = "google.navigation:q="+latwazefinal+","+lngwazefinal;
+                Intent intent = this.getPackageManager().getLaunchIntentForPackage(packageName);
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(query));
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                return;
             }
         }
     }
